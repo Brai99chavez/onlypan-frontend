@@ -1,0 +1,12 @@
+
+.login{
+    @apply  m-auto w-2/5 text-center
+}
+
+.login form{
+    @apply py-2
+}
+
+.login-tittle{
+    @apply text-sky-700
+}
