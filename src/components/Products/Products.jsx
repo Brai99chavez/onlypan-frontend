@@ -44,7 +44,7 @@ export default function Products() {
   return (
     <React.Fragment>
       {addedToCart ? <CartSidebar setAddedToCart={setAddedToCart} /> : <></>}
-      <SearchBar />
+      <SearchBar setCurrentPage={setCurrentPage} />
       <div className="ProductCards">
         {vista &&
           itemsToRender().map((p) => (
