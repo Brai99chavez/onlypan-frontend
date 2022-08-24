@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProducts } from '../../redux/Actions/Actions';
 import SearchBar from '../SearchBar/SearchBar';
 import Slideshow from '../Slideshow/Slideshow';
 import './Home.css';
 
 export default function Home() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProducts())
+  }, [dispatch])
   return (
     <div className="homeContainer">
       <SearchBar />

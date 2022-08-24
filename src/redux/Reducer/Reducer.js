@@ -1,8 +1,8 @@
-import {GET_ALL_PRODUCTS} from "../Actions/Actions"
+import {GET_ALL_PRODUCTS,GET_BY_NAME,RESET_FILTERED_PRODUCTS} from "../Actions/Actions"
 
 const inicialState = {
-    Products: [],
-    CopyProducts: [],
+    products: [],
+    filteredProducts: [],
     detailProduct: {},
     favorites: [],
     loading: false,
@@ -14,12 +14,18 @@ const inicialState = {
         case GET_ALL_PRODUCTS:
             return {
               ...state,
-              Products: action.payload,
-              CopyProducts: action.payload,
-              error: null,
-              loading: false,
+              products: action.payload,
             };
-    
+        case GET_BY_NAME:
+            return {
+                ...state,
+                filteredProducts: action.payload
+            }
+        case RESET_FILTERED_PRODUCTS:
+            return {
+                ...state,
+                filteredProducts: '',
+            }
         default:
             return state
     }

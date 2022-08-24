@@ -3,35 +3,21 @@ import { Route, Switch } from 'react-router-dom';
 import "./App.css"
 import Home from './components/Home/Home';
 //componentes
-import NavbarAdmin from './components/Navbar/NavbarAdmin/NavbarAdmin';
-import NavbarUser from './components/Navbar/NavbarUser/NavbarUser';
-import NavbarEmployee from './components/Navbar/NavbarEmployee/NavbarEmployee';
-import NavbarViewer from './components/Navbar/NavbarViewer/NavbarViewer';
+import Navbar from './components/Navbar/Navbar/Navbar';
 import Login from './components/Login/Login';
 import Products from './components/Products/Products';
 import Cart from './components/Cart/Cart';
 
-let rol = 4
-
 function App() {
   return (
-    <div >
-      {rol === 1 ? // admin
-        <Route path="/*" component={NavbarAdmin} /> :
-        rol === 2 ? // empleado
-          <Route path="/*" component={NavbarEmployee} /> :
-          rol === 3 ? //
-            <Route path="/*" component={NavbarUser} /> :
-            <Route path="/*" component={NavbarViewer} />
-      }
-
+      <div >
+      <Route path="/*" component={Navbar} />
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/productos" exact component={Products} />
         <Route path="/ingreso" exact component={Login} />
         <Route path="/carrito" exact component={Cart} />
       </Switch>
-      
     </div>
   );
 }
