@@ -19,12 +19,12 @@
 }
 
 .nav-btn{
-    @apply p-2.5 rounded-xl m-3 text-2xl text-sky-700 hover:text-white bg-transparent hover:bg-sky-700;
+    @apply p-2.5 rounded-xl m-3 text-2xl text-sky-700 hover:text-white bg-transparent hover:bg-sky-700  transition duration-700;
     text-decoration: none;
 }
 
 .nav-login .nav-login-btn{
-    @apply p-2.5 rounded-xl  m-2 mx-10 text-2xl text-sky-700 hover:text-white bg-transparent hover:bg-sky-700;
+    @apply p-2.5 rounded-xl  m-2 mx-10 text-2xl text-sky-700 hover:text-white bg-transparent hover:bg-sky-700  transition duration-700;
     text-decoration: none;
 }
 

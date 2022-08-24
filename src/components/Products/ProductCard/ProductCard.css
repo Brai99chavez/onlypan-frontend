@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+
+.ProductCard{
+    @apply bg-white h-fit w-10/12 overflow-hidden shadow-lg font-bold my-2 m-auto rounded-xl p-2 ;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ProductCardImage{
+    @apply  rounded-xl w-52 h-52  overflow-hidden m-auto
+}
+
+.ProductCardImage img{
+    @apply h-full w-full  rounded-2xl my-2
+}
+
+.ProductCardDetails{
+    @apply px-6 py-4
+}
+
+.ProductCardDetails .ProductCardTittle{
+    @apply font-bold text-base mb-2
+} 
+.ProductCardDetails .ProductCardDescription{
+    @apply text-gray-700 text-base
+}
+
+.ProductCardSeeMore{
+    @apply px-6 pt-4 pb-2
+}
+
+.ProductCardSeeMore .ProductCardSeeMoreButton{
+    @apply  bg-gray-300 text-gray-700 hover:text-gray-200 hover:bg-gray-700;
+    @apply inline-block  rounded-full px-3 py-1 text-sm mr-2 mb-2 border-0 transition duration-700;
+}
+
+.ProductCardButtons{
+    @apply flex justify-around  items-center
+}
+.ProductCardButtons button{
+    @apply h-8
+}
+
+.ProductCardButtons .ProductCardButton{
+    @apply bg-gray-400 text-white  hover:bg-sky-800 ;
+    @apply rounded-md font-bold transition duration-700 border-0 w-10 px-3 py-2 ;
+} 
+
+.ProductCardQuantity{
+    @apply flex  items-center
+}
+.ProductCardQuantity p {
+    @apply w-7 text-center
+}
+
+.ProductCardQuantityButton{
+    @apply bg-gray-400 text-white  hover:bg-sky-800 ;
+    @apply font-bold m-1 rounded-md transition duration-700 border-0 w-7 text-xl ;
+}

@@ -11,7 +11,7 @@ export default function NavbarViewer() {
           <h2>Onlypan</h2>
         </NavLink>
         <div className="nav-buttons">
-          <NavLink className="nav-btn" to={"/producto"}>
+          <NavLink className="nav-btn" to={"/productos"}>
             producto
           </NavLink>
           <NavLink className="nav-btn" to={"/carrito"}>
@@ -25,7 +25,7 @@ export default function NavbarViewer() {
           </NavLink>
       </div>
       <div className="nav-login">
-          <NavLink className="nav-login-btn" to={"/ingreso"}><i class="fa-solid fa-user"></i></NavLink>
+          <NavLink className="nav-login-btn" to={"/ingreso"}><i className="fa-solid fa-user"></i></NavLink>
       </div>
     </nav>
   );
