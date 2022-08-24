@@ -3,20 +3,29 @@ import "./ProductCard.css"
 
 export default function ProductCard({name,price,image,description,type}) {
   return (
-    <div class="ProductCard">
+    <div className="ProductCard">
       <div className='ProductCardImage'>
           <img src={image} alt="Sunset in the mountains"/>
       </div>
-      <div class="ProductCardDetails">
-        <p class="ProductCardTittle">{name}</p>
-        <p class="ProductCardDescription">
-          <p>${price}</p> <br />
-          <span class="ProductCardtype">categoria: {type}</span>
-        </p>
+      <div className="ProductCardDetails">
+        <p className="ProductCardTittle">{name}</p>
+        <div className="ProductCardDescription">
+          <p>${price}</p> 
+          <span className="ProductCardtype">categoria: {type}</span>
+        </div>
       </div>
-      <div class="ProductCardTypes">
-        <span class="ProductCardtype">#uwu</span>
-        <span class="ProductCardtype">#tkm</span>
+      <div className="ProductCardButtons">
+          <div className="ProductCardQuantity">
+              <button className="ProductCardQuantityButton">+</button>
+              <p>0</p>
+              <button className="ProductCardQuantityButton">-</button>
+          </div>
+          <button className="ProductCardButton">
+          <i className="fa-solid fa-cart-plus"></i>
+          </button>
+      </div>
+      <div className="ProductCardSeeMore">
+        <button className="ProductCardSeeMoreButton">Ver mas</button>
       </div>
     </div>
   )

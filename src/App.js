@@ -9,6 +9,7 @@ import NavbarEmployee from './components/Navbar/NavbarEmployee/NavbarEmployee';
 import NavbarViewer from './components/Navbar/NavbarViewer/NavbarViewer';
 import Login from './components/Login/Login';
 import Products from './components/Products/Products';
+import Cart from './components/Cart/Cart';
 
 let rol = 4
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/productos" exact component={Products} />
         <Route path="/ingreso" exact component={Login} />
+        <Route path="/carrito" exact component={Cart} />
       </Switch>
       
     </div>

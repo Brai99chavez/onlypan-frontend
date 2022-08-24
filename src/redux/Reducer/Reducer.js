@@ -1,3 +1,5 @@
+import {GET_ALL_PRODUCTS} from "../Actions/Actions"
+
 const inicialState = {
     Products: [],
     CopyProducts: [],
@@ -9,7 +11,7 @@ const inicialState = {
   
  const rootReducer = (state = inicialState, action) => {
     switch (action.type) {
-        case "GET_ALL_PRODUCTS":
+        case GET_ALL_PRODUCTS:
             return {
               ...state,
               Products: action.payload,

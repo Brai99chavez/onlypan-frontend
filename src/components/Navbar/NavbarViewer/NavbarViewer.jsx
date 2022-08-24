@@ -25,7 +25,7 @@ export default function NavbarViewer() {
           </NavLink>
       </div>
       <div className="nav-login">
-          <NavLink className="nav-login-btn" to={"/ingreso"}><i class="fa-solid fa-user"></i></NavLink>
+          <NavLink className="nav-login-btn" to={"/ingreso"}><i className="fa-solid fa-user"></i></NavLink>
       </div>
     </nav>
   );
