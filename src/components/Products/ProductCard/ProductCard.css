@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+
+.ProductCard{
+    @apply   w-10/12 h-96 overflow-hidden shadow-lg font-bold m-auto rounded-xl border-solid border;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ProductCardImage{
+    @apply  h-32 overflow-hidden
+}
+
+.ProductCardImage img{
+    @apply w-full
+}
+
+.ProductCardDetails{
+    @apply px-6 py-4
+}
+
+.ProductCardDetails .ProductCardTittle{
+    @apply font-bold text-xl mb-2
+} 
+.ProductCardDetails .ProductCardDescription{
+    @apply text-gray-700 text-base
+}
+
+.ProductCardTypes{
+    @apply px-6 pt-4 pb-2
+}
+
+.ProductCardTypes .ProductCardtype{
+    @apply inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2
+}
