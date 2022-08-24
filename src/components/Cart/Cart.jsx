@@ -161,8 +161,7 @@ export default function Cart() {
 										</div>
 									</div>
 								</div>
-								
-
+							
 								{/* credit card */}
 								<div class=" p-5 bg-gray-800 rounded overflow-visible">
 									<span class="text-xl font-medium text-gray-100 block pb-3">Card Details</span>

@@ -4,6 +4,7 @@ import { getAllProducts } from '../../redux/Actions/Actions';
 import "./Products.css"
 //components
 import ProductCard from "./ProductCard/ProductCard"
+import SearchBar from '../SearchBar/SearchBar';
 
 export default function Products() {
   // redux
@@ -11,12 +12,14 @@ export default function Products() {
   useEffect(() => {
     dispatch(getAllProducts())
   }, [dispatch])
-  const { Products } = useSelector((state) => state);
-
+  const { products , filteredProducts} = useSelector((state) => state);
+  let vista = filteredProducts.length ? filteredProducts : products;
 // funciones
   return (
-    <div className="ProductCards">
-      {Products && Products.map(p => (
+    <React.Fragment>
+      <SearchBar/>
+      <div className="ProductCards">
+      {vista && vista.map(p => (
         <ProductCard
         key={p.id}
         id={p.id}
@@ -29,6 +32,7 @@ export default function Products() {
       ))
         }
     </div>
+    </React.Fragment>
   )
 
 }
