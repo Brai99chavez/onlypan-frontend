@@ -9,6 +9,7 @@ import Products from './components/Products/Products';
 import Cart from './components/Cart/Cart';
 import ProductDetail from './components/Products/ProductDetail/ProductDetail';
 import PageNotFound from './components/PageNotFound/PageNotFound';
+import Contact from './components/Contact/Contact';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/productos" exact component={Products} />
         <Route path="/detail/:id" exact component={ProductDetail}></Route>
+        <Route path="/contacto" exact component={Contact} />
         <Route path="/ingreso" exact component={Login} />
         <Route path="/carrito" exact component={Cart} />
         <Route path="/*" component={PageNotFound}></Route>
