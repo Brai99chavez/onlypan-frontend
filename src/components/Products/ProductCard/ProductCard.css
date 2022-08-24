@@ -34,7 +34,7 @@
 }
 
 .ProductCardButtons{
-    @apply flex justify-around  items-center
+    @apply flex justify-between  items-center
 }
 .ProductCardButtons button{
     @apply h-8
