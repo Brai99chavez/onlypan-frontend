@@ -8,15 +8,15 @@ import carousel3 from '../../img/carousel3.jpg';
 
 function Slideshow() {
   return (
-    <Carousel autoPlay className='Carousel'>
+    <Carousel autoPlay className="Carousel">
       <div>
-        <img src={carousel1} />
+        <img src={carousel1} alt="carousel" />
       </div>
       <div>
-        <img src={carousel2} />
+        <img src={carousel2} alt="carousel" />
       </div>
       <div>
-        <img src={carousel3} />
+        <img src={carousel3} alt="carousel" />
       </div>
     </Carousel>
   );
