@@ -7,7 +7,7 @@ export default function Contact() {
 
     const successAlert = () => {
         Swal.fire({
-            html: '<b className="alerta">Contacto enviado</b>',
+            html: '<b className="alerta">Mensaje enviado</b>',
             icon: 'success',
             timer: '5000',
             timerProgressBar: true,
