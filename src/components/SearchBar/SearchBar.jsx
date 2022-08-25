@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getByName, resetFilteredProducts } from '../../redux/Actions/Actions';
+import Filters from './Filters/Filters';
 
 import './SearchBar.css';
 function SearchBar({ setCurrentPage }) {
@@ -22,8 +23,11 @@ function SearchBar({ setCurrentPage }) {
     setCurrentPage(1);
   };
 
+
+
   return (
     <div className="SearchBar">
+      <Filters />
       <form onSubmit={handleOnSubmit}>
         <input
           type="text"
@@ -36,7 +40,7 @@ function SearchBar({ setCurrentPage }) {
           <i className="fa-solid fa-magnifying-glass buttons" />
         </button>
       </form>
-      <button onClick={() => dispatch(resetFilteredProducts())}>
+      <button onClick={() => window.location.reload()}>
         <i className="fa-solid fa-arrow-rotate-right buttons"></i>
       </button>
     </div>

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProducts } from '../../redux/Actions/Actions';
+import swal from 'sweetalert2'
 import './Products.css';
 //components
 import ProductCard from './ProductCard/ProductCard';
 import SearchBar from '../SearchBar/SearchBar';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
-import Pagination from '../Pagination/Pagination';
+import Pagination from '../Products/Pagination/Pagination';
 
 export default function Products() {
   const [addedToCart, setAddedToCart] = useState(false);
