@@ -1,5 +1,5 @@
 .Contact {
-  @apply w-full md:w-96 md:max-w-full mx-auto bg-white mt-10 rounded-xl mt-28;
+  @apply w-full md:w-96 md:max-w-full mx-auto bg-white  rounded-xl mt-40;
 }
 
 .Contact-container {
