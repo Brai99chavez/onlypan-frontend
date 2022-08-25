@@ -11,7 +11,6 @@ export const FILTER_BY_TYPE = 'FILTER_BY_TYPE';
 export const SORT_BY_PRICE = 'SORT_BY_PRICE';
 export const MIXED_SORT = 'MIXED_SORT';
 
-
 export function loading() {
   return { type: LOADING };
 }
@@ -23,7 +22,7 @@ export function handleError() {
 export function getAllProducts() {
   return function (dispatch) {
     axios
-      .get('http://localhost:3001/product')
+      .get('/product')
       .then((response) =>
         dispatch({ type: GET_ALL_PRODUCTS, payload: response.data })
       )
@@ -36,7 +35,7 @@ export function getAllProducts() {
 export function getTypes() {
   return function (dispatch) {
     axios
-      .get('http://localhost:3001/type')
+      .get('/type')
       .then((response) => dispatch({ type: GET_TYPES, payload: response.data }))
       .catch((error) => {
         dispatch(handleError());
@@ -48,7 +47,7 @@ export function getForId(id) {
   return function (dispatch) {
     dispatch(loading());
     axios
-      .get(`http://localhost:3001/product/${id}`)
+      .get(`/product/${id}`)
       .then((response) =>
         dispatch({ type: GET_FOR_ID, payload: response.data })
       )
@@ -61,7 +60,7 @@ export function getForId(id) {
 export function getByName(name) {
   return function (dispatch) {
     axios
-      .get(`http://localhost:3001/product/query?name=${name}`)
+      .get(`/product/query?name=${name}`)
       .then((response) =>
         dispatch({ type: GET_BY_NAME, payload: response.data })
       )
@@ -75,7 +74,7 @@ export function getByName(name) {
 export function filterByType(type) {
   return function (dispatch) {
     axios
-      .get(`http://localhost:3001/product/type?name=${type}`)
+      .get(`/product/type?name=${type}`)
       .then((response) =>
         dispatch({ type: FILTER_BY_TYPE, payload: response.data })
       )
@@ -89,7 +88,7 @@ export function filterByType(type) {
 export function sortByPrice(price) {
   return function (dispatch) {
     axios
-      .get(`http://localhost:3001/product/price?name=${price}`)
+      .get(`/product/price?name=${price}`)
       .then((response) =>
         dispatch({ type: SORT_BY_PRICE, payload: response.data })
       );
@@ -99,9 +98,7 @@ export function sortByPrice(price) {
 export function mixedSort(option) {
   return function (dispatch) {
     axios
-      .get(
-        `http://localhost:3001/product/typ?type=${option.type}&price=${option.sort}`
-      )
+      .get(`/product/typ?type=${option.type}&price=${option.sort}`)
       .then((response) =>
         dispatch({ type: MIXED_SORT, payload: response.data })
       )
