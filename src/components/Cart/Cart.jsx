@@ -1,19 +1,48 @@
 import React, { useState } from "react";
 import "./Cart.css";
+//import { loadStripe } from "@stripe/stripe-js";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
+import axios from "axios";
 
 export default function Cart({
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
 }) {
+  const stripe = useStripe();
+  const elements = useElements();
+
   const [states, setStates] = useState({
-    nameCard: "",
+    nameUser: "",
     cardNumber: 0,
     expirationDate: 0,
   });
 
-  const handlerSummit = (e) => {
+  const handlerAll = (e) => {
+    setStates({
+      ...states,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  //console.log(elements.getElement(CardNumberElement));
+  const handlerSummit = async (e) => {
     e.preventDefault();
+
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card: elements.getElement(CardNumberElement),
+    });
+
+    if (!error) {
+      console.log(paymentMethod);
+      const { id } = paymentMethod;
+      const { data } = axios.post("http://localhost:3001/", {
+        id,
+        nameClient: states.nameUser,
+      });
+      //console.log(data);
+    }
   };
 
   return (
@@ -281,7 +310,7 @@ export default function Cart({
                       </div>
                       <div className="flex justify-between items-center mt-3">
                         <span className="text-xs  text-gray-200">
-                          Giga Tamarashvili
+                          {states.nameUser}
                         </span>
                         <span className="text-xs  text-gray-200">12/18</span>
                       </div>
@@ -304,8 +333,11 @@ export default function Cart({
                       </label>
                       <input
                         type="text"
+                        value={states.nameUser}
                         className="focus:outline-none w-full h-6 bg-gray-800 text-white placeholder-gray-300 text-sm border-b border-gray-600 py-4"
-                        placeholder="Giga Tamarashvili"
+                        placeholder="Nombre del titular"
+                        name="nameUser"
+                        onChange={(e) => handlerAll(e)}
                       />
                     </div>
                     <div className="flex justify-center flex-col pt-3">
