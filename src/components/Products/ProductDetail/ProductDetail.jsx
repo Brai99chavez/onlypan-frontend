@@ -17,7 +17,7 @@ function ProductDetail({ match }) {
   if (loading) return <Loading />;
   if (error) return <Error />;
   return (
-    <div>
+    <div className="detailContainer">
       {detailProduct.id && (
         <div className="detail">
           <h1>{detailProduct.name}</h1>

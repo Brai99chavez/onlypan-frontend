@@ -1,26 +1,32 @@
 import { type } from '@testing-library/user-event/dist/type';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterByType, getTypes, mixedSort, resetFilteredProducts, sortByPrice } from '../../../redux/Actions/Actions';
+import {
+  filterByType,
+  getTypes,
+  mixedSort,
+  resetFilteredProducts,
+  sortByPrice,
+} from '../../../redux/Actions/Actions';
 
 export default function Filters() {
-    // redux
-    const [changes, setChanges] = useState({
-        type: '',
-        sort: '',
-        min: 0,
-        max: 9999,
-    });
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getTypes())
-    }, [dispatch])
-    const { types } = useSelector((state) => state);
+  // redux
+  const [changes, setChanges] = useState({
+    type: '',
+    sort: '',
+    min: 0,
+    max: 9999,
+  });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getTypes());
+  }, [dispatch]);
+  const { types } = useSelector((state) => state);
 
-    // funciones
-    
-    const onChange = (e) => {
-        // setCurrentPage(1);
+  // funciones
+
+  const onChange = (e) => {
+    // setCurrentPage(1);
 
         changes[e.target.name]= e.target.value
         

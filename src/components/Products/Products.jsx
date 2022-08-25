@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProducts } from '../../redux/Actions/Actions';
-import swal from 'sweetalert2'
+import swal from 'sweetalert2';
 import './Products.css';
 //components
 import ProductCard from './ProductCard/ProductCard';
@@ -9,6 +9,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import Pagination from '../Products/Pagination/Pagination';
+import ShoppingCartDropdown from './ShoppingCartDropdown/ShoppingCartDropdown';
 
 export default function Products() {
   const [addedToCart, setAddedToCart] = useState(false);
@@ -42,8 +43,12 @@ export default function Products() {
   if (loading) return <Loading />;
   if (error) return <Error />;
   return (
-    <React.Fragment>
-      {addedToCart ? <div> setAddedToCart={setAddedToCart} </div> : <></>}
+    <div className="productsContainer">
+      {addedToCart ? (
+        <ShoppingCartDropdown setAddedToCart={setAddedToCart} />
+      ) : (
+        <></>
+      )}
       <SearchBar setCurrentPage={setCurrentPage} />
       <div className="ProductCards">
         {vista &&
@@ -66,6 +71,6 @@ export default function Products() {
         productsToRender={itemsToRender()}
         pageNumbers={pageNumbers()}
       />
-    </React.Fragment>
+    </div>
   );
 }

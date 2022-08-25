@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+
+.dropdownBackground {
+  @apply fixed w-full h-full bg-gray-600 bg-opacity-75 top-24;
+}
+
+.containerDropdown {
+  @apply fixed bg-gray-300 w-1/5 right-0 h-5/6 rounded-xl m-4;
+  font-family: 'Montserrat', sans-serif;
+}
+.closeButton {
+  @apply absolute top-2 right-4 text-red-400 font-extrabold;
+}
+.content {
+  @apply mt-12;
+}
+.cartTitle {
+  @apply mb-4 ml-4 text-xl font-extrabold;
+}
+.cartTotal {
+  @apply ml-4 mt-40 font-bold text-xl;
+}
+.cartButtonsContainer {
+  @apply flex justify-evenly mt-4 font-bold;
+}
+.cartButtons {
+  @apply bg-gray-400 text-gray-700 hover:text-gray-200 hover:bg-gray-700 p-2;
+  @apply inline-block  rounded-full px-3 py-1 text-sm  border-0 transition duration-700;
+}

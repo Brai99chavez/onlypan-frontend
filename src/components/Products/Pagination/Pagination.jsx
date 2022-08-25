@@ -27,7 +27,7 @@ function Pagination({ currentPage, setCurrentPage, pageNumbers }) {
             {currentPage === 1 ? (
               <></>
             ) : (
-              <li class="page-item">
+              <li className="page-item">
                 <button
                   onClick={prevPage}
                   className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
@@ -37,7 +37,7 @@ function Pagination({ currentPage, setCurrentPage, pageNumbers }) {
               </li>
             )}
             {pageNumbers.map((number, i) => (
-              <li key={i} class="page-item">
+              <li key={i} className="page-item">
                 <button
                   className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                   onClick={(e) => changePage(e)}
