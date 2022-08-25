@@ -1,5 +1,5 @@
 .SearchBar{
-    @apply flex bg-white w-72 mt-8 mb-8 mx-auto p-3 rounded-xl
+    @apply flex bg-white w-3/6 mt-8 mb-8 mx-auto p-3 rounded-xl
 }
 
 .SearchBar .input{
