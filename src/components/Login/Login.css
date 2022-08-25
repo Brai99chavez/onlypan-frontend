@@ -1,12 +1,11 @@
-
-.login{
-    @apply  m-auto w-2/5 text-center
+.login {
+  @apply m-auto w-2/5 text-center mt-28;
 }
 
-.login form{
-    @apply py-2
+.login form {
+  @apply py-2;
 }
 
-.login-tittle{
-    @apply text-sky-700
+.login-tittle {
+  @apply text-sky-700;
 }

@@ -1,31 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
 
 .navbar {
-    @apply bg-white font-bold flex justify-between items-center ;
-    font-family: 'Dancing Script', cursive;
-    }
-    
-.nav-logo{
-    @apply flex justify-between items-center m-2 mx-10 ;
-    text-decoration: none;
+  @apply bg-white font-bold flex justify-between items-center fixed top-0 w-full;
+  font-family: 'Dancing Script', cursive;
 }
 
-.nav-logo img{
-    @apply h-20
+.nav-logo {
+  @apply flex justify-between items-center m-2 mx-10;
+  text-decoration: none;
 }
 
-.nav-logo h2{
-    @apply m-1 text-sky-700 text-4xl
+.nav-logo img {
+  @apply h-20;
 }
 
-.nav-btn{
-    @apply p-2.5 rounded-xl m-3 text-2xl text-sky-700 hover:text-white bg-transparent hover:bg-sky-700  transition duration-700;
-    text-decoration: none;
+.nav-logo h2 {
+  @apply m-1 text-sky-700 text-4xl;
 }
 
-.nav-login .nav-login-btn{
-    @apply p-2.5 rounded-xl  m-2 mx-10 text-2xl text-sky-700 hover:text-white bg-transparent hover:bg-sky-700  transition duration-700;
-    text-decoration: none;
+.nav-btn {
+  @apply p-2.5 rounded-xl m-3 text-2xl text-sky-700 hover:text-white bg-transparent hover:bg-sky-700  transition duration-700;
+  text-decoration: none;
 }
 
-
+.nav-login .nav-login-btn {
+  @apply p-2.5 rounded-xl  m-2 mx-10 text-2xl text-sky-700 hover:text-white bg-transparent hover:bg-sky-700  transition duration-700;
+  text-decoration: none;
+}

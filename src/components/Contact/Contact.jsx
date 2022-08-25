@@ -24,8 +24,8 @@ export default function Contact() {
       .then((res) => {
         console.log(res);
         return successAlert();
-      });
-    // .catch(err => console.log(err))
+      })
+      .catch((err) => console.error(err));
     e.target.reset();
   };
   return (
