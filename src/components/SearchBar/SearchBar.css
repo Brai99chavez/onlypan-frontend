@@ -1,0 +1,12 @@
+.SearchBar{
+    @apply flex bg-white w-3/6 mt-8 mb-8 mx-auto p-3 rounded-xl
+}
+
+.SearchBar .input{
+    @apply rounded-none outline-none;
+    
+}
+
+.SearchBar .buttons{
+    @apply m-3
+}
