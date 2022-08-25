@@ -8,7 +8,7 @@ import ProductCard from './ProductCard/ProductCard';
 import SearchBar from '../SearchBar/SearchBar';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
-import Pagination from '../Pagination/Pagination';
+import Pagination from '../Products/Pagination/Pagination';
 
 export default function Products() {
   const [addedToCart, setAddedToCart] = useState(false);
