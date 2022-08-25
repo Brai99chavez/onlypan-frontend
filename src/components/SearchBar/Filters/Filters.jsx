@@ -43,20 +43,17 @@ export default function Filters() {
     // componente
     return (
         <div className="filtersContainer"  >
-            <div>
-                <select className="selectAttribute" name="type" defaultValue="categoria" onChange={(e) => onChange(e)}>
+                <select id='type' className="selectAttribute" name="type" defaultValue="categoria" onChange={(e) => onChange(e)}>
                         <option  value="">
                             categorias
                         </option>
-                    {types.length && types.map(t => (
-                        <option  value={t}>
+                    {types.length && types.map((t,i) => (
+                        <option key={i} value={t}>  
                             {t}
                         </option>
                     ))}
-                </select>
-            </div>
-            <div>
-                <select className="selectAttribute" name="sort" onChange={(e) => onChange(e)}>
+                </select>           
+                <select id='sortPrice' className="selectAttribute" name="sort" onChange={(e) => onChange(e)}>
                     <option  value= ''>
                         precios
                     </option>
@@ -67,7 +64,6 @@ export default function Filters() {
                         Max
                     </option>
                 </select>
-            </div>
         </div>
     )
 }
