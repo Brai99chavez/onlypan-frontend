@@ -39,6 +39,7 @@ function SearchBar({ setCurrentPage }) {
 
   return (
     <div className="SearchBar">
+      <div className="SearchBar-container">
       { location.pathname === '/productos' ? <Filters /> : null}
       <form onSubmit={handleOnSubmit}>
         <input
@@ -55,6 +56,7 @@ function SearchBar({ setCurrentPage }) {
       <button onClick={() => dispatch(resetFilteredProducts())}>
         <i className="fa-solid fa-arrow-rotate-right buttons"></i>
       </button>
+      </div>
     </div>
   );
 }
