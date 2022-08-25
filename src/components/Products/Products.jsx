@@ -8,6 +8,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import Pagination from '../Pagination/Pagination';
+import ShoppingCartDropdown from './ShoppingCartDropdown/ShoppingCartDropdown';
 
 export default function Products() {
   const [addedToCart, setAddedToCart] = useState(false);
@@ -41,8 +42,12 @@ export default function Products() {
   if (loading) return <Loading />;
   if (error) return <Error />;
   return (
-    <React.Fragment>
-      {addedToCart ? <div> setAddedToCart={setAddedToCart} </div> : <></>}
+    <div className="productsContainer">
+      {addedToCart ? (
+        <ShoppingCartDropdown setAddedToCart={setAddedToCart} />
+      ) : (
+        <></>
+      )}
       <SearchBar setCurrentPage={setCurrentPage} />
       <div className="ProductCards">
         {vista &&
@@ -65,6 +70,6 @@ export default function Products() {
         productsToRender={itemsToRender()}
         pageNumbers={pageNumbers()}
       />
-    </React.Fragment>
+    </div>
   );
 }

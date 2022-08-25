@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import './ProductCard.css';
 
 export default function ProductCard({
@@ -40,7 +41,6 @@ export default function ProductCard({
   const handleAddProductToCart = (nameCard, quantity) => {
     const productAddShoppingCart = products.filter((e) => e.name === nameCard);
     const duplicate = copyLocalStorage.filter((e) => e.name === nameCard);
-    console.log(duplicate);
     if (quantity > 0) {
       if (!duplicate.length) {
         productAddShoppingCart[0].quantitySelectedCartSh = quantity;
@@ -58,10 +58,13 @@ export default function ProductCard({
           JSON.stringify(copyLocalStorage)
         );
       }
-    } else if (quantity === 0 && duplicate.length) {
-      alert('Debe selecccionar por lo menos uno');
+      setAddedToCart(true);
+    } else {
+      return Swal.fire({
+        icon: 'error',
+        text: 'Debe selecccionar por lo menos uno',
+      });
     }
-    setAddedToCart(true);
   };
 
   const handleAddFavorites = (nameCard) => {
@@ -104,26 +107,29 @@ export default function ProductCard({
       <div className="ProductCardButtons">
         <div className="ProductCardQuantity">
           <button
-            onClick={handleSumButon}
-            className="ProductCardQuantityButton"
-          >
-            +
-          </button>
-          <p>{amountToAdd}</p>
-          <button
             onClick={handleResButon}
             className="ProductCardQuantityButton"
           >
             -
           </button>
+          <p>{amountToAdd}</p>
+          <button
+            onClick={handleSumButon}
+            className="ProductCardQuantityButton"
+          >
+            +
+          </button>
         </div>
-        <button onClick={handleAddProductToCart} className="ProductCardButton">
+        <button
+          onClick={() => handleAddProductToCart(name, amountToAdd)}
+          className="ProductCardButton"
+        >
           <i className="fa-solid fa-cart-plus" />
         </button>
       </div>
       <div className="ProductCardSeeMore">
         <Link to={`/detail/${id}`}>
-          <button className="ProductCardSeeMoreButton">Ver mas</button>
+          <button className="ProductCardSeeMoreButton">Ver más</button>
         </Link>
       </div>
     </div>

@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+
+.productCart {
+  @apply flex bg-gray-400 text-white;
+  @apply font-bold m-3 p-3 rounded-md transition duration-700 border-0 text-xl;
+  font-family: 'Montserrat', sans-serif;
+}
+.shoppingCardTitle {
+  @apply font-bold text-lg;
+}
+.shoppingCardQuantity {
+  @apply flex justify-between items-center px-2.5 text-base;
+}
+.trashButton {
+  @apply absolute right-6 text-red-500;
+}
