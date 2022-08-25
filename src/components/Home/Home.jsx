@@ -23,7 +23,7 @@ export default function Home() {
 
     if (!controlFavs)
       localStorage.setItem('favoritesSelected', JSON.stringify([]));
-  }, [dispatch, controlCart, controlFavs]);
+  }, [dispatch]);
 
   const handleOnClick = (t) => {
     history.push(`/productos?tipo=${t}`);
@@ -33,8 +33,8 @@ export default function Home() {
   return (
     <div className="homeContainer">
       <SearchBar />
-      {types.map((t) => (
-        <button onClick={() => handleOnClick(t)}>
+      {types.map((t, i) => (
+        <button key={i} onClick={() => handleOnClick(t)}>
           {t.charAt(0).toUpperCase() + t.substring(1).toLowerCase()}
         </button>
       ))}

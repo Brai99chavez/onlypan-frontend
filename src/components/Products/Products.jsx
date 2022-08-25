@@ -7,7 +7,6 @@ import ProductCard from './ProductCard/ProductCard';
 import SearchBar from '../SearchBar/SearchBar';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
-import CartSidebar from '../CartSidebar/CartSidebar';
 import Pagination from '../Pagination/Pagination';
 
 export default function Products() {
@@ -43,7 +42,7 @@ export default function Products() {
   if (error) return <Error />;
   return (
     <React.Fragment>
-      {addedToCart ? <CartSidebar setAddedToCart={setAddedToCart} /> : <></>}
+      {addedToCart ? <div> setAddedToCart={setAddedToCart} </div> : <></>}
       <SearchBar setCurrentPage={setCurrentPage} />
       <div className="ProductCards">
         {vista &&
@@ -59,13 +58,13 @@ export default function Products() {
               setAddedToCart={setAddedToCart}
             />
           ))}
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          productsToRender={itemsToRender()}
-          pageNumbers={pageNumbers()}
-        />
       </div>
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        productsToRender={itemsToRender()}
+        pageNumbers={pageNumbers()}
+      />
     </React.Fragment>
   );
 }
