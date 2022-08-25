@@ -18,11 +18,11 @@ function App() {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/productos" exact component={Products} />
-        <Route path="/detail/:id" exact component={ProductDetail}></Route>
+        <Route path="/detail/:id" exact component={ProductDetail} />
         <Route path="/contacto" exact component={Contact} />
         <Route path="/ingreso" exact component={Login} />
         <Route path="/carrito" exact component={Cart} />
-        <Route path="/*" component={PageNotFound}></Route>
+        <Route path="/*" component={PageNotFound} />
       </Switch>
     </div>
   );
