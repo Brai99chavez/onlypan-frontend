@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 export default function Contact() {
   const successAlert = () => {
     Swal.fire({
-      html: '<b className="alerta">Contacto enviado</b>',
+      html: '<b classNameName="alerta">Contacto enviado</b>',
       icon: 'success',
       timer: '5000',
       timerProgressBar: true,
@@ -29,14 +29,14 @@ export default function Contact() {
     e.target.reset();
   };
   return (
-    <div class="Contact">
-      <div class="Contact-container">
+    <div className="Contact">
+      <div className="Contact-container">
         <form onSubmit={(e) => sendEmail(e)}>
-          <label class="Contact-detail">
+          <label className="Contact-detail">
             <span>Tu nombre</span>
             <input type="text" name="name" placeholder="Juan Perez" required />
           </label>
-          <label class="Contact-detail">
+          <label className="Contact-detail">
             <span>Email</span>
             <input
               name="email"
@@ -45,7 +45,7 @@ export default function Contact() {
               required
             />
           </label>
-          <label class="Contact-detail">
+          <label className="Contact-detail">
             <span>Mensaje</span>
             <textarea
               required
@@ -54,8 +54,8 @@ export default function Contact() {
               placeholder="Tell us what you're thinking about..."
             />
           </label>
-          <div class="Contact-button">
-            <button class="btn" type="submit">
+          <div className="Contact-button">
+            <button className="btn" type="submit">
               Enviar comentario
             </button>
           </div>
