@@ -1,11 +1,54 @@
-.login {
-  @apply m-auto w-2/5 text-center mt-28;
+
+.login{
+    @apply w-full md:w-96 md:max-w-full mx-auto bg-white mt-10 rounded-xl
 }
 
-.login form {
-  @apply py-2;
+.login-container{
+    @apply p-6 border border-gray-300 sm:rounded-md
 }
 
-.login-tittle {
-  @apply text-sky-700;
+
+.login form{
+    @apply py-2
+}
+
+.login-tittle{
+    @apply text-sky-700 text-xl mb-2
+}
+
+.login-detail input{
+    @apply block
+    w-full
+    mt-1
+    border-gray-300
+    rounded-md
+    shadow-sm
+    focus:border-indigo-300
+    focus:ring
+    focus:ring-indigo-200
+    focus:ring-opacity-50
+    p-2
+    outline-none
+}
+
+.login-button{
+    @apply  my-6
+}
+
+.login-button .btn{
+    @apply  h-10
+    ml-0
+    px-5
+    text-indigo-100
+    bg-gray-400
+    rounded-lg
+    transition-colors
+    duration-150
+    hover:bg-sky-700
+    transition
+    duration-700
+}
+
+.login-footer .login-footer-link{
+    @apply text-sky-700  border-sky-700 border-b
 }

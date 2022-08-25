@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory ,useLocation } from 'react-router-dom';
 import { getByName, resetFilteredProducts } from '../../redux/Actions/Actions';
 import Filters from './Filters/Filters';
 
@@ -15,19 +15,31 @@ function SearchBar({ setCurrentPage }) {
     setValue(e.target.value);
   };
 
+  const location = useLocation();
+
+  // funciones
+  const resetSelectFilters = () => {
+    const type = document.querySelector('#type');
+    const sortPrice = document.querySelector('#sortPrice');
+    type.value = ''
+    sortPrice.value = ''
+  }
+
   const handleOnSubmit = (e) => {
     e.preventDefault();
     history.push('/productos');
     dispatch(getByName(value));
     setValue('');
     setCurrentPage(1);
+    resetSelectFilters()
   };
 
+  
 
 
   return (
     <div className="SearchBar">
-      <Filters />
+      { location.pathname === '/productos' ? <Filters /> : null}
       <form onSubmit={handleOnSubmit}>
         <input
           type="text"
@@ -40,7 +52,7 @@ function SearchBar({ setCurrentPage }) {
           <i className="fa-solid fa-magnifying-glass buttons" />
         </button>
       </form>
-      <button onClick={() => window.location.reload()}>
+      <button onClick={() => dispatch(resetFilteredProducts())}>
         <i className="fa-solid fa-arrow-rotate-right buttons"></i>
       </button>
     </div>
