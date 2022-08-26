@@ -10,6 +10,7 @@ import Cart from './components/Cart/Cart';
 import ProductDetail from './components/Products/ProductDetail/ProductDetail';
 import PageNotFound from './components/PageNotFound/PageNotFound';
 import Contact from './components/Contact/Contact';
+import CreateProduct from './components/CreateProduct/CreateProduct';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/contacto" exact component={Contact} />
         <Route path="/ingreso" exact component={Login} />
         <Route path="/carrito" exact component={Cart} />
+        <Route path="/crear-producto" exact component={CreateProduct} />
         <Route path="/*" component={PageNotFound} />
       </Switch>
     </div>

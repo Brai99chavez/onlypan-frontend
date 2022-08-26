@@ -10,6 +10,7 @@ export const ERROR = 'ERROR';
 export const FILTER_BY_TYPE = 'FILTER_BY_TYPE';
 export const SORT_BY_PRICE = 'SORT_BY_PRICE';
 export const MIXED_SORT = 'MIXED_SORT';
+export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 
 export function loading() {
   return { type: LOADING };
@@ -111,4 +112,16 @@ export function mixedSort(option) {
 
 export function resetFilteredProducts() {
   return { type: RESET_FILTERED_PRODUCTS };
+}
+
+export function createProduct(value) {
+  return function (dispatch) {
+    axios
+      .post('http://localhost:3001/product', value)
+      .then((response) => dispatch({ type: CREATE_PRODUCT }))
+      .catch((error) => {
+        dispatch(handleError(error));
+        console.error(error);
+      });
+  };
 }

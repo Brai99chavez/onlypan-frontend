@@ -1,6 +1,6 @@
 
 .login{
-    @apply w-full md:w-96 md:max-w-full mx-auto bg-white mt-10 rounded-xl
+    @apply w-full md:w-96 md:max-w-full mx-auto bg-white mt-40 rounded-xl
 }
 
 .login-container{

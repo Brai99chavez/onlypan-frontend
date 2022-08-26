@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ShoppingCartCard from '../../ShoppingCart/ShoppingCartCard/ShoppingCartCard';
+import ShoppingCartCard from './ShoppingCartCard/ShoppingCartCard';
 import './ShoppingCartDropdown.css';
 
 function ShoppingCartDropdown({ setAddedToCart }) {
@@ -40,7 +40,7 @@ function ShoppingCartDropdown({ setAddedToCart }) {
 
           <div className="cartTotal">Total: ${sumTotal()}</div>
           <div className="cartButtonsContainer">
-            <Link className="cartButtons" to="/">
+            <Link className="cartButtons" to="/carrito">
               <div>Finalizar compra</div>
             </Link>
 
