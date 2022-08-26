@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Cart.css';
-import CartCard from './CartCard/CartCard';
- import { useStripe, useElements } from "@stripe/react-stripe-js";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "./Cart.css";
+import CartCard from "./CartCard/CartCard";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import {
   CardNumberElement,
@@ -10,33 +10,30 @@ import {
   CardCvcElement,
 } from "@stripe/react-stripe-js";
 
-
-
 export default function Cart() {
-  const copyLocalStorage = JSON.parse(window.localStorage.getItem("cartSelectProducts"))
-  const idProducts = copyLocalStorage.map(e=>{
+  const copyLocalStorage = JSON.parse(
+    window.localStorage.getItem("cartSelectProducts")
+  );
+  const idProducts = copyLocalStorage.map((e) => {
     return {
       id: e.id,
-      quantity: e.quantitySelectedCartSh
-
-    }
-  })
-  const idUser ="estoesnuestro"
+      quantity: e.quantitySelectedCartSh,
+    };
+  });
+  const idUser = "estoesnuestro";
   const obj = {
     idProducts,
-    idUser
-  }
-
-  console.log(obj);
-   const stripe = useStripe();
-   const elements = useElements();
+    idUser,
+  };
+  const stripe = useStripe();
+  const elements = useElements();
 
   const [state, setState] = useState(
-    JSON.parse(localStorage.getItem('cartSelectProducts'))
+    JSON.parse(localStorage.getItem("cartSelectProducts"))
   );
 
   const sumTotal = () => {
-    return JSON.parse(localStorage.getItem('cartSelectProducts')).reduce(
+    return JSON.parse(localStorage.getItem("cartSelectProducts")).reduce(
       (a, b) => {
         return a + b.price * b.quantitySelectedCartSh;
       },
@@ -45,14 +42,12 @@ export default function Cart() {
   };
   const [total, setTotal] = useState(sumTotal());
 
-
   const handlerSummit = async (e) => {
     e.preventDefault();
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardNumberElement),
-      
     });
 
     if (!error) {
@@ -61,10 +56,8 @@ export default function Cart() {
       const { data } = await axios.post("http://localhost:3001/payment", {
         id,
         amount: total,
-        description: toString(obj) 
-      
+        obj: obj,
       });
-      console.log(data);
     }
   };
 
@@ -162,39 +155,39 @@ export default function Cart() {
                     </div>
                   </div>
                   <form onSubmit={handlerSummit}>
-                  <div className="flex justify-center flex-col pt-3">
-                    <label className="text-xs text-gray-400 ">
-                      Name on Card
-                    </label>
-                    <input
-                      type="text"
-                      className="focus:outline-none w-full h-6 bg-gray-800 text-white placeholder-gray-300 text-sm border-b border-gray-600 py-4"
-                      placeholder="Giga Tamarashvili"
-                    />
-                  </div>
-                  <div className="flex justify-center flex-col pt-3">
-                    <label className="text-xs text-gray-400 ">
-                      Card Number
-                    </label>
-                   <CardNumberElement></CardNumberElement>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 pt-2 mb-3">
-                    <div className="col-span-2 ">
-                      <label className="text-xs text-gray-400">
-                        Expiration Date
+                    <div className="flex justify-center flex-col pt-3">
+                      <label className="text-xs text-gray-400 ">
+                        Name on Card
                       </label>
-                      <div className="grid grid-cols-2 gap-2">
-                        <CardExpiryElement></CardExpiryElement>
+                      <input
+                        type="text"
+                        className="focus:outline-none w-full h-6 bg-gray-800 text-white placeholder-gray-300 text-sm border-b border-gray-600 py-4"
+                        placeholder="Giga Tamarashvili"
+                      />
+                    </div>
+                    <div className="flex justify-center flex-col pt-3">
+                      <label className="text-xs text-gray-400 ">
+                        Card Number
+                      </label>
+                      <CardNumberElement></CardNumberElement>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 pt-2 mb-3">
+                      <div className="col-span-2 ">
+                        <label className="text-xs text-gray-400">
+                          Expiration Date
+                        </label>
+                        <div className="grid grid-cols-2 gap-2">
+                          <CardExpiryElement></CardExpiryElement>
+                        </div>
+                      </div>
+                      <div className="">
+                        <label className="text-xs text-gray-400">CVV</label>
+                        <CardCvcElement></CardCvcElement>
                       </div>
                     </div>
-                    <div className="">
-                      <label className="text-xs text-gray-400">CVV</label>
-                    <CardCvcElement></CardCvcElement>
-                    </div>
-                  </div>
-                  <button className="h-12 w-full bg-blue-500 rounded focus:outline-none text-white hover:bg-blue-600">
-                    Check Out
-                  </button>
+                    <button className="h-12 w-full bg-blue-500 rounded focus:outline-none text-white hover:bg-blue-600">
+                      Check Out
+                    </button>
                   </form>
                 </div>
               </div>
@@ -203,6 +196,5 @@ export default function Cart() {
         </div>
       </div>
     </div>
-
   );
 }
