@@ -1,8 +1,11 @@
 import React from 'react';
 import './SignUp.css';
 import { Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../../redux/Actions/Actions';
 
 function SignUp() {
+  const dispatch = useDispatch();
   return (
     <div className="signup">
       <div className="signup-container">
@@ -45,6 +48,7 @@ function SignUp() {
             return errors;
           }}
           onSubmit={(values) => {
+            dispatch(signUp(values))
             console.log('exito');
           }}
         >

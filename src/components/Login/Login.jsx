@@ -1,9 +1,13 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { signIn } from '../../redux/Actions/Actions';
 import './Login.css';
 
 export default function Login() {
+  const dispatch = useDispatch();
+
   return (
     <div className="login">
       <div className="login-container">
@@ -22,7 +26,8 @@ export default function Login() {
             return errors;
           }}
           onSubmit={(values) => {
-            console.log('exito');
+            dispatch(signIn(values));
+            console.log(values);
           }}
         >
           {({

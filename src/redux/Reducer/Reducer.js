@@ -9,7 +9,9 @@ import {
   RESET_FILTERED_PRODUCTS,
   ERROR,
   LOADING,
-} from '../Actions/Actions';
+  SIGN_IN,
+  SIGN_UP,
+} from "../Actions/Actions";
 
 const inicialState = {
   products: [],
@@ -91,6 +93,19 @@ const rootReducer = (state = inicialState, action) => {
         ...state,
         loading: true,
       };
+    case SIGN_IN: {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+    case SIGN_UP: {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+
     default:
       return state;
   }
