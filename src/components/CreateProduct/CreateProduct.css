@@ -1,19 +1,27 @@
 
 .create{
-    @apply w-full md:w-96 md:max-w-full mx-auto bg-white mt-40 rounded-xl
+    @apply w-fit  md:max-w-full mx-auto bg-white mt-32 rounded-xl
 }
 
 .create-container{
     @apply p-6 border border-gray-300 sm:rounded-md
 }
 
+.create form {
+    @apply block
 
-.create form{
-    @apply py-2
+}
+
+.create form .form-container{
+    @apply py-2 flex
+}
+
+.create form .form-container div{
+    @apply m-10
 }
 
 .create-tittle{
-    @apply text-sky-700 text-xl mb-2
+    @apply text-sky-700 text-3xl mb-2 text-center
 }
 
 .create-detail input{
@@ -42,17 +50,18 @@
     focus:ring-indigo-200
     focus:ring-opacity-50
     p-2
-    outline-none
+    outline-none;
 }
 
 .create-button{
-    @apply  my-6
+    @apply flex  my-6 
 }
 
 .create-button .btn{
-    @apply  h-10
-    ml-0
-    px-5
+    @apply  
+    m-auto
+    h-10
+    px-10
     text-indigo-100
     bg-gray-400
     rounded-lg
