@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory ,useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { getByName, resetFilteredProducts } from '../../redux/Actions/Actions';
 import Filters from './Filters/Filters';
 
@@ -21,9 +21,9 @@ function SearchBar({ setCurrentPage }) {
   const resetSelectFilters = () => {
     const type = document.querySelector('#type');
     const sortPrice = document.querySelector('#sortPrice');
-    type.value = ''
-    sortPrice.value = ''
-  }
+    type.value = '';
+    sortPrice.value = '';
+  };
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -31,31 +31,32 @@ function SearchBar({ setCurrentPage }) {
     dispatch(getByName(value));
     setValue('');
     setCurrentPage(1);
-    resetSelectFilters()
+    resetSelectFilters();
   };
-
-  
-
 
   return (
     <div className="SearchBar">
       <div className="SearchBar-container">
-      { location.pathname === '/productos' ? <Filters /> : null}
-      <form onSubmit={handleOnSubmit}>
-        <input
-          type="text"
-          value={value}
-          onChange={handleChange}
-          placeholder="Buscar en la tienda"
-          className="input"
-        />
-        <button>
-          <i className="fa-solid fa-magnifying-glass buttons" />
-        </button>
-      </form>
-      <button onClick={() => dispatch(resetFilteredProducts())}>
-        <i className="fa-solid fa-arrow-rotate-right buttons"></i>
-      </button>
+        {location.pathname === '/productos' ? (
+          <Filters setCurrentPage={setCurrentPage} />
+        ) : null}
+        <form onSubmit={handleOnSubmit}>
+          <input
+            type="text"
+            value={value}
+            onChange={handleChange}
+            placeholder="Buscar en la tienda"
+            className="input"
+          />
+          <button>
+            <i className="fa-solid fa-magnifying-glass buttons" />
+          </button>
+        </form>
+        <Link to="/productos">
+          <button onClick={() => dispatch(resetFilteredProducts())}>
+            <i className="fa-solid fa-arrow-rotate-right buttons"></i>
+          </button>
+        </Link>
       </div>
     </div>
   );
