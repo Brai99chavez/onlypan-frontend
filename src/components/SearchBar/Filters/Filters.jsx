@@ -27,7 +27,7 @@ export default function Filters({ setCurrentPage }) {
   const onChange = (e) => {
     setCurrentPage(1);
 
-    setChanges(...changes, ([e.target.name] = e.target.value));
+    changes[e.target.name] = e.target.value;
 
     if (changes.sort !== '' && changes.type !== '') {
       dispatch(mixedSort(changes));
