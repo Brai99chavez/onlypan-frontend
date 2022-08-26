@@ -53,7 +53,12 @@ function SearchBar({ setCurrentPage }) {
           </button>
         </form>
         <Link to="/productos">
-          <button onClick={() => dispatch(resetFilteredProducts())}>
+          <button
+            onClick={() => {
+              dispatch(resetFilteredProducts());
+              resetSelectFilters();
+            }}
+          >
             <i className="fa-solid fa-arrow-rotate-right buttons"></i>
           </button>
         </Link>

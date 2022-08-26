@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { filterByType, getAllProducts } from '../../redux/Actions/Actions';
-import swal from 'sweetalert2';
 import './Products.css';
 //components
 import ProductCard from './ProductCard/ProductCard';
@@ -28,7 +27,7 @@ export default function Products() {
   useEffect(() => {
     dispatch(getAllProducts());
     if (tipo) dispatch(filterByType(tipo));
-  }, [dispatch]);
+  }, [dispatch, tipo]);
   const { products, filteredProducts, loading, error } = useSelector(
     (state) => state
   );

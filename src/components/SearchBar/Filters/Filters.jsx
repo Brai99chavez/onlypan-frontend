@@ -1,4 +1,3 @@
-import { type } from '@testing-library/user-event/dist/type';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -28,7 +27,7 @@ export default function Filters({ setCurrentPage }) {
   const onChange = (e) => {
     setCurrentPage(1);
 
-    changes[e.target.name] = e.target.value;
+    setChanges(...changes, ([e.target.name] = e.target.value));
 
     if (changes.sort !== '' && changes.type !== '') {
       dispatch(mixedSort(changes));
