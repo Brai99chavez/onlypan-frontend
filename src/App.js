@@ -1,38 +1,41 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-import "./App.css";
-import Home from "./components/Home/Home";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import './App.css';
+import Home from './components/Home/Home';
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements
+} from "@stripe/react-stripe-js";
 //componentes
-import NavbarAdmin from "./components/Navbar/NavbarAdmin/NavbarAdmin";
-import NavbarUser from "./components/Navbar/NavbarUser/NavbarUser";
-import NavbarEmployee from "./components/Navbar/NavbarEmployee/NavbarEmployee";
-import NavbarViewer from "./components/Navbar/NavbarViewer/NavbarViewer";
-import Login from "./components/Login/Login";
-import Products from "./components/Products/Products";
-import Payments from "../src/components/Payments/Payments";
-
-let rol = 4;
+import Navbar from './components/Navbar/Navbar/Navbar';
+import Login from './components/Login/Login';
+import Products from './components/Products/Products';
+import Cart from './components/Cart/Cart';
+import ProductDetail from './components/Products/ProductDetail/ProductDetail';
+import PageNotFound from './components/PageNotFound/PageNotFound';
+import Contact from './components/Contact/Contact';
+import CreateProduct from './components/CreateProduct/CreateProduct';
 
 function App() {
+  const stripePromise = loadStripe(
+    "pk_test_51LaJmxF13fYbs0BsX1wFBN5ewQU5qWqBUdJx3DykrwIcy8D93ZK8Y1bmFQxMGnzDdEpfFwCE6hGSb2fHq9oUN5YJ00CoyP5txg"
+  );
   return (
+    <Elements stripe={stripePromise}>
     <div>
-      {rol === 1 ? ( // admin
-        <Route path="/*" component={NavbarAdmin} />
-      ) : rol === 2 ? ( // empleado
-        <Route path="/*" component={NavbarEmployee} />
-      ) : rol === 3 ? ( //
-        <Route path="/*" component={NavbarUser} />
-      ) : (
-        <Route path="/*" component={NavbarViewer} />
-      )}
-
+      <Route path="/*" component={Navbar} />
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/productos" exact component={Products} />
+        <Route path="/detail/:id" exact component={ProductDetail} />
+        <Route path="/contacto" exact component={Contact} />
         <Route path="/ingreso" exact component={Login} />
-        <Route path="/carrito" exact component={Payments} />
+        <Route path="/carrito" exact component={Cart} />
+        <Route path="/crear-producto" exact component={CreateProduct} />
+        <Route path="/*" component={PageNotFound} />
       </Switch>
     </div>
+    </Elements>
   );
 }
 

@@ -1,22 +1,36 @@
 
-.login{
+.create{
     @apply w-full md:w-96 md:max-w-full mx-auto bg-white mt-40 rounded-xl
 }
 
-.login-container{
+.create-container{
     @apply p-6 border border-gray-300 sm:rounded-md
 }
 
 
-.login form{
+.create form{
     @apply py-2
 }
 
-.login-tittle{
+.create-tittle{
     @apply text-sky-700 text-xl mb-2
 }
 
-.login-detail input{
+.create-detail input{
+    @apply block
+    w-full
+    mt-1
+    border-gray-300
+    rounded-md
+    shadow-sm
+    focus:border-indigo-300
+    focus:ring
+    focus:ring-indigo-200
+    focus:ring-opacity-50
+    p-2
+    outline-none
+}
+.create-detail textarea{
     @apply block
     w-full
     mt-1
@@ -31,11 +45,11 @@
     outline-none
 }
 
-.login-button{
+.create-button{
     @apply  my-6
 }
 
-.login-button .btn{
+.create-button .btn{
     @apply  h-10
     ml-0
     px-5

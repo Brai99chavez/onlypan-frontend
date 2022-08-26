@@ -1,52 +1,75 @@
-import React, { useState } from "react";
-import "./Cart.css";
-//import { loadStripe } from "@stripe/stripe-js";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Cart.css';
+import CartCard from './CartCard/CartCard';
+ import { useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
-
-export default function Cart({
+import {
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
-}) {
-  const stripe = useStripe();
-  const elements = useElements();
+} from "@stripe/react-stripe-js";
 
-  const [states, setStates] = useState({
-    nameUser: "",
-    cardNumber: 0,
-    expirationDate: 0,
-  });
 
-  const handlerAll = (e) => {
-    setStates({
-      ...states,
-      [e.target.name]: e.target.value,
-    });
+
+export default function Cart() {
+  const copyLocalStorage = JSON.parse(window.localStorage.getItem("cartSelectProducts"))
+  const idProducts = copyLocalStorage.map(e=>{
+    return {
+      id: e.id,
+      quantity: e.quantitySelectedCartSh
+
+    }
+  })
+  const idUser ="estoesnuestro"
+  const obj = {
+    idProducts,
+    idUser
+  }
+
+  console.log(obj);
+   const stripe = useStripe();
+   const elements = useElements();
+
+  const [state, setState] = useState(
+    JSON.parse(localStorage.getItem('cartSelectProducts'))
+  );
+
+  const sumTotal = () => {
+    return JSON.parse(localStorage.getItem('cartSelectProducts')).reduce(
+      (a, b) => {
+        return a + b.price * b.quantitySelectedCartSh;
+      },
+      0
+    );
   };
+  const [total, setTotal] = useState(sumTotal());
 
-  //console.log(elements.getElement(CardNumberElement));
+
   const handlerSummit = async (e) => {
     e.preventDefault();
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardNumberElement),
+      
     });
 
     if (!error) {
       console.log(paymentMethod);
       const { id } = paymentMethod;
-      const { data } = axios.post("http://localhost:3001/", {
+      const { data } = await axios.post("http://localhost:3001/payment", {
         id,
-        nameClient: states.nameUser,
+        amount: total,
+        description: toString(obj) 
+      
       });
-      //console.log(data);
+      console.log(data);
     }
   };
 
   return (
-    <div className="h-100% bg-gray-300 ">
+    <div className="h-100% bg-gray-300 my-28">
       <div className="py-12">
         <div className="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg  md:max-w-5xl">
           <div className="md:flex ">
@@ -54,230 +77,42 @@ export default function Cart({
               <div className="md:grid md:grid-cols-3 gap-2 ">
                 {/* carrito */}
                 <div className="col-span-2 p-5 ">
-                  <h1 className="text-xl font-medium">Shopping Cart</h1>
+                  <h1 className="text-xl font-medium">Mi Carrito</h1>
                   {/* // productos   */}
                   <div className="overflow-y-auto h-96">
-                    <div className="flex justify-between items-center mt-6 pt-6">
-                      <div className="flex  items-center">
-                        <img
-                          src="https://i.imgur.com/EEguU02.jpg"
-                          width="60"
-                          className="rounded-full "
-                        />
-                        <div className="flex flex-col ml-3">
-                          <span className="md:text-md font-medium">
-                            Chicken momo
-                          </span>
-                          <span className="text-xs font-light text-gray-400">
-                            #41551
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex justify-center items-center">
-                        <div className="pr-8 flex ">
-                          <span className="font-semibold">-</span>
-                          <input
-                            type="text"
-                            className="focus:outline-none bg-gray-100 border h-6 w-8 rounded text-sm px-2 mx-2"
-                            value="1"
-                          />
-                          <span className="font-semibold">+</span>
-                        </div>
-                        <div className="pr-8 ">
-                          <span className="text-xs font-medium">$10.50</span>
-                        </div>
-                        <div>
-                          <i className="fa-solid fa-xmark text-xs font-medium"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center mt-6 pt-6">
-                      <div className="flex  items-center">
-                        <img
-                          src="https://i.imgur.com/EEguU02.jpg"
-                          width="60"
-                          className="rounded-full "
-                        />
-                        <div className="flex flex-col ml-3">
-                          <span className="md:text-md font-medium">
-                            Chicken momo
-                          </span>
-                          <span className="text-xs font-light text-gray-400">
-                            #41551
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex justify-center items-center">
-                        <div className="pr-8 flex ">
-                          <span className="font-semibold">-</span>
-                          <input
-                            type="text"
-                            className="focus:outline-none bg-gray-100 border h-6 w-8 rounded text-sm px-2 mx-2"
-                            value="1"
-                          />
-                          <span className="font-semibold">+</span>
-                        </div>
-                        <div className="pr-8 ">
-                          <span className="text-xs font-medium">$10.50</span>
-                        </div>
-                        <div>
-                          <i className="fa-solid fa-xmark text-xs font-medium"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center mt-6 pt-6">
-                      <div className="flex  items-center">
-                        <img
-                          src="https://i.imgur.com/EEguU02.jpg"
-                          width="60"
-                          className="rounded-full "
-                        />
-                        <div className="flex flex-col ml-3">
-                          <span className="md:text-md font-medium">
-                            Chicken momo
-                          </span>
-                          <span className="text-xs font-light text-gray-400">
-                            #41551
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex justify-center items-center">
-                        <div className="pr-8 flex ">
-                          <span className="font-semibold">-</span>
-                          <input
-                            type="text"
-                            className="focus:outline-none bg-gray-100 border h-6 w-8 rounded text-sm px-2 mx-2"
-                            value="1"
-                          />
-                          <span className="font-semibold">+</span>
-                        </div>
-                        <div className="pr-8 ">
-                          <span className="text-xs font-medium">$10.50</span>
-                        </div>
-                        <div>
-                          <i className="fa-solid fa-xmark text-xs font-medium"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center mt-6 pt-6">
-                      <div className="flex  items-center">
-                        <img
-                          src="https://i.imgur.com/EEguU02.jpg"
-                          width="60"
-                          className="rounded-full "
-                        />
-                        <div className="flex flex-col ml-3">
-                          <span className="md:text-md font-medium">
-                            Chicken momo
-                          </span>
-                          <span className="text-xs font-light text-gray-400">
-                            #41551
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex justify-center items-center">
-                        <div className="pr-8 flex ">
-                          <span className="font-semibold">-</span>
-                          <input
-                            type="text"
-                            className="focus:outline-none bg-gray-100 border h-6 w-8 rounded text-sm px-2 mx-2"
-                            value="1"
-                          />
-                          <span className="font-semibold">+</span>
-                        </div>
-                        <div className="pr-8 ">
-                          <span className="text-xs font-medium">$10.50</span>
-                        </div>
-                        <div>
-                          <i className="fa-solid fa-xmark text-xs font-medium"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center mt-6 pt-6">
-                      <div className="flex  items-center">
-                        <img
-                          src="https://i.imgur.com/EEguU02.jpg"
-                          width="60"
-                          className="rounded-full "
-                        />
-                        <div className="flex flex-col ml-3">
-                          <span className="md:text-md font-medium">
-                            Chicken momo
-                          </span>
-                          <span className="text-xs font-light text-gray-400">
-                            #41551
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex justify-center items-center">
-                        <div className="pr-8 flex ">
-                          <span className="font-semibold">-</span>
-                          <input
-                            type="text"
-                            className="focus:outline-none bg-gray-100 border h-6 w-8 rounded text-sm px-2 mx-2"
-                            value="1"
-                          />
-                          <span className="font-semibold">+</span>
-                        </div>
-                        <div className="pr-8 ">
-                          <span className="text-xs font-medium">$10.50</span>
-                        </div>
-                        <div>
-                          <i className="fa-solid fa-xmark text-xs font-medium"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center mt-6 pt-6">
-                      <div className="flex  items-center">
-                        <img
-                          src="https://i.imgur.com/EEguU02.jpg"
-                          width="60"
-                          className="rounded-full "
-                        />
-                        <div className="flex flex-col ml-3">
-                          <span className="md:text-md font-medium">
-                            Chicken momo
-                          </span>
-                          <span className="text-xs font-light text-gray-400">
-                            #41551
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex justify-center items-center">
-                        <div className="pr-8 flex ">
-                          <span className="font-semibold">-</span>
-                          <input
-                            type="text"
-                            className="focus:outline-none bg-gray-100 border h-6 w-8 rounded text-sm px-2 mx-2"
-                            value="1"
-                          />
-                          <span className="font-semibold">+</span>
-                        </div>
-                        <div className="pr-8 ">
-                          <span className="text-xs font-medium">$10.50</span>
-                        </div>
-                        <div>
-                          <i className="fa-solid fa-xmark text-xs font-medium"></i>
-                        </div>
-                      </div>
-                    </div>
+                    {state.map((e) => (
+                      <CartCard
+                        setState={setState}
+                        setTotal={setTotal}
+                        sumTotal={sumTotal}
+                        key={e.id}
+                        image={e.image}
+                        isAvailable={e.isAvailable}
+                        name={e.name}
+                        price={e.price}
+                        type={e.type}
+                        quantitySelectedCartSh={e.quantitySelectedCartSh}
+                      />
+                    ))}
                   </div>
                   {/* footer carrito */}
                   <div className="flex justify-between items-center mt-6 pt-6 border-t">
                     <div className="flex items-center">
                       <i className="fa fa-arrow-left text-sm pr-2"></i>
-                      <span className="text-md  font-medium text-blue-500">
-                        Continue Shopping
-                      </span>
+                      <Link
+                        to="/productos"
+                        className="text-md  font-medium text-blue-500"
+                      >
+                        Continuar comprando
+                      </Link>
                     </div>
 
-                    <div className="flex justify-center items-end">
+                    <div className="flex justify-center items-center">
                       <span className="text-sm font-medium text-gray-400 mr-1">
                         Subtotal:
                       </span>
                       <span className="text-lg font-bold text-gray-800 ">
-                        {" "}
-                        $24.90
+                        ${total}
                       </span>
                     </div>
                   </div>
@@ -310,7 +145,7 @@ export default function Cart({
                       </div>
                       <div className="flex justify-between items-center mt-3">
                         <span className="text-xs  text-gray-200">
-                          {states.nameUser}
+                          Giga Tamarashvili
                         </span>
                         <span className="text-xs  text-gray-200">12/18</span>
                       </div>
@@ -327,42 +162,39 @@ export default function Cart({
                     </div>
                   </div>
                   <form onSubmit={handlerSummit}>
-                    <div className="flex justify-center flex-col pt-3">
-                      <label className="text-xs text-gray-400 ">
-                        Name on Card
+                  <div className="flex justify-center flex-col pt-3">
+                    <label className="text-xs text-gray-400 ">
+                      Name on Card
+                    </label>
+                    <input
+                      type="text"
+                      className="focus:outline-none w-full h-6 bg-gray-800 text-white placeholder-gray-300 text-sm border-b border-gray-600 py-4"
+                      placeholder="Giga Tamarashvili"
+                    />
+                  </div>
+                  <div className="flex justify-center flex-col pt-3">
+                    <label className="text-xs text-gray-400 ">
+                      Card Number
+                    </label>
+                   <CardNumberElement></CardNumberElement>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 pt-2 mb-3">
+                    <div className="col-span-2 ">
+                      <label className="text-xs text-gray-400">
+                        Expiration Date
                       </label>
-                      <input
-                        type="text"
-                        value={states.nameUser}
-                        className="focus:outline-none w-full h-6 bg-gray-800 text-white placeholder-gray-300 text-sm border-b border-gray-600 py-4"
-                        placeholder="Nombre del titular"
-                        name="nameUser"
-                        onChange={(e) => handlerAll(e)}
-                      />
-                    </div>
-                    <div className="flex justify-center flex-col pt-3">
-                      <label className="text-xs text-gray-400 ">
-                        Card Number
-                      </label>
-                      <CardNumberElement />
-                    </div>
-                    <div className="grid grid-cols-3 gap-2 pt-2 mb-3">
-                      <div className="col-span-2 ">
-                        <label className="text-xs text-gray-400">
-                          Expiration Date
-                        </label>
-                        <div className="grid grid-cols-2 gap-2">
-                          <CardExpiryElement />
-                        </div>
-                      </div>
-                      <div className="">
-                        <label className="text-xs text-gray-400">CVV</label>
-                        <CardCvcElement />
+                      <div className="grid grid-cols-2 gap-2">
+                        <CardExpiryElement></CardExpiryElement>
                       </div>
                     </div>
-                    <button className="h-12 w-full bg-blue-500 rounded focus:outline-none text-white hover:bg-blue-600">
-                      Check Out
-                    </button>
+                    <div className="">
+                      <label className="text-xs text-gray-400">CVV</label>
+                    <CardCvcElement></CardCvcElement>
+                    </div>
+                  </div>
+                  <button className="h-12 w-full bg-blue-500 rounded focus:outline-none text-white hover:bg-blue-600">
+                    Check Out
+                  </button>
                   </form>
                 </div>
               </div>
@@ -371,5 +203,6 @@ export default function Cart({
         </div>
       </div>
     </div>
+
   );
 }

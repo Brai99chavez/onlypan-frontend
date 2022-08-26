@@ -1,0 +1,19 @@
+.SearchBar{
+    @apply flex bg-white w-3/6 mt-8 mb-8 mx-auto p-3 rounded-xl
+}
+
+.SearchBar .SearchBar-container{
+    @apply flex m-auto
+}
+
+.SearchBar .SearchBar-container .input{
+    @apply rounded-none outline-none; 
+}
+.SearchBar .SearchBar-container select{
+    @apply h-full mr-8 text-sky-700 rounded text-sm outline-none; 
+}
+
+.SearchBar .SearchBar-container .buttons{
+    @apply m-3
+}
+
