@@ -132,75 +132,82 @@ export default function CreateProduct() {
       <div className="create-container">
         <form action="" method="post" onSubmit={e => onSumbit(e)}>
           <h3 className="create-tittle">Crear Producto</h3>
-          <label className='create-detail'>
-            <span>Nombre:</span>
-            <input
-              name="name"
-              value={state.name}
-              type="text"
-              placeholder="pan"
-              required
-              onChange={e => onChange(e)}
-            />
+          <div className='form-container'>
+            <div>
 
-          </label>
-          {errorMsgName ? <small className='text-red-700'>{errorMsgName}</small> : null}
-          <br />
-          <label className='create-detail'>
-            <span>Precio:</span>
-            <input
-              name="price"
-              value={state.price}
-              type="number"
-              placeholder="20"
-              required
-              onChange={e => onChange(e)}
-            />
-            {errorMsgPrice ? <small className='text-red-700'>{errorMsgPrice}</small> : null}
+              <label className='create-detail'>
+                <span>Nombre:</span>
+                <input
+                  name="name"
+                  value={state.name}
+                  type="text"
+                  placeholder="pan"
+                  required
+                  onChange={e => onChange(e)}
+                />
+
+              </label>
+              {errorMsgName ? <small className='text-red-700'>{errorMsgName}</small> : null}
+              <br />
+              <label className='create-detail'>
+                <span>Precio:</span>
+                <input
+                  name="price"
+                  value={state.price}
+                  type="number"
+                  placeholder="20"
+                  required
+                  onChange={e => onChange(e)}
+                />
+                {errorMsgPrice ? <small className='text-red-700'>{errorMsgPrice}</small> : null}
+                <br />
+              </label>
+              <label className='create-detail'>
+                <span>Imagen:</span>
+                <input
+                  name="image"
+                  value={state.image}
+                  type="text"
+                  placeholder="link....."
+                  required
+                  onChange={e => onChange(e)}
+                />
+              </label>
+              {errorMsgImage ? <small className='text-red-700'>{errorMsgImage}</small> : null}
+            </div>
             <br />
-          </label>
-          <label className='create-detail'>
-            <span>Imagen:</span>
-            <input
-              name="image"
-              value={state.image}
-              type="text"
-              placeholder="link....."
-              required
-              onChange={e => onChange(e)}
-            />
-          </label>
-          {errorMsgImage ? <small className='text-red-700'>{errorMsgImage}</small> : null}
-          <br />
-          <label className='create-detail'>
-            <span>descripcion:</span><br />
-            <textarea
-              name="description"
-              value={state.description}
-              type="text"
-              placeholder="soy un pan uwu..."
-              required
-              onChange={e => onChange(e)}
-            />
-            {errorMsgDesc ? <small className='text-red-700'>{errorMsgDesc}</small> : null}
-            <br />
-          </label>
-          <label className='create-detail'>
-            <span>categoria:</span><br />
-            <textarea
-              name="type"
-              value={state.type}
-              type="text"
-              placeholder="factura..."
-              required
-              onChange={e => onChange(e)}
-            />
-          </label>
-          {errorMsgType ? <small className='text-red-700'>{errorMsgType}</small> : null}
-          <br />
-          <div className='create-button'>
-            <button className='btn'>crear</button>
+            <div>
+              <label className='create-detail'>
+                <span>descripcion:</span><br />
+                <textarea
+                  rows='5'
+                  name="description"
+                  value={state.description}
+                  type="text"
+                  placeholder="soy un pan uwu..."
+                  required
+                  onChange={e => onChange(e)}
+                />
+                {errorMsgDesc ? <small className='text-red-700'>{errorMsgDesc}</small> : null}
+                <br />
+              </label>
+              <label className='create-detail'>
+                <span>categoria:</span><br />
+                <input
+                  name="type"
+                  value={state.type}
+                  type="text"
+                  placeholder="factura..."
+                  required
+                  onChange={e => onChange(e)}
+                />
+              </label>
+              {errorMsgType ? <small className='text-red-700'>{errorMsgType}</small> : null}
+            </div>
           </div>
+          <div className='create-button'>
+                <button className='btn'>crear</button>
+              </div>
         </form>
 
       </div>

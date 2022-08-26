@@ -33,7 +33,7 @@ export default function Home() {
   return (
     <div className="homeContainer">
       <SearchBar />
-      {types.map((t, i) => (
+      {types && types.map((t, i) => (
         <button key={i} onClick={() => handleOnClick(t)}>
           {t.charAt(0).toUpperCase() + t.substring(1).toLowerCase()}
         </button>
