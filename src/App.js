@@ -1,22 +1,22 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-import "./App.css";
-import Home from "./components/Home/Home";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import './App.css';
+import Home from './components/Home/Home';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 //componentes
-import Navbar from "./components/Navbar/Navbar/Navbar";
-import Login from "./components/Login/Login";
-import Products from "./components/Products/Products";
-import Cart from "./components/Cart/Cart";
-import ProductDetail from "./components/Products/ProductDetail/ProductDetail";
-import PageNotFound from "./components/PageNotFound/PageNotFound";
-import Contact from "./components/Contact/Contact";
-import CreateProduct from "./components/CreateProduct/CreateProduct";
+import Navbar from './components/Navbar/Navbar/Navbar';
+import Login from './components/Login/Login';
+import Products from './components/Products/Products';
+import Cart from './components/Cart/Cart';
+import ProductDetail from './components/Products/ProductDetail/ProductDetail';
+import PageNotFound from './components/PageNotFound/PageNotFound';
+import Contact from './components/Contact/Contact';
+import CreateProduct from './components/CreateProduct/CreateProduct';
 
 function App() {
   const stripePromise = loadStripe(
-    "pk_test_51LaJmxF13fYbs0BsX1wFBN5ewQU5qWqBUdJx3DykrwIcy8D93ZK8Y1bmFQxMGnzDdEpfFwCE6hGSb2fHq9oUN5YJ00CoyP5txg"
+    'pk_test_51LaJmxF13fYbs0BsX1wFBN5ewQU5qWqBUdJx3DykrwIcy8D93ZK8Y1bmFQxMGnzDdEpfFwCE6hGSb2fHq9oUN5YJ00CoyP5txg'
   );
   return (
     <Elements stripe={stripePromise}>

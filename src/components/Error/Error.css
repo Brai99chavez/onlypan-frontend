@@ -1,0 +1,3 @@
+.errorContainer {
+  @apply mt-28 font-extrabold text-center text-xl;
+}

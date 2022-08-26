@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
 
 .ProductCard {
-  @apply bg-white h-fit w-10/12 overflow-hidden shadow-lg font-bold mb-14 m-auto rounded-xl ;
+  @apply bg-white h-fit w-10/12 overflow-hidden shadow-lg font-bold mb-14 m-auto rounded-xl;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .ProductCardSeeMore {
-  @apply px-2 pt-4 pb-2;
+  @apply pr-2 pl-4 pt-4 pb-4;
 }
 
 .ProductCardSeeMore .ProductCardSeeMoreButton {
@@ -37,7 +37,7 @@
 }
 
 .ProductCardButtons {
-  @apply flex justify-between items-center px-2.5;
+  @apply flex justify-between items-center pl-4 pr-8;
 }
 .ProductCardButtons button {
   @apply h-8;
