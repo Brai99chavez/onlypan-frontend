@@ -117,7 +117,7 @@ export function resetFilteredProducts() {
 export function createProduct(value) {
   return function (dispatch) {
     axios
-      .post('http://localhost:3001/product', value)
+      .post('/product', value)
       .then((response) => dispatch({ type: CREATE_PRODUCT }))
       .catch((error) => {
         dispatch(handleError(error));
