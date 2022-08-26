@@ -1,0 +1,59 @@
+.signup {
+  @apply w-full md:w-1/3 md:max-w-full mx-auto bg-white mt-40 rounded-xl;
+}
+
+.signup-container {
+  @apply p-8 border border-gray-300 sm:rounded-md;
+}
+
+.signup form {
+  @apply py-2;
+}
+.formContainer {
+  @apply flex justify-evenly;
+}
+.signup-tittle {
+  @apply text-sky-700 text-xl mb-2;
+}
+
+.signup-detail input {
+  @apply block
+      w-full
+      mt-1
+      border-gray-300
+      rounded-md
+      shadow-sm
+      focus:border-indigo-300
+      focus:ring
+      focus:ring-indigo-200
+      focus:ring-opacity-50
+      p-2
+      outline-none;
+}
+
+.signup-button {
+  @apply my-6;
+}
+
+.signup-button .btn {
+  @apply h-10
+      ml-0
+      px-5
+      text-indigo-100
+      bg-gray-400
+      rounded-lg
+      transition-colors
+      duration-150
+      hover:bg-sky-700
+      transition
+      duration-700;
+}
+.col {
+  @apply pr-8 border-r-2 border-sky-700;
+}
+.col2 {
+  @apply max-w-xs w-80;
+}
+.signupErrorContainer {
+  @apply m-0 font-thin h-16 text-red-500 text-sm;
+}

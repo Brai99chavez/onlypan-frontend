@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./Cart.css";
-import CartCard from "./CartCard/CartCard";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
-import axios from "axios";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Cart.css';
+import CartCard from './CartCard/CartCard';
+import { useStripe, useElements } from '@stripe/react-stripe-js';
+import axios from 'axios';
 import {
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
-} from "@stripe/react-stripe-js";
+} from '@stripe/react-stripe-js';
 
 export default function Cart() {
   const copyLocalStorage = JSON.parse(
-    window.localStorage.getItem("cartSelectProducts")
+    window.localStorage.getItem('cartSelectProducts')
   );
   const idProducts = copyLocalStorage.map((e) => {
     return {
@@ -20,7 +20,7 @@ export default function Cart() {
       quantity: e.quantitySelectedCartSh,
     };
   });
-  const idUser = "estoesnuestro";
+  const idUser = 'estoesnuestro';
   const obj = {
     idProducts,
     idUser,
@@ -29,11 +29,11 @@ export default function Cart() {
   const elements = useElements();
 
   const [state, setState] = useState(
-    JSON.parse(localStorage.getItem("cartSelectProducts"))
+    JSON.parse(localStorage.getItem('cartSelectProducts'))
   );
 
   const sumTotal = () => {
-    return JSON.parse(localStorage.getItem("cartSelectProducts")).reduce(
+    return JSON.parse(localStorage.getItem('cartSelectProducts')).reduce(
       (a, b) => {
         return a + b.price * b.quantitySelectedCartSh;
       },
@@ -46,14 +46,14 @@ export default function Cart() {
     e.preventDefault();
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
+      type: 'card',
       card: elements.getElement(CardNumberElement),
     });
 
     if (!error) {
       console.log(paymentMethod);
       const { id } = paymentMethod;
-      const { data } = await axios.post("http://localhost:3001/payment", {
+      const { data } = await axios.post('/payment', {
         id,
         amount: total,
         obj: obj,

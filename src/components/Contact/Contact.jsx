@@ -2,6 +2,7 @@ import React from 'react';
 import './Contact.css';
 import emailjs from '@emailjs/browser';
 import Swal from 'sweetalert2';
+import { Formik } from 'formik';
 
 export default function Contact() {
   const successAlert = () => {

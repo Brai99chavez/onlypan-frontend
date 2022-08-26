@@ -13,6 +13,7 @@ import ProductDetail from './components/Products/ProductDetail/ProductDetail';
 import PageNotFound from './components/PageNotFound/PageNotFound';
 import Contact from './components/Contact/Contact';
 import CreateProduct from './components/CreateProduct/CreateProduct';
+import SignUp from './components/SignUp/SignUp';
 
 function App() {
   const stripePromise = loadStripe(
@@ -28,6 +29,7 @@ function App() {
           <Route path="/detail/:id" exact component={ProductDetail} />
           <Route path="/contacto" exact component={Contact} />
           <Route path="/ingreso" exact component={Login} />
+          <Route path="/registro" exact component={SignUp} />
           <Route path="/carrito" exact component={Cart} />
           <Route path="/crear-producto" exact component={CreateProduct} />
           <Route path="/*" component={PageNotFound} />
