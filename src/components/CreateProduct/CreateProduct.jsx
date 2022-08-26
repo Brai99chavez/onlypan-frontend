@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { createProduct, getAllProducts } from '../../redux/Actions/Actions';
-import "./CreateProduct.css"
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createProduct, getAllProducts } from "../../redux/Actions/Actions";
+import "./CreateProduct.css";
 
 export default function CreateProduct() {
-
   const [state, setState] = useState({
     name: "",
     price: 0,
@@ -98,15 +97,33 @@ export default function CreateProduct() {
     setState({ ...state, [e.target.name]: e.target.value });
   }
 
-  const validacion = (errorName, errorImg, errorPrice, errorType, errorDesc) => {
-    if (errorName === undefined && errorImg === undefined && errorPrice === undefined && errorType === undefined && errorDesc === undefined) {
+  const validacion = (
+    errorName,
+    errorImg,
+    errorPrice,
+    errorType,
+    errorDesc
+  ) => {
+    if (
+      errorName === undefined &&
+      errorImg === undefined &&
+      errorPrice === undefined &&
+      errorType === undefined &&
+      errorDesc === undefined
+    ) {
       return undefined;
     } else {
       return null;
     }
   };
 
-  const validacionBoton = validacion(errorMsgName, errorMsgImage, errorMsgPrice, errorMsgType, errorMsgDesc);
+  const validacionBoton = validacion(
+    errorMsgName,
+    errorMsgImage,
+    errorMsgPrice,
+    errorMsgType,
+    errorMsgDesc
+  );
 
   const onSumbit = (e) => {
     e.preventDefault();
@@ -126,84 +143,99 @@ export default function CreateProduct() {
     }
   };
 
-
   return (
     <div className="create">
       <div className="create-container">
-        <form action="" method="post" onSubmit={e => onSumbit(e)}>
+        <form action="" method="post" onSubmit={(e) => onSumbit(e)}>
           <h3 className="create-tittle">Crear Producto</h3>
-          <label className='create-detail'>
-            <span>Nombre:</span>
-            <input
-              name="name"
-              value={state.name}
-              type="text"
-              placeholder="pan"
-              required
-              onChange={e => onChange(e)}
-            />
-
-          </label>
-          {errorMsgName ? <small className='text-red-700'>{errorMsgName}</small> : null}
-          <br />
-          <label className='create-detail'>
-            <span>Precio:</span>
-            <input
-              name="price"
-              value={state.price}
-              type="number"
-              placeholder="20"
-              required
-              onChange={e => onChange(e)}
-            />
-            {errorMsgPrice ? <small className='text-red-700'>{errorMsgPrice}</small> : null}
+          <div className="form-container">
+            <div>
+              <label className="create-detail">
+                <span>Nombre:</span>
+                <input
+                  name="name"
+                  value={state.name}
+                  type="text"
+                  placeholder="pan"
+                  required
+                  onChange={(e) => onChange(e)}
+                />
+              </label>
+              {errorMsgName ? (
+                <small className="text-red-700">{errorMsgName}</small>
+              ) : null}
+              <br />
+              <label className="create-detail">
+                <span>Precio:</span>
+                <input
+                  name="price"
+                  value={state.price}
+                  type="number"
+                  placeholder="20"
+                  required
+                  onChange={(e) => onChange(e)}
+                />
+                {errorMsgPrice ? (
+                  <small className="text-red-700">{errorMsgPrice}</small>
+                ) : null}
+                <br />
+              </label>
+              <label className="create-detail">
+                <span>Imagen:</span>
+                <input
+                  name="image"
+                  value={state.image}
+                  type="text"
+                  placeholder="link....."
+                  required
+                  onChange={(e) => onChange(e)}
+                />
+              </label>
+              {errorMsgImage ? (
+                <small className="text-red-700">{errorMsgImage}</small>
+              ) : null}
+            </div>
             <br />
-          </label>
-          <label className='create-detail'>
-            <span>Imagen:</span>
-            <input
-              name="image"
-              value={state.image}
-              type="text"
-              placeholder="link....."
-              required
-              onChange={e => onChange(e)}
-            />
-          </label>
-          {errorMsgImage ? <small className='text-red-700'>{errorMsgImage}</small> : null}
-          <br />
-          <label className='create-detail'>
-            <span>descripcion:</span><br />
-            <textarea
-              name="description"
-              value={state.description}
-              type="text"
-              placeholder="soy un pan uwu..."
-              required
-              onChange={e => onChange(e)}
-            />
-            {errorMsgDesc ? <small className='text-red-700'>{errorMsgDesc}</small> : null}
-            <br />
-          </label>
-          <label className='create-detail'>
-            <span>categoria:</span><br />
-            <textarea
-              name="type"
-              value={state.type}
-              type="text"
-              placeholder="factura..."
-              required
-              onChange={e => onChange(e)}
-            />
-          </label>
-          {errorMsgType ? <small className='text-red-700'>{errorMsgType}</small> : null}
-          <br />
-          <div className='create-button'>
-            <button className='btn'>crear</button>
+            <div>
+              <label className="create-detail">
+                <span>descripcion:</span>
+                <br />
+                <textarea
+                  rows="5"
+                  name="description"
+                  value={state.description}
+                  type="text"
+                  placeholder="soy un pan uwu..."
+                  required
+                  onChange={(e) => onChange(e)}
+                />
+                {errorMsgDesc ? (
+                  <small className="text-red-700">{errorMsgDesc}</small>
+                ) : null}
+                <br />
+              </label>
+              <label className="create-detail">
+                <span>categoria:</span>
+                <br />
+                <input
+                  name="type"
+                  value={state.type}
+                  type="text"
+                  placeholder="factura..."
+                  required
+                  onChange={(e) => onChange(e)}
+                />
+              </label>
+              {errorMsgType ? (
+                <small className="text-red-700">{errorMsgType}</small>
+              ) : null}
+            </div>
+          </div>
+          <div className="create-button">
+            <button className="btn">crear</button>
           </div>
         </form>
-
       </div>
     </div>
-  )
+  );
 }
