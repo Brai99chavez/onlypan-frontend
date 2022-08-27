@@ -1,5 +1,5 @@
 .create {
-  @apply w-fit  md:max-w-full mx-auto bg-white mt-32 rounded-xl;
+  @apply w-1/2  md:max-w-full mx-auto bg-white mt-32 rounded-xl;
 }
 
 .create-container {
@@ -11,11 +11,11 @@
 }
 
 .create form .form-container {
-  @apply py-2 flex;
+  @apply py-2 flex justify-between;
 }
 
-.create form .form-container div {
-  @apply m-10;
+.create form .form-container .createCol {
+  @apply m-10 w-1/2;
 }
 
 .create-tittle {
@@ -75,4 +75,7 @@
 
 .createErrorContainer {
   @apply min-w-full m-0 font-thin h-16 text-red-500 text-sm;
+}
+.createError {
+  @apply m-0 w-full;
 }

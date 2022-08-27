@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createProduct,
@@ -62,6 +62,9 @@ export default function CreateProduct() {
         if (values.description.length < 5 || values.description.length >= 200)
           errors.description =
             'La descripción debe tener entre 5 y 200 caracteres';
+        if (!values.type) errors.type = 'Debe seleccionar una categoría';
+        if (!types.includes(values.type))
+          errors.type = 'Seleccione una categoría existente.';
         return errors;
       }}
       onSubmit={(values) => {
@@ -83,7 +86,7 @@ export default function CreateProduct() {
             <form method="post" onSubmit={handleSubmit}>
               <h3 className="create-tittle">Crear Producto</h3>
               <div className="form-container">
-                <div>
+                <div className="createCol">
                   <label className="create-detail">
                     <span>Nombre:</span>
                     <input
@@ -112,7 +115,7 @@ export default function CreateProduct() {
                     />
                     <div className="createErrorContainer">
                       {errors.price && touched.price && (
-                        <div className="error">{errors.price}</div>
+                        <div className="createError">{errors.price}</div>
                       )}
                     </div>
                   </label>
@@ -134,7 +137,7 @@ export default function CreateProduct() {
                   </div>
                 </div>
                 <br />
-                <div>
+                <div className="createCol">
                   <label className="create-detail">
                     <span>Descripción:</span>
                     <br />
@@ -155,15 +158,22 @@ export default function CreateProduct() {
                   </label>
                   <label className="create-detail">
                     <span>Categoría:</span>
-                    <br />
-                    <input
-                      name="type"
+                    <select
                       value={values.type}
-                      type="text"
-                      placeholder="factura..."
-                      onChange={handleChange}
+                      name="type"
                       onBlur={handleBlur}
-                    />
+                      onChange={handleChange}
+                    >
+                      <option disabled value="">
+                        Seleccione una categoría
+                      </option>
+                      {types.length &&
+                        types.map((t, i) => (
+                          <option value={t} key={i}>
+                            {t}
+                          </option>
+                        ))}
+                    </select>
                   </label>
                   <div className="createErrorContainer">
                     {errors.type && touched.type && (
@@ -174,7 +184,7 @@ export default function CreateProduct() {
               </div>
               <div className="create-button">
                 <button type="submit" className="btn">
-                  Crear
+                  Crear producto
                 </button>
               </div>
             </form>
