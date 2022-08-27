@@ -12,24 +12,24 @@ export default function NavbarViewer() {
       </NavLink>
       <div className="nav-buttons">
         <NavLink className="nav-btn" to={'/productos'}>
-          producto
-        </NavLink>
-        <NavLink className="nav-btn" to={'/carrito'}>
-          carrito
+          productos
         </NavLink>
         <NavLink className="nav-btn" to={'/contacto'}>
           contacto
         </NavLink>
         <NavLink className="nav-btn" to={'/favoritos'}>
-          favorito
+          favoritos
         </NavLink>
         <NavLink className="nav-btn" to={'/crear-producto'}>
           crear producto
         </NavLink>
       </div>
       <div className="nav-login">
+        <NavLink className="nav-btn" to={'/carrito'}>
+          <i className="fa-solid fa-basket-shopping" />
+        </NavLink>
         <NavLink className="nav-login-btn" to={'/ingreso'}>
-          <i className="fa-solid fa-user"></i>
+          <i className="fa-solid fa-user" />
         </NavLink>
       </div>
     </nav>

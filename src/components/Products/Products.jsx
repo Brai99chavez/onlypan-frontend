@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllProducts } from '../../redux/Actions/Actions';
-import swal from 'sweetalert2';
+import { filterByType, getAllProducts } from '../../redux/Actions/Actions';
 import './Products.css';
 //components
 import ProductCard from './ProductCard/ProductCard';
@@ -10,16 +9,25 @@ import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import Pagination from '../Products/Pagination/Pagination';
 import ShoppingCartDropdown from './ShoppingCartDropdown/ShoppingCartDropdown';
+import { useLocation } from 'react-router-dom';
 
 export default function Products() {
   const [addedToCart, setAddedToCart] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
+  function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+  }
+  let query = useQuery();
+  const tipo = query.get('tipo');
+
   // redux
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllProducts());
-  }, [dispatch]);
+    if (tipo) dispatch(filterByType(tipo));
+  }, [dispatch, tipo]);
   const { products, filteredProducts, loading, error } = useSelector(
     (state) => state
   );

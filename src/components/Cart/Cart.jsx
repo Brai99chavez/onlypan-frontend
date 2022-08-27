@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./Cart.css";
-import CartCard from "./CartCard/CartCard";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
-import axios from "axios";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Cart.css';
+import CartCard from './CartCard/CartCard';
+import { useStripe, useElements } from '@stripe/react-stripe-js';
+import axios from 'axios';
 import {
   CardNumberElement,
   CardExpiryElement,
@@ -97,14 +97,14 @@ export default function Cart() {
       quantity: e.quantitySelectedCartSh,
     };
   });
-  const idUser = "estoesnuestro";
+  const idUser = 'estoesnuestro';
   const obj = {
     idProducts,
     idUser,
   };
 
   const sumTotal = () => {
-    return JSON.parse(localStorage.getItem("cartSelectProducts")).reduce(
+    return JSON.parse(localStorage.getItem('cartSelectProducts')).reduce(
       (a, b) => {
         return a + b.price * b.quantitySelectedCartSh;
       },
