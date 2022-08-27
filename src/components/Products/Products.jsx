@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { filterByType, getAllProducts } from '../../redux/Actions/Actions';
+import { useLocation } from 'react-router-dom';
 import './Products.css';
 //components
 import ProductCard from './ProductCard/ProductCard';
@@ -9,7 +10,6 @@ import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import Pagination from '../Products/Pagination/Pagination';
 import ShoppingCartDropdown from './ShoppingCartDropdown/ShoppingCartDropdown';
-import { useLocation } from 'react-router-dom';
 
 export default function Products() {
   const [addedToCart, setAddedToCart] = useState(false);
