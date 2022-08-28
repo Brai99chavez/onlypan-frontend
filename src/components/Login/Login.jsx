@@ -1,13 +1,21 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { signIn } from '../../redux/Actions/Actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import './Login.css';
+import { useAuth0 } from '@auth0/auth0-react';
+import Loading from '../Loading/Loading';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
 export default function Login() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  if (localStorage.getItem('user') !== '{}') history.push('/');
 
+  const { loginWithRedirect } = useAuth0();
+  const { loading } = useSelector((state) => state);
+  if (loading) return <Loading />;
   return (
     <div className="login">
       <div className="login-container">
@@ -25,9 +33,28 @@ export default function Login() {
             if (!values.password) errors.password = 'Completa este campo';
             return errors;
           }}
-          onSubmit={(values) => {
-            dispatch(signIn(values));
-            console.log(values);
+          onSubmit={async (values) => {
+            await axios
+              .post('/user/signIn', values)
+              .then((user) => {
+                localStorage.setItem('user', JSON.stringify(user.data));
+              })
+              .then(() => {
+                Swal.fire({
+                  icon: 'success',
+                  title: `Bienvenido/a de vuelta, ${values.email}!`,
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
+              })
+              .then(() => history.push('/'))
+              .catch((error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'No se pudo iniciar sesión.',
+                  text: error.response.data.msg,
+                });
+              });
           }}
         >
           {({

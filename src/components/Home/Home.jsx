@@ -18,6 +18,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(getAllProducts());
     dispatch(getTypes());
+
     if (!controlCart)
       localStorage.setItem('cartSelectProducts', JSON.stringify([]));
 

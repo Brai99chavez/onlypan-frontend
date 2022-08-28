@@ -8,7 +8,7 @@ import {
   sortByPrice,
 } from '../../../redux/Actions/Actions';
 
-export default function Filters({ setCurrentPage }) {
+export default function Filters({ setCurrentPage, tipo }) {
   // redux
   const [changes, setChanges] = useState({
     type: '',
@@ -26,7 +26,7 @@ export default function Filters({ setCurrentPage }) {
 
   const onChange = (e) => {
     setCurrentPage(1);
-
+    if (tipo) changes.type = tipo;
     changes[e.target.name] = e.target.value;
 
     if (changes.sort !== '' && changes.type !== '') {
@@ -49,7 +49,7 @@ export default function Filters({ setCurrentPage }) {
         id="type"
         className="selectAttribute"
         name="type"
-        defaultValue="categoria"
+        defaultValue={`${tipo || 'categoria'}`}
         onChange={(e) => onChange(e)}
       >
         <option value="">Categorías</option>
