@@ -1,9 +1,15 @@
 .detailContainer {
-  @apply mt-28;
+  @apply mt-28 w-2/6 m-auto bg-white rounded-2xl p-8;
+}
+
+
+
+.detail h1{
+  @apply font-bold text-3xl text-center
 }
 
 .detail img{
-  @apply w-80
+  @apply m-auto w-full
 }
 
 .my-start{
