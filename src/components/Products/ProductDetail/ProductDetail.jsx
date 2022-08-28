@@ -70,10 +70,10 @@ function ProductDetail({ match }) {
           </div>
           
           <p>
-            <strong>Precio:</strong> {detailProduct.price}
+            <strong>Precio:</strong> ${detailProduct.price}
           </p>
           <p>
-            <strong>Tipo:</strong>
+            <strong>Tipo: </strong>
             {detailProduct.type[0].toUpperCase() +
               detailProduct.type.substring(1).toLowerCase()}
           </p>
