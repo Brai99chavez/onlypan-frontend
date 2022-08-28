@@ -14,7 +14,6 @@ export default function NavbarViewer() {
     }
     setLoggedUser(localStorage.getItem('user') !== '{}');
   }, [controlUser, localStorage]);
-  console.log(controlUser);
   return (
     <nav className="navbar">
       <NavLink to={'/'} className="nav-logo">

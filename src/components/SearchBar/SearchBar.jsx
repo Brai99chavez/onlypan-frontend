@@ -5,7 +5,7 @@ import { getByName, resetFilteredProducts } from '../../redux/Actions/Actions';
 import Filters from './Filters/Filters';
 
 import './SearchBar.css';
-function SearchBar({ setCurrentPage }) {
+function SearchBar({ setCurrentPage, tipo }) {
   //redux
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ function SearchBar({ setCurrentPage }) {
     <div className="SearchBar">
       <div className="SearchBar-container">
         {location.pathname === '/productos' ? (
-          <Filters setCurrentPage={setCurrentPage} />
+          <Filters setCurrentPage={setCurrentPage} tipo={tipo} />
         ) : null}
         <form onSubmit={handleOnSubmit}>
           <input
