@@ -10,7 +10,6 @@ import {
   CardCvcElement,
 } from '@stripe/react-stripe-js';
 import Swal from 'sweetalert2';
-import { data } from 'autoprefixer';
 
 export default function Cart() {
   const [nameCard, setNameCard] = useState('');
@@ -231,11 +230,13 @@ export default function Cart() {
                         src="https://img.icons8.com/color/96/000000/mastercard-logo.png"
                         width="40"
                         className="relative right-5"
+                        alt='mastercard'
                       />
                       <img
                         src="https://1000marcas.net/wp-content/uploads/2019/12/Visa-Logo-2005.jpg"
                         width="40"
                         className="relative right-5"
+                        alt='mastercard'
                       />
                     </div>
                   </div>

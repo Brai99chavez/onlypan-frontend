@@ -1,16 +1,19 @@
 import axios from 'axios';
 
-export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
-export const GET_TYPES = 'GET_TYPES';
-export const GET_FOR_ID = 'GET_FOR_ID';
-export const GET_BY_NAME = 'GET_BY_NAME';
-export const RESET_FILTERED_PRODUCTS = 'RESET_FILTERED_PRODUCTS';
-export const LOADING = 'LOADING';
-export const ERROR = 'ERROR';
-export const FILTER_BY_TYPE = 'FILTER_BY_TYPE';
-export const SORT_BY_PRICE = 'SORT_BY_PRICE';
-export const MIXED_SORT = 'MIXED_SORT';
-export const CREATE_PRODUCT = 'CREATE_PRODUCT';
+export const GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS";
+export const GET_TYPES = "GET_TYPES";
+export const GET_FOR_ID = "GET_FOR_ID";
+export const GET_BY_NAME = "GET_BY_NAME";
+export const RESET_FILTERED_PRODUCTS = "RESET_FILTERED_PRODUCTS";
+export const LOADING = "LOADING";
+export const ERROR = "ERROR";
+export const FILTER_BY_TYPE = "FILTER_BY_TYPE";
+export const SORT_BY_PRICE = "SORT_BY_PRICE";
+export const MIXED_SORT = "MIXED_SORT";
+export const CREATE_PRODUCT = "CREATE_PRODUCT";
+export const GET_SCORES_FOR_USER = "GET_SCORES_FOR_USER";
+export const GET_SCORES_FOR_USER_AND_PRODUCT = "GET_SCORES_FOR_USER_AND_PRODUCT";
+export const GET_SCORES_FOR_PRODUCT = "GET_SCORES_FOR_PRODUCT"
 
 export function loading() {
   return { type: LOADING };
@@ -44,7 +47,7 @@ export function getTypes() {
       });
   };
 }
-export function getForId(id) {
+export function getProductForId(id) {
   return function (dispatch) {
     dispatch(loading());
     axios
@@ -124,4 +127,35 @@ export function createProduct(value) {
         console.error(error);
       });
   };
+}
+
+export function getScoresForUser(userId) {
+  return function (dispatch) { 
+    axios.get("/review/get/" + userId)
+      .then((response) => dispatch({type:GET_SCORES_FOR_USER,payload:response.data}))
+  }
+}
+
+export function getScoresForUserAndProduct(userId , productId) {
+  return function (dispatch) { 
+    axios.get(`/review/get?userId=${userId}&productId=${productId}`)
+      .then((response) => dispatch({type:GET_SCORES_FOR_USER_AND_PRODUCT,payload:response.data}))
+  }
+}
+
+export function updateScore(value,userId,productId) {
+  return function (dispatch) { 
+    axios.put(`/review/put`, {score:value,userId:userId,productId:productId})
+  }
+}
+export function addScore(value,userId,productId) {
+  return function (dispatch) { 
+    axios.post(`/review/add`, {"score":value,"userId":userId,"productId":productId})
+  }
+}
+export function getScoresForProduct(productId) {
+  return function (dispatch) { 
+    axios.get(`/review/product/${productId}`)
+      .then(response => dispatch({type:GET_SCORES_FOR_PRODUCT,payload: response.data}))
+  }
 }
