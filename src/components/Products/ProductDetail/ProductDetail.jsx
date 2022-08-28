@@ -10,11 +10,15 @@ function ProductDetail({ match }) {
   const { detailProduct, loading, error } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const userId = 1
+  let session_id =  localStorage.getItem('user') !== '{}' ? JSON.parse(localStorage.getItem('user')) : false
+
+  const userId =  session_id ? session_id.user.id : false;
   const { getOneScore ,getProductScores } = useSelector((state) => state);
 
   useEffect(() => {
-    dispatch(getScoresForUserAndProduct(userId,id));
+    if (userId) {
+      dispatch(getScoresForUserAndProduct(userId,id));
+    }
     dispatch(getProductForId(id));
     dispatch(getScoresForProduct(id))
   }, [dispatch,id]);
@@ -57,11 +61,11 @@ function ProductDetail({ match }) {
           <h1>{detailProduct.name}</h1>
           <img src={detailProduct.image} alt="pan de trigo" />
           <div className="puntaje">
-            {VisibleStars ? VisibleStars.map((s,i) => (
+            {session_id ? VisibleStars ? VisibleStars.map((s,i) => (
               <button key={i} onClick={(e)=>changeStars(i+1,userId,parseInt(id))}>
                 <i className={`${s === 'star' ? 'fa-solid' : 'fa-regular'}  fa-star my-start`}/>
               </button>
-            )) : null}
+            )) : null :null}
             <p> valoracion: {getProductScores}</p>
           </div>
           
