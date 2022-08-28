@@ -11,7 +11,7 @@ import {
   LOADING,
   SIGN_IN,
   SIGN_UP,
-} from "../Actions/Actions";
+} from '../Actions/Actions';
 
 const inicialState = {
   products: [],
@@ -19,8 +19,10 @@ const inicialState = {
   filteredProducts: [],
   detailProduct: {},
   favorites: [],
+  loggedUser: [],
   loading: false,
   error: null,
+  errorMessage: '',
 };
 
 const rootReducer = (state = inicialState, action) => {
@@ -83,28 +85,33 @@ const rootReducer = (state = inicialState, action) => {
         loading: false,
         error: null,
       };
+    case SIGN_IN: {
+      return {
+        ...state,
+        loggedUser: action.payload,
+        loading: false,
+        error: null,
+      };
+    }
+    case SIGN_UP: {
+      return {
+        ...state,
+        loggedUser: action.payload,
+        loading: false,
+        error: null,
+      };
+    }
     case ERROR:
       return {
         ...state,
         error: true,
+        errorMessage: action.error,
       };
     case LOADING:
       return {
         ...state,
         loading: true,
       };
-    case SIGN_IN: {
-      return {
-        ...state,
-        loading: false,
-      };
-    }
-    case SIGN_UP: {
-      return {
-        ...state,
-        loading: false,
-      };
-    }
 
     default:
       return state;

@@ -1,11 +1,17 @@
 import React from 'react';
 import './SignUp.css';
 import { Formik } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signUp } from '../../redux/Actions/Actions';
+import Loading from '../Loading/Loading';
+import { useHistory } from 'react-router-dom';
 
 function SignUp() {
   const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state);
+  const history = useHistory();
+  if (localStorage.getItem('user') !== '{}') history.push('/');
+  if (loading) return <Loading />;
   return (
     <div className="signup">
       <div className="signup-container">
@@ -48,8 +54,12 @@ function SignUp() {
             return errors;
           }}
           onSubmit={(values) => {
-            dispatch(signUp(values))
-            console.log('exito');
+            dispatch(signUp(values));
+            if (!error) {
+              alert('creado');
+            } else if (error) {
+              console.log(error);
+            }
           }}
         >
           {({
@@ -138,7 +148,7 @@ function SignUp() {
                     <span>Confirmar contraseña:</span>
                     <input
                       name="confirmPassword"
-                      type="confirmPassword"
+                      type="password"
                       placeholder="*********"
                       value={values.confirmPassword}
                       onChange={handleChange}
