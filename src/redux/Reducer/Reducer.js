@@ -11,11 +11,17 @@ import {
   LOADING,
   SIGN_IN,
   SIGN_UP,
+  GET_SCORES_FOR_USER,
+  GET_SCORES_FOR_USER_AND_PRODUCT,
+  GET_SCORES_FOR_PRODUCT,
 } from "../Actions/Actions";
 
 const inicialState = {
   products: [],
   types: [],
+  getOneScore: 0,
+  getScores: 0,
+  getProductScores: 0,
   filteredProducts: [],
   detailProduct: {},
   favorites: [],
@@ -105,7 +111,25 @@ const rootReducer = (state = inicialState, action) => {
         loading: false,
       };
     }
-
+    case GET_SCORES_FOR_USER: {
+      return {
+        ...state,
+        getScores: action.payload,
+      };
+    }
+    case GET_SCORES_FOR_USER_AND_PRODUCT: {
+      return {
+        ...state,
+        getOneScore: action.payload.length ? action.payload[0].score : 0,
+      };
+    }
+    case GET_SCORES_FOR_PRODUCT: {
+      return {
+        ...state,
+        getProductScores: action.payload,
+      };
+    }
+    
     default:
       return state;
   }

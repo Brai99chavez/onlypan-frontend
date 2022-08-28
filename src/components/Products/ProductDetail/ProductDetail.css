@@ -1,3 +1,18 @@
 .detailContainer {
   @apply mt-28;
 }
+
+.detail img{
+  @apply w-80
+}
+
+.my-start{
+  @apply text-yellow-700 hover:text-yellow-500
+}
+
+.puntaje{
+  @apply flex
+}
+.puntaje p{
+  @apply ml-2 font-bold
+}

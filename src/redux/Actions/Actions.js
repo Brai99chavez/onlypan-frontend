@@ -13,6 +13,9 @@ export const MIXED_SORT = "MIXED_SORT";
 export const CREATE_PRODUCT = "CREATE_PRODUCT";
 export const SIGN_IN = "SIGN_IN";
 export const SIGN_UP = "SIGN_UP";
+export const GET_SCORES_FOR_USER = "GET_SCORES_FOR_USER";
+export const GET_SCORES_FOR_USER_AND_PRODUCT = "GET_SCORES_FOR_USER_AND_PRODUCT";
+export const GET_SCORES_FOR_PRODUCT = "GET_SCORES_FOR_PRODUCT"
 
 export function loading() {
   return { type: LOADING };
@@ -46,7 +49,7 @@ export function getTypes() {
       });
   };
 }
-export function getForId(id) {
+export function getProductForId(id) {
   return function (dispatch) {
     dispatch(loading());
     axios
@@ -150,4 +153,35 @@ export function signUp(user) {
         console.log(error);
       });
   };
+}
+
+export function getScoresForUser(userId) {
+  return function (dispatch) { 
+    axios.get("/review/get/" + userId)
+      .then((response) => dispatch({type:GET_SCORES_FOR_USER,payload:response.data}))
+  }
+}
+
+export function getScoresForUserAndProduct(userId , productId) {
+  return function (dispatch) { 
+    axios.get(`/review/get?userId=${userId}&productId=${productId}`)
+      .then((response) => dispatch({type:GET_SCORES_FOR_USER_AND_PRODUCT,payload:response.data}))
+  }
+}
+
+export function updateScore(value,userId,productId) {
+  return function (dispatch) { 
+    axios.put(`/review/put`, {score:value,userId:userId,productId:productId})
+  }
+}
+export function addScore(value,userId,productId) {
+  return function (dispatch) { 
+    axios.post(`/review/add`, {"score":value,"userId":userId,"productId":productId})
+  }
+}
+export function getScoresForProduct(productId) {
+  return function (dispatch) { 
+    axios.get(`/review/product/${productId}`)
+      .then(response => dispatch({type:GET_SCORES_FOR_PRODUCT,payload: response.data}))
+  }
 }
