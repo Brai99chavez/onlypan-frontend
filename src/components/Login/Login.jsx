@@ -14,11 +14,19 @@ export default function Login() {
   if (localStorage.getItem('user') !== '{}') history.push('/');
 
   const { loginWithRedirect } = useAuth0();
+  const { logout } = useAuth0();
+  const { user } = useAuth0();
   const { loading } = useSelector((state) => state);
+  const { isAuthenticated } = useAuth0();
+  console.log(JSON.stringify(user))
+
   if (loading) return <Loading />;
   return (
     <div className="login">
       <div className="login-container">
+        <button onClick={()=>loginWithRedirect()}>Continuar con Google</button>
+        <button onClick={()=>logout()}>salir</button>
+       
         <Formik
           initialValues={{ email: '', password: '' }}
           validate={(values) => {
@@ -34,6 +42,7 @@ export default function Login() {
             return errors;
           }}
           onSubmit={async (values) => {
+            console.log(values)
             await axios
               .post('/user/signIn', values)
               .then((user) => {
