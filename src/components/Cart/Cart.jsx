@@ -8,19 +8,18 @@ import {
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
-} from "@stripe/react-stripe-js";
-import Swal from "sweetalert2";
-import { data } from "autoprefixer";
+} from '@stripe/react-stripe-js';
+import Swal from 'sweetalert2';
 
 export default function Cart() {
-  const [nameCard, setNameCard] = useState("");
+  const [nameCard, setNameCard] = useState('');
   const [state, setState] = useState(
-    JSON.parse(localStorage.getItem("cartSelectProducts"))
+    JSON.parse(localStorage.getItem('cartSelectProducts'))
   );
   const copyLocalStorage = JSON.parse(
-    window.localStorage.getItem("cartSelectProducts")
+    window.localStorage.getItem('cartSelectProducts')
   );
- 
+
   const [loadingsti, setLoadingsti] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
@@ -33,31 +32,31 @@ export default function Cart() {
     numPosi: /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/gm,
   };
   const errorMessages = {
-    generic_decline: "Tarjeta inválida.",
-    incorrect_number: "El número de tarjeta es incorrecto.",
+    generic_decline: 'Tarjeta inválida.',
+    incorrect_number: 'El número de tarjeta es incorrecto.',
     invalid_number:
-      "El número de tarjeta es un número de tarjeta de crédito inválido.",
-    invalid_expiry_month: "El mes de vencimiento de la tajerta es inválido.",
-    invalid_expiry_year: "El año de vencimiento de la tajerta es inválido.",
-    invalid_cvc: "El código de seguridad de la tarjeta es inválido.",
-    expired_card: "La tarjeta está vencida.",
-    incorrect_cvc: "El código de seguridad de la tarjeta es incorrecto.",
-    card_declined: "La tarjeta fue rechazada.",
-    missing: "There is no card on a customer that is being charged.",
-    processing_error: "Ocurrió un error en el procesamiento de la tarjeta.",
-    insufficient_funds: "Fondos insuficientes",
+      'El número de tarjeta es un número de tarjeta de crédito inválido.',
+    invalid_expiry_month: 'El mes de vencimiento de la tajerta es inválido.',
+    invalid_expiry_year: 'El año de vencimiento de la tajerta es inválido.',
+    invalid_cvc: 'El código de seguridad de la tarjeta es inválido.',
+    expired_card: 'La tarjeta está vencida.',
+    incorrect_cvc: 'El código de seguridad de la tarjeta es incorrecto.',
+    card_declined: 'La tarjeta fue rechazada.',
+    missing: 'There is no card on a customer that is being charged.',
+    processing_error: 'Ocurrió un error en el procesamiento de la tarjeta.',
+    insufficient_funds: 'Fondos insuficientes',
   };
   const errorAlert = (err) => {
     Swal.fire({
-      icon: "error",
-      title: "Su transaccion fue rechazada",
+      icon: 'error',
+      title: 'Su transaccion fue rechazada',
       text: err,
     });
   };
   const loadingPayment = () => {
     Swal.fire({
-      title: "Por favor espera!",
-      html: "cargando pago", // add html attribute if you want or remove
+      title: 'Por favor espera!',
+      html: 'cargando pago', // add html attribute if you want or remove
       allowOutsideClick: false,
       showConfirmButton: false,
       onBeforeOpen: () => {
@@ -68,8 +67,8 @@ export default function Cart() {
   const successPaymentAprobed = () => {
     Swal.fire({
       //position: "top-end",
-      icon: "success",
-      title: "Pago aprobado",
+      icon: 'success',
+      title: 'Pago aprobado',
       showConfirmButton: false,
       timer: 1500,
     });
@@ -80,13 +79,13 @@ export default function Cart() {
 
   const validationName = (name) => {
     if (name.length >= 20) {
-      return "Nombre muy largo";
+      return 'Nombre muy largo';
     }
     if (expresiones.caracteresEs.test(name)) {
-      return "no pueden haber caracteres especiales";
+      return 'no pueden haber caracteres especiales';
     }
     if (expresiones.numeros.test(name)) {
-      return "no pueden ser numeros";
+      return 'no pueden ser numeros';
     }
   };
   const errorMsgName = validationName(nameCard);
@@ -116,18 +115,26 @@ export default function Cart() {
   const handlerSummit = async (e) => {
     e.preventDefault();
     const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
+      type: 'card',
       card: elements.getElement(CardNumberElement),
     });
     setLoadingsti(true);
     if (!error) {
       const { id } = paymentMethod;
-      const { data } = await axios.post("/payment", {
-        error: error,
-        id,
-        amount: total,
-        obj: obj,
-      });
+      const { data } = await axios.post(
+        '/payment',
+        {
+          error: error,
+          id,
+          amount: total,
+          obj: obj,
+        },
+        {
+          headers: {
+            'auth-token': JSON.parse(localStorage.getItem('user')).token,
+          },
+        }
+      );
       const errormesa = errorMessages[data.error];
       data.error ? errorAlert(errormesa) : successPaymentAprobed();
     }
@@ -189,7 +196,9 @@ export default function Cart() {
                   <span className="text-xl font-medium text-gray-100 block pb-3">
                     Informacion de tarjeta
                   </span>
-                  <span className="text-xs text-gray-400 ">Tipo de tarjeta</span>
+                  <span className="text-xs text-gray-400 ">
+                    Tipo de tarjeta
+                  </span>
                   <div className="overflow-visible flex justify-between items-center mt-2">
                     <div className="rounded w-52 h-28 bg-gray-500 py-2 px-4 relative right-10">
                       <span className="italic text-lg font-medium text-gray-200 underline">
@@ -221,11 +230,13 @@ export default function Cart() {
                         src="https://img.icons8.com/color/96/000000/mastercard-logo.png"
                         width="40"
                         className="relative right-5"
+                        alt='mastercard'
                       />
                       <img
                         src="https://1000marcas.net/wp-content/uploads/2019/12/Visa-Logo-2005.jpg"
                         width="40"
                         className="relative right-5"
+                        alt='mastercard'
                       />
                     </div>
                   </div>
@@ -244,7 +255,7 @@ export default function Cart() {
                       {nameCard ? (
                         <p className="text-red-700">{errorMsgName}</p>
                       ) : (
-                        ""
+                        ''
                       )}
                     </div>
                     <div className="flex justify-center flex-col pt-3">

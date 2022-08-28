@@ -57,7 +57,7 @@ export default function Products() {
       ) : (
         <></>
       )}
-      <SearchBar setCurrentPage={setCurrentPage} />
+      <SearchBar setCurrentPage={setCurrentPage} tipo={tipo} />
       <div className="ProductCards">
         {vista &&
           itemsToRender().map((p) => (

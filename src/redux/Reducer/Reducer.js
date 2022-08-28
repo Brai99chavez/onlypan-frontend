@@ -9,8 +9,6 @@ import {
   RESET_FILTERED_PRODUCTS,
   ERROR,
   LOADING,
-  SIGN_IN,
-  SIGN_UP,
   GET_SCORES_FOR_USER,
   GET_SCORES_FOR_USER_AND_PRODUCT,
   GET_SCORES_FOR_PRODUCT,
@@ -27,6 +25,7 @@ const inicialState = {
   favorites: [],
   loading: false,
   error: null,
+  errorMessage: '',
 };
 
 const rootReducer = (state = inicialState, action) => {
@@ -89,28 +88,18 @@ const rootReducer = (state = inicialState, action) => {
         loading: false,
         error: null,
       };
+
     case ERROR:
       return {
         ...state,
         error: true,
+        errorMessage: action.error,
       };
     case LOADING:
       return {
         ...state,
         loading: true,
       };
-    case SIGN_IN: {
-      return {
-        ...state,
-        loading: false,
-      };
-    }
-    case SIGN_UP: {
-      return {
-        ...state,
-        loading: false,
-      };
-    }
     case GET_SCORES_FOR_USER: {
       return {
         ...state,

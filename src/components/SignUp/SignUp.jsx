@@ -1,11 +1,19 @@
 import React from 'react';
 import './SignUp.css';
 import { Formik } from 'formik';
-import { useDispatch } from 'react-redux';
-import { signUp } from '../../redux/Actions/Actions';
+import { useSelector } from 'react-redux';
+import Loading from '../Loading/Loading';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 function SignUp() {
-  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state);
+
+  const history = useHistory();
+  if (localStorage.getItem('user') !== '{}') history.push('/');
+
+  if (loading) return <Loading />;
   return (
     <div className="signup">
       <div className="signup-container">
@@ -47,9 +55,29 @@ function SignUp() {
               errors.confirmPassword = 'Las contraseñas no coinciden';
             return errors;
           }}
-          onSubmit={(values) => {
-            dispatch(signUp(values))
-            console.log('exito');
+          onSubmit={async (values) => {
+            await axios
+              .post('/user/signUp', values)
+              .then((user) => {
+                localStorage.setItem('user', JSON.stringify(user.data));
+              })
+              .then(() => {
+                Swal.fire({
+                  icon: 'success',
+                  title: `Bienvenido/a ${values.name}!`,
+                  text: `Usuario ${values.email} creado exitosamente`,
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
+              })
+              .then(() => history.push('/'))
+              .catch((error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'No se pudo crear el usuario',
+                  text: error.response.data,
+                });
+              });
           }}
         >
           {({
@@ -138,7 +166,7 @@ function SignUp() {
                     <span>Confirmar contraseña:</span>
                     <input
                       name="confirmPassword"
-                      type="confirmPassword"
+                      type="password"
                       placeholder="*********"
                       value={values.confirmPassword}
                       onChange={handleChange}
