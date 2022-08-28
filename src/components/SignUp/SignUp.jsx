@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './SignUp.css';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUp } from '../../redux/Actions/Actions';
 import Loading from '../Loading/Loading';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 function SignUp() {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state);
+  const [signUpError, setSignUpError] = useState(false);
+
   const history = useHistory();
   if (localStorage.getItem('user') !== '{}') history.push('/');
+
   if (loading) return <Loading />;
   return (
     <div className="signup">
@@ -53,13 +58,29 @@ function SignUp() {
               errors.confirmPassword = 'Las contraseñas no coinciden';
             return errors;
           }}
-          onSubmit={(values) => {
-            dispatch(signUp(values));
-            if (!error) {
-              alert('creado');
-            } else if (error) {
-              console.log(error);
-            }
+          onSubmit={async (values) => {
+            await axios
+              .post('/user/signUp', values)
+              .then((user) => {
+                localStorage.setItem('user', JSON.stringify(user.data));
+              })
+              .then(() => {
+                Swal.fire({
+                  icon: 'success',
+                  title: `Bienvenido/a ${values.name}!`,
+                  text: `Usuario ${values.email} creado exitosamente`,
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
+              })
+              .then(() => history.push('/'))
+              .catch((error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'No se pudo crear el usuario',
+                  text: error.response.data,
+                });
+              });
           }}
         >
           {({

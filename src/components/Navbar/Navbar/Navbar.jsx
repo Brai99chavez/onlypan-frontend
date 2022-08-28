@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import img from '../../../img/logo.jpg';
 import '../Navbar.css';
@@ -15,12 +14,12 @@ export default function NavbarViewer() {
     }
     setLoggedUser(localStorage.getItem('user') !== '{}');
   }, [controlUser, localStorage]);
-
+  console.log(controlUser);
   return (
     <nav className="navbar">
       <NavLink to={'/'} className="nav-logo">
         <img src={img} alt="onlypan" />
-        <h2>Onlypan</h2>
+        <h2>OnlyPan</h2>
       </NavLink>
       <div className="nav-buttons">
         <NavLink className="nav-btn" to={'/productos'}>
@@ -42,11 +41,12 @@ export default function NavbarViewer() {
         </NavLink>
         {loggedUser ? (
           <NavLink className="nav-login-btn" to={'/user'}>
-            <i className="fa-solid fa-user" />
+            <i className="fa-solid fa-user" />{' '}
+            {controlUser.user && controlUser.user.name}
           </NavLink>
         ) : (
           <NavLink className="nav-login-btn" to={'/ingreso'}>
-            <i className="fa-solid fa-user" />
+            <i className="fa-solid fa-user" /> Ingresar
           </NavLink>
         )}
       </div>

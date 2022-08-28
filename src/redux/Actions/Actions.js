@@ -11,8 +11,6 @@ export const FILTER_BY_TYPE = 'FILTER_BY_TYPE';
 export const SORT_BY_PRICE = 'SORT_BY_PRICE';
 export const MIXED_SORT = 'MIXED_SORT';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
-export const SIGN_IN = 'SIGN_IN';
-export const SIGN_UP = 'SIGN_UP';
 
 export function loading() {
   return { type: LOADING };
@@ -124,36 +122,6 @@ export function createProduct(value) {
       .catch((error) => {
         dispatch(handleError(error));
         console.error(error);
-      });
-  };
-}
-
-export function signIn(user) {
-  return async function (dispatch) {
-    await axios
-      .post('/user/signIn', user)
-      .then((user) => {
-        localStorage.setItem('user', JSON.stringify([user.data]));
-        dispatch({ type: SIGN_IN, payload: [user.data] });
-      })
-      .catch((error) => {
-        dispatch(handleError(error));
-        console.log(error);
-      });
-  };
-}
-
-export function signUp(user) {
-  return async function (dispatch) {
-    await axios
-      .post('/user/signUp', user)
-      .then((user) => {
-        localStorage.setItem('user', JSON.stringify([user.data]));
-        dispatch({ type: SIGN_UP, payload: [user.data] });
-      })
-      .catch((error) => {
-        dispatch(handleError(error));
-        console.log(error);
       });
   };
 }
