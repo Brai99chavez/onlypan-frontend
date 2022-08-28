@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Auth0Provider
       domain="dev-6idpl3n4.us.auth0.com"
-      clientId="6EgTGHK5SQxiTTYDFETJUGizmAQHxFp2"
+      clientId="fhMtaVwapsEJGUH0k4hAbhhYsABT9kdV"
       redirectUri={window.location.origin}
     > 
   <Provider store={store}>

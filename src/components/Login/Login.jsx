@@ -7,7 +7,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Loading from '../Loading/Loading';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -20,7 +19,7 @@ export default function Login() {
   const { loading } = useSelector((state) => state);
   const { isAuthenticated } = useAuth0();
   console.log(JSON.stringify(user))
-  console.log(isAuthenticated)
+
   if (loading) return <Loading />;
   return (
     <div className="login">
