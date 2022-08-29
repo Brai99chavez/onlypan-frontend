@@ -1,0 +1,12 @@
+.ordersContainer {
+  @apply rounded-2xl border-2 border-slate-700 py-5;
+}
+.ordersTitle {
+  @apply font-extrabold text-xl text-center pb-2;
+}
+.ordersContainer p {
+  @apply font-semibold;
+}
+.orderContainer {
+  @apply m-4 p-4 border-y-2 border-slate-700 py-5 font-semibold;
+}

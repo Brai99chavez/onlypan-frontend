@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -91,14 +91,15 @@ export default function ProductCard({
       </div>
       <div className="ProductCardDetails">
         <p className="ProductCardTittle">{name}</p>
-        <button className="favorite">
+        {/* <button className="favorite">
           <i
             onClick={() => handleAddFavorites(name)}
             className={`fa-heart butonAddFav ${
               favoriteHeart ? 'fa-solid' : 'fa-regular'
             }`}
           />
-        </button>
+        </button> */}
+        
         <div className="ProductCardDescription">
           <p>${price}</p>
           <span className="ProductCardtype">Categoría: {type}</span>

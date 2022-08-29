@@ -51,7 +51,7 @@ export default function Contact() {
               required
               name="message"
               rows="3"
-              placeholder="Tell us what you're thinking about..."
+              placeholder="Excribe tu comentario aquí"
             />
           </label>
           <div className="Contact-button">

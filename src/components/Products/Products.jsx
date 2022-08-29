@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllProducts } from '../../redux/Actions/Actions';
-import swal from 'sweetalert2';
+import { filterByType, getAllProducts } from '../../redux/Actions/Actions';
+import { useLocation } from 'react-router-dom';
 import './Products.css';
 //components
 import ProductCard from './ProductCard/ProductCard';
@@ -15,11 +15,19 @@ export default function Products() {
   const [addedToCart, setAddedToCart] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
+  function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+  }
+  let query = useQuery();
+  const tipo = query.get('tipo');
+
   // redux
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllProducts());
-  }, [dispatch]);
+    if (tipo) dispatch(filterByType(tipo));
+  }, [dispatch, tipo]);
   const { products, filteredProducts, loading, error } = useSelector(
     (state) => state
   );
@@ -49,7 +57,7 @@ export default function Products() {
       ) : (
         <></>
       )}
-      <SearchBar setCurrentPage={setCurrentPage} />
+      <SearchBar setCurrentPage={setCurrentPage} tipo={tipo} />
       <div className="ProductCards">
         {vista &&
           itemsToRender().map((p) => (

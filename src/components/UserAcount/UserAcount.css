@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+
+.userContainer {
+  @apply mt-52 w-2/6 m-auto bg-white rounded-2xl p-8;
+  font-family: 'Montserrat', sans-serif;
+}
+.userTop {
+  @apply flex items-center;
+}
+.userName {
+  @apply font-bold text-3xl text-center;
+}
+.logOutButton {
+  @apply font-bold m-4 ml-96 h-10 m-4 px-5 text-indigo-100 bg-gray-400 rounded-lg transition-colors duration-150 hover:bg-sky-700 transition duration-700;
+}
