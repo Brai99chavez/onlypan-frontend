@@ -19,7 +19,7 @@ export default function Cart() {
   const copyLocalStorage = JSON.parse(
     window.localStorage.getItem('cartSelectProducts')
   );
-  const copyLocalStorageUser = JSON.parse(window.localStorage.getItem("user"))
+  const copyLocalStorageUser = JSON.parse(window.localStorage.getItem('user'));
 
   const [loadingsti, setLoadingsti] = useState(false);
   const stripe = useStripe();
@@ -43,7 +43,7 @@ export default function Cart() {
     expired_card: 'La tarjeta está vencida.',
     incorrect_cvc: 'El código de seguridad de la tarjeta es incorrecto.',
     card_declined: 'La tarjeta fue rechazada.',
-    missing: 'There is no card on a customer that is being charged.',
+    missing: 'No hay ninguna tarjeta para el cliente que está siendo cobrado.',
     processing_error: 'Ocurrió un error en el procesamiento de la tarjeta.',
     insufficient_funds: 'Fondos insuficientes',
   };
@@ -57,7 +57,7 @@ export default function Cart() {
   const loadingPayment = () => {
     Swal.fire({
       title: 'Por favor espera!',
-      html: 'cargando pago', // add html attribute if you want or remove
+      html: 'cargando pago',
       allowOutsideClick: false,
       showConfirmButton: false,
       onBeforeOpen: () => {
@@ -67,7 +67,6 @@ export default function Cart() {
   };
   const successPaymentAprobed = () => {
     Swal.fire({
-      //position: "top-end",
       icon: 'success',
       title: 'Pago aprobado',
       showConfirmButton: false,
@@ -83,10 +82,10 @@ export default function Cart() {
       return 'Nombre muy largo';
     }
     if (expresiones.caracteresEs.test(name)) {
-      return 'no pueden haber caracteres especiales';
+      return 'No pueden haber caracteres especiales';
     }
     if (expresiones.numeros.test(name)) {
-      return 'no pueden ser numeros';
+      return 'No pueden ser números';
     }
   };
   const errorMsgName = validationName(nameCard);
@@ -98,11 +97,11 @@ export default function Cart() {
     };
   });
   const idUser = copyLocalStorageUser.user.id;
-  const tokenUser = copyLocalStorageUser.token
+  const tokenUser = copyLocalStorageUser.token;
   const obj = {
     idProducts,
     idUser,
-    tokenUser
+    tokenUser,
   };
 
   const sumTotal = () => {
@@ -115,35 +114,47 @@ export default function Cart() {
   };
   const [total, setTotal] = useState(sumTotal());
 
-  const handlerSummit = async (e) => {
+  const handlerSubmit = async (e) => {
     e.preventDefault();
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: elements.getElement(CardNumberElement),
-    });
-    setLoadingsti(true);
-    if (!error) {
-      const { id } = paymentMethod;
-      const { data } = await axios.post(
-        'http://localhost:3001/payment',
-        {
-          error: error,
-          id,
-          amount: total,
-          obj: obj,
-        },
-        {
-          // headers: {
-          //   'auth-token': JSON.parse(localStorage.getItem('user')).token,
-          // },
-        }
-      );
-      const errormesa = errorMessages[data.error];
-      console.log(errormesa);
-      console.log(data);
-      data.error ? errorAlert(errormesa) : successPaymentAprobed();
+    if (!state.length)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Su carrito está vacío!',
+      });
+    if (!nameCard)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ingrese el nombre del titular de la tarjeta',
+      });
+    else {
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: elements.getElement(CardNumberElement),
+      });
+      setLoadingsti(true);
+      if (!error) {
+        const { id } = paymentMethod;
+        const { data } = await axios.post(
+          '/payment',
+          {
+            error: error,
+            id,
+            amount: total,
+            obj: obj,
+          },
+          {
+            // headers: {
+            //   'auth-token': JSON.parse(localStorage.getItem('user')).token,
+            // },
+          }
+        );
+        const errormesa = errorMessages[data.error];
+        data.error ? errorAlert(errormesa) : successPaymentAprobed();
+      }
+      setLoadingsti(false);
     }
-    setLoadingsti(false);
   };
 
   return (
@@ -158,20 +169,24 @@ export default function Cart() {
                   <h1 className="text-xl font-medium">Mi carrito</h1>
                   {/* // productos   */}
                   <div className="overflow-y-auto h-96">
-                    {state.map((e) => (
-                      <CartCard
-                        setState={setState}
-                        setTotal={setTotal}
-                        sumTotal={sumTotal}
-                        key={e.id}
-                        image={e.image}
-                        isAvailable={e.isAvailable}
-                        name={e.name}
-                        price={e.price}
-                        type={e.type}
-                        quantitySelectedCartSh={e.quantitySelectedCartSh}
-                      />
-                    ))}
+                    {!state.length ? (
+                      <div className="mt-4">Su carrito está vacío</div>
+                    ) : (
+                      state.map((e) => (
+                        <CartCard
+                          setState={setState}
+                          setTotal={setTotal}
+                          sumTotal={sumTotal}
+                          key={e.id}
+                          image={e.image}
+                          isAvailable={e.isAvailable}
+                          name={e.name}
+                          price={e.price}
+                          type={e.type}
+                          quantitySelectedCartSh={e.quantitySelectedCartSh}
+                        />
+                      ))
+                    )}
                   </div>
                   {/* footer carrito */}
                   <div className="flex justify-between items-center mt-6 pt-6 border-t">
@@ -235,17 +250,17 @@ export default function Cart() {
                         src="https://img.icons8.com/color/96/000000/mastercard-logo.png"
                         width="40"
                         className="relative right-5"
-                        alt='mastercard'
+                        alt="mastercard"
                       />
                       <img
                         src="https://1000marcas.net/wp-content/uploads/2019/12/Visa-Logo-2005.jpg"
                         width="40"
                         className="relative right-5"
-                        alt='mastercard'
+                        alt="mastercard"
                       />
                     </div>
                   </div>
-                  <form onSubmit={handlerSummit}>
+                  <form onSubmit={handlerSubmit}>
                     <div className="flex justify-center flex-col pt-3">
                       <label className="text-xs text-gray-400 ">
                         Nombre del titular

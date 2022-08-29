@@ -7,6 +7,7 @@ import {
   GET_FOR_ID,
   GET_TYPES,
   RESET_FILTERED_PRODUCTS,
+  GET_USER_ORDERS,
   ERROR,
   LOADING,
   GET_SCORES_FOR_USER,
@@ -23,6 +24,7 @@ const inicialState = {
   filteredProducts: [],
   detailProduct: {},
   favorites: [],
+  userOrders: [],
   loading: false,
   error: null,
   errorMessage: '',
@@ -51,6 +53,13 @@ const rootReducer = (state = inicialState, action) => {
         loading: false,
         error: null,
         filteredProducts: action.payload,
+      };
+    case GET_USER_ORDERS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        userOrders: action.payload,
       };
     case RESET_FILTERED_PRODUCTS:
       return {

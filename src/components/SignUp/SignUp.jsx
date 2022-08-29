@@ -20,7 +20,7 @@ function SignUp() {
         <Formik
           initialValues={{
             name: '',
-            lastname: '',
+            lastName: '',
             email: '',
             password: '',
             confirmPassword: '',
@@ -31,9 +31,9 @@ function SignUp() {
             else if (!/^[a-z ,.'-]+$/i.test(values.name))
               errors.name = 'El nombre debe contener solo letras';
 
-            if (!values.lastname) errors.lastname = 'Completa este campo';
-            else if (!/^[a-z ,.'-]+$/i.test(values.lastname))
-              errors.lastname = 'El apellido debe contener solo letras';
+            if (!values.lastName) errors.lastName = 'Completa este campo';
+            else if (!/^[a-z ,.'-]+$/i.test(values.lastName))
+              errors.lastName = 'El apellido debe contener solo letras';
 
             if (!values.email) errors.email = 'Completa este campo';
             else if (
@@ -112,17 +112,17 @@ function SignUp() {
                   <label className="signup-detail">
                     <span>Apellido:</span>
                     <input
-                      name="lastname"
-                      type="lastname"
+                      name="lastName"
+                      type="lastName"
                       placeholder="Perez"
-                      value={values.lastname}
+                      value={values.lastName}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
                   </label>
                   <div className="signupErrorContainer">
-                    {errors.lastname && touched.lastname && (
-                      <div className="error">{errors.lastname}</div>
+                    {errors.lastName && touched.lastName && (
+                      <div className="error">{errors.lastName}</div>
                     )}
                   </div>
                 </div>
