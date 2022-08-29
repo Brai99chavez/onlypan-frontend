@@ -27,9 +27,9 @@ export default function NavbarViewer() {
         <NavLink className="nav-btn" to={'/contacto'}>
           contacto
         </NavLink>
-        <NavLink className="nav-btn" to={'/favoritos'}>
+        {/* <NavLink className="nav-btn" to={'/favoritos'}>
           favoritos
-        </NavLink>
+        </NavLink> */}
         <NavLink className="nav-btn" to={'/crear-producto'}>
           crear producto
         </NavLink>

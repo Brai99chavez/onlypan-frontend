@@ -24,7 +24,7 @@ function ProductDetail({ match }) {
   }, [dispatch,id]);
 
 
-
+  console.log(getProductScores)
   function stars(oneScore) {
     let score = oneScore //2
     let array = [];
