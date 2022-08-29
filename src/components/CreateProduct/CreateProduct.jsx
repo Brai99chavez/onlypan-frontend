@@ -29,10 +29,10 @@ export default function CreateProduct() {
       validate={(values) => {
         const expresiones = {
           numeros: / *([.0-9])*\d/g,
-          caracteresEs: /[\[\\\^\$\.\|\?\*\+\(\)\{\}]/g,
-          url: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
-          instru: /^[a-zA-Z0-9_-\s]{4,200}$/,
-          numPosi: /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/gm,
+          caracteresEs: /[\[\\\^\$\.\|\?\*\+\(\)\{\}]/g, //eslint-disable-line
+          url: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi, //eslint-disable-line
+          instru: /^[a-zA-Z0-9_-\s]{4,200}$/, //eslint-disable-line
+          numPosi: /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/gm, //eslint-disable-line
         };
         const errors = {};
         if (!values.name) errors.name = 'Completa este campo';

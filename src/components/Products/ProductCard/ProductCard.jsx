@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -28,7 +28,7 @@ export default function ProductCard({
   };
 
   const [amountToAdd, setAmountToAdd] = useState(getAmountInCart());
-  const [favoriteHeart, setFavoriteHeart] = useState(false);
+  // const [favoriteHeart, setFavoriteHeart] = useState(false);
 
   const handleSumButon = () => {
     setAmountToAdd(amountToAdd + 1);
@@ -67,23 +67,23 @@ export default function ProductCard({
     }
   };
 
-  const handleAddFavorites = (nameCard) => {
-    setFavoriteHeart(!favoriteHeart);
-    const copyLocalStorage = JSON.parse(
-      localStorage.getItem('favoritesSelected')
-    );
-    const duplicate = copyLocalStorage.filter((e) => e.name === nameCard);
-    if (!duplicate.length) {
-      const productAddFavorites = products.filter((e) => e.name === nameCard);
+  // const handleAddFavorites = (nameCard) => {
+  //   setFavoriteHeart(!favoriteHeart);
+  //   const copyLocalStorage = JSON.parse(
+  //     localStorage.getItem('favoritesSelected')
+  //   );
+  //   const duplicate = copyLocalStorage.filter((e) => e.name === nameCard);
+  //   if (!duplicate.length) {
+  //     const productAddFavorites = products.filter((e) => e.name === nameCard);
 
-      localStorage.setItem(
-        'favoritesSelected',
-        JSON.stringify(copyLocalStorage.concat(productAddFavorites))
-      );
-    } else {
-      alert('ya tienes este producto en tus favoritos');
-    }
-  };
+  //     localStorage.setItem(
+  //       'favoritesSelected',
+  //       JSON.stringify(copyLocalStorage.concat(productAddFavorites))
+  //     );
+  //   } else {
+  //     alert('ya tienes este producto en tus favoritos');
+  //   }
+  // };
   return (
     <div className="ProductCard">
       <div className="ProductCardImage">
@@ -99,7 +99,7 @@ export default function ProductCard({
             }`}
           />
         </button> */}
-        
+
         <div className="ProductCardDescription">
           <p>${price}</p>
           <span className="ProductCardtype">Categoría: {type}</span>

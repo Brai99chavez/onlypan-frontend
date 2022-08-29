@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import './Login.css';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -9,24 +9,22 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 
 export default function Login() {
-  const dispatch = useDispatch();
   const history = useHistory();
   if (localStorage.getItem('user') !== '{}') history.push('/');
 
   const { loginWithRedirect } = useAuth0();
   const { logout } = useAuth0();
-  const { user } = useAuth0();
   const { loading } = useSelector((state) => state);
-  const { isAuthenticated } = useAuth0();
-  console.log(JSON.stringify(user))
 
   if (loading) return <Loading />;
   return (
     <div className="login">
       <div className="login-container">
-        <button onClick={()=>loginWithRedirect()}>Continuar con Google</button>
-        <button onClick={()=>logout()}>salir</button>
-       
+        <button onClick={() => loginWithRedirect()}>
+          Continuar con Google
+        </button>
+        <button onClick={() => logout()}>salir</button>
+
         <Formik
           initialValues={{ email: '', password: '' }}
           validate={(values) => {
@@ -42,7 +40,6 @@ export default function Login() {
             return errors;
           }}
           onSubmit={async (values) => {
-            console.log(values)
             await axios
               .post('/user/signIn', values)
               .then((user) => {

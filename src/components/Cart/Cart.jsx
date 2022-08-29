@@ -65,9 +65,9 @@ export default function Cart() {
       html: 'Cargando pago',
       allowOutsideClick: false,
       showConfirmButton: false,
-      onBeforeOpen: () => {
-        Swal.showLoading();
-      },
+      // onBeforeOpen: () => {
+      //   Swal.showLoading();
+      // },
     });
   };
   const successPaymentAprobed = () => {
@@ -76,7 +76,8 @@ export default function Cart() {
       title: 'Pago aprobado',
       showConfirmButton: false,
       timer: 1500,
-    });
+    }).then(() => history.push('/user'));
+
     elements.getElement(CardCvcElement).clear();
     elements.getElement(CardExpiryElement).clear();
     elements.getElement(CardNumberElement).clear();
@@ -114,7 +115,6 @@ export default function Cart() {
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
-    console.log(session_id);
     if (!session_id)
       Swal.fire({
         icon: 'info',
@@ -169,7 +169,7 @@ export default function Cart() {
         data.error ? errorAlert(errormesa) : successPaymentAprobed();
       }
       localStorage.setItem('cartSelectProducts', JSON.stringify([]));
-      history.push('/user');
+
       setLoadingsti(false);
     }
   };
