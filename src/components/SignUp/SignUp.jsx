@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './SignUp.css';
 import { Formik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import { signUp } from '../../redux/Actions/Actions';
+import { useSelector } from 'react-redux';
 import Loading from '../Loading/Loading';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 function SignUp() {
-  const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state);
-  const [signUpError, setSignUpError] = useState(false);
+  const { loading } = useSelector((state) => state);
 
   const history = useHistory();
   if (localStorage.getItem('user') !== '{}') history.push('/');

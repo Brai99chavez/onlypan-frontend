@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -99,6 +99,7 @@ export default function ProductCard({
             }`}
           />
         </button>
+        
         <div className="ProductCardDescription">
           <p>${price}</p>
           <span className="ProductCardtype">Categoría: {type}</span>

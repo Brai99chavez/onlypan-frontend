@@ -4,7 +4,6 @@ import './App.css';
 import Home from './components/Home/Home';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { Auth0Provider } from '@auth0/auth0-react';
 //componentes
 import Navbar from './components/Navbar/Navbar/Navbar';
 import Login from './components/Login/Login';
@@ -22,11 +21,7 @@ function App() {
     'pk_test_51LaJmxF13fYbs0BsX1wFBN5ewQU5qWqBUdJx3DykrwIcy8D93ZK8Y1bmFQxMGnzDdEpfFwCE6hGSb2fHq9oUN5YJ00CoyP5txg'
   );
   return (
-    <Auth0Provider
-      domain="dev-ay0xwnqt.us.auth0.com"
-      clientId="xFRuu5C2Onez5UU90INAUiHKHSErleuT"
-      redirectUri={window.location.origin}
-    >
+    
       <Elements stripe={stripePromise}>
         <div>
           <Route path="/*" component={Navbar} />
@@ -44,7 +39,7 @@ function App() {
           </Switch>
         </div>
       </Elements>
-    </Auth0Provider>
+   
   );
 }
 
