@@ -7,6 +7,7 @@ import {
 } from '../../redux/Actions/Actions';
 import './CreateProduct.css';
 import { Formik } from 'formik';
+import Swal from 'sweetalert2';
 
 export default function CreateProduct() {
   const dispatch = useDispatch();
@@ -28,10 +29,10 @@ export default function CreateProduct() {
       validate={(values) => {
         const expresiones = {
           numeros: / *([.0-9])*\d/g,
-          caracteresEs: /[\[\\\^\$\.\|\?\*\+\(\)\{\}]/g,
-          url: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
-          instru: /^[a-zA-Z0-9_-\s]{4,200}$/,
-          numPosi: /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/gm,
+          caracteresEs: /[\[\\\^\$\.\|\?\*\+\(\)\{\}]/g, //eslint-disable-line
+          url: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi, //eslint-disable-line
+          instru: /^[a-zA-Z0-9_-\s]{4,200}$/, //eslint-disable-line
+          numPosi: /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/gm, //eslint-disable-line
         };
         const errors = {};
         if (!values.name) errors.name = 'Completa este campo';
@@ -67,9 +68,23 @@ export default function CreateProduct() {
           errors.type = 'Seleccione una categoría existente.';
         return errors;
       }}
-      onSubmit={(values) => {
+      onSubmit={(values, actions) => {
         dispatch(createProduct(values));
-        alert('creado');
+        Swal.fire({
+          icon: 'success',
+          title: 'Producto creado',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        actions.resetForm({
+          values: {
+            name: '',
+            price: 0,
+            image: '',
+            description: '',
+            type: '',
+          },
+        });
       }}
     >
       {({
@@ -170,7 +185,8 @@ export default function CreateProduct() {
                       {types.length &&
                         types.map((t, i) => (
                           <option value={t} key={i}>
-                            {t}
+                            {t.charAt(0).toUpperCase() +
+                              t.substring(1).toLowerCase()}
                           </option>
                         ))}
                     </select>

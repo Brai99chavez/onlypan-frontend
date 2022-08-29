@@ -75,7 +75,7 @@ function SignUp() {
                 Swal.fire({
                   icon: 'error',
                   title: 'No se pudo crear el usuario',
-                  text: error.response.data,
+                  text: error.response.data.msg,
                 });
               });
           }}
