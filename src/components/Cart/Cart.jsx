@@ -43,7 +43,7 @@ export default function Cart() {
     expired_card: 'La tarjeta está vencida.',
     incorrect_cvc: 'El código de seguridad de la tarjeta es incorrecto.',
     card_declined: 'La tarjeta fue rechazada.',
-    missing: 'There is no card on a customer that is being charged.',
+    missing: 'No hay ninguna tarjeta para el cliente que está siendo cobrado.',
     processing_error: 'Ocurrió un error en el procesamiento de la tarjeta.',
     insufficient_funds: 'Fondos insuficientes',
   };
@@ -57,7 +57,7 @@ export default function Cart() {
   const loadingPayment = () => {
     Swal.fire({
       title: 'Por favor espera!',
-      html: 'cargando pago', // add html attribute if you want or remove
+      html: 'cargando pago',
       allowOutsideClick: false,
       showConfirmButton: false,
       onBeforeOpen: () => {
@@ -67,7 +67,6 @@ export default function Cart() {
   };
   const successPaymentAprobed = () => {
     Swal.fire({
-      //position: "top-end",
       icon: 'success',
       title: 'Pago aprobado',
       showConfirmButton: false,
@@ -83,10 +82,10 @@ export default function Cart() {
       return 'Nombre muy largo';
     }
     if (expresiones.caracteresEs.test(name)) {
-      return 'no pueden haber caracteres especiales';
+      return 'No pueden haber caracteres especiales';
     }
     if (expresiones.numeros.test(name)) {
-      return 'no pueden ser numeros';
+      return 'No pueden ser números';
     }
   };
   const errorMsgName = validationName(nameCard);
@@ -97,7 +96,7 @@ export default function Cart() {
       quantity: e.quantitySelectedCartSh,
     };
   });
-  const idUser = 'estoesnuestro';
+  const idUser = JSON.parse(localStorage.getItem('user')).user.id;
   const obj = {
     idProducts,
     idUser,
@@ -113,33 +112,47 @@ export default function Cart() {
   };
   const [total, setTotal] = useState(sumTotal());
 
-  const handlerSummit = async (e) => {
+  const handlerSubmit = async (e) => {
     e.preventDefault();
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: elements.getElement(CardNumberElement),
-    });
-    setLoadingsti(true);
-    if (!error) {
-      const { id } = paymentMethod;
-      const { data } = await axios.post(
-        '/payment',
-        {
-          error: error,
-          id,
-          amount: total,
-          obj: obj,
-        },
-        {
-          headers: {
-            'auth-token': JSON.parse(localStorage.getItem('user')).token,
+    if (!state.length)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Su carrito está vacío!',
+      });
+    if (!nameCard)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Ingrese el nombre del titular de la tarjeta',
+      });
+    else {
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: elements.getElement(CardNumberElement),
+      });
+      setLoadingsti(true);
+      if (!error) {
+        const { id } = paymentMethod;
+        const { data } = await axios.post(
+          '/payment',
+          {
+            error: error,
+            id,
+            amount: total,
+            obj: obj,
           },
-        }
-      );
-      const errormesa = errorMessages[data.error];
-      data.error ? errorAlert(errormesa) : successPaymentAprobed();
+          {
+            // headers: {
+            //   'auth-token': JSON.parse(localStorage.getItem('user')).token,
+            // },
+          }
+        );
+        const errormesa = errorMessages[data.error];
+        data.error ? errorAlert(errormesa) : successPaymentAprobed();
+      }
+      setLoadingsti(false);
     }
-    setLoadingsti(false);
   };
 
   return (
@@ -154,20 +167,24 @@ export default function Cart() {
                   <h1 className="text-xl font-medium">Mi carrito</h1>
                   {/* // productos   */}
                   <div className="overflow-y-auto h-96">
-                    {state.map((e) => (
-                      <CartCard
-                        setState={setState}
-                        setTotal={setTotal}
-                        sumTotal={sumTotal}
-                        key={e.id}
-                        image={e.image}
-                        isAvailable={e.isAvailable}
-                        name={e.name}
-                        price={e.price}
-                        type={e.type}
-                        quantitySelectedCartSh={e.quantitySelectedCartSh}
-                      />
-                    ))}
+                    {!state.length ? (
+                      <div className="mt-4">Su carrito está vacío</div>
+                    ) : (
+                      state.map((e) => (
+                        <CartCard
+                          setState={setState}
+                          setTotal={setTotal}
+                          sumTotal={sumTotal}
+                          key={e.id}
+                          image={e.image}
+                          isAvailable={e.isAvailable}
+                          name={e.name}
+                          price={e.price}
+                          type={e.type}
+                          quantitySelectedCartSh={e.quantitySelectedCartSh}
+                        />
+                      ))
+                    )}
                   </div>
                   {/* footer carrito */}
                   <div className="flex justify-between items-center mt-6 pt-6 border-t">
@@ -239,7 +256,7 @@ export default function Cart() {
                       />
                     </div>
                   </div>
-                  <form onSubmit={handlerSummit}>
+                  <form onSubmit={handlerSubmit}>
                     <div className="flex justify-center flex-col pt-3">
                       <label className="text-xs text-gray-400 ">
                         Nombre del titular

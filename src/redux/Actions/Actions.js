@@ -4,6 +4,7 @@ export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
 export const GET_TYPES = 'GET_TYPES';
 export const GET_FOR_ID = 'GET_FOR_ID';
 export const GET_BY_NAME = 'GET_BY_NAME';
+export const GET_USER_ORDERS = 'GET_USER_ORDERS';
 export const RESET_FILTERED_PRODUCTS = 'RESET_FILTERED_PRODUCTS';
 export const LOADING = 'LOADING';
 export const ERROR = 'ERROR';
@@ -119,6 +120,19 @@ export function createProduct(value) {
     axios
       .post('/product', value)
       .then((response) => dispatch({ type: CREATE_PRODUCT }))
+      .catch((error) => {
+        dispatch(handleError(error));
+        console.error(error);
+      });
+  };
+}
+export function getUserOrders(id) {
+  return function (dispatch) {
+    axios
+      .get(`/order?userId=${id}`)
+      .then((response) =>
+        dispatch({ type: GET_USER_ORDERS, payload: response.data })
+      )
       .catch((error) => {
         dispatch(handleError(error));
         console.error(error);
