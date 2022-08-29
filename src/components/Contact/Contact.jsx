@@ -22,7 +22,6 @@ export default function Contact() {
         'qKN3lKyzYHg0cRgvh'
       )
       .then((res) => {
-        console.log(res);
         return successAlert();
       })
       .catch((err) => console.error(err));

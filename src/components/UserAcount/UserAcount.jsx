@@ -12,7 +12,7 @@ function UserAcount() {
     <div className="userContainer">
       <div className="userTop">
         <img src={user.image} alt="profile" />
-        <h1 className="userName">{user.name + user.lastName}</h1>
+        <h1 className="userName">{user.name + ' ' + user.lastName}</h1>
       </div>
       <br />
       <Orders />

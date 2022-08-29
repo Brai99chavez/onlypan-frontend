@@ -13,7 +13,7 @@ export default function NavbarViewer() {
       localStorage.setItem('user', JSON.stringify({}));
     }
     setLoggedUser(localStorage.getItem('user') !== '{}');
-  }, [controlUser, localStorage]);
+  }, [controlUser]);
   return (
     <nav className="navbar">
       <NavLink to={'/'} className="nav-logo">
