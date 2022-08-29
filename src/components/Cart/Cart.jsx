@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './Cart.css';
 import CartCard from './CartCard/CartCard';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
@@ -20,10 +20,15 @@ export default function Cart() {
     window.localStorage.getItem('cartSelectProducts')
   );
   const copyLocalStorageUser = JSON.parse(window.localStorage.getItem('user'));
+  let session_id =
+    localStorage.getItem('user') !== '{}'
+      ? JSON.parse(localStorage.getItem('user'))
+      : false;
 
   const [loadingsti, setLoadingsti] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+  const history = useHistory();
 
   const expresiones = {
     numeros: / *([.0-9])*\d/g, //eslint-disable-line
@@ -57,7 +62,7 @@ export default function Cart() {
   const loadingPayment = () => {
     Swal.fire({
       title: 'Por favor espera!',
-      html: 'cargando pago',
+      html: 'Cargando pago',
       allowOutsideClick: false,
       showConfirmButton: false,
       onBeforeOpen: () => {
@@ -96,13 +101,6 @@ export default function Cart() {
       quantity: e.quantitySelectedCartSh,
     };
   });
-  const idUser = copyLocalStorageUser.user.id;
-  const tokenUser = copyLocalStorageUser.token;
-  const obj = {
-    idProducts,
-    idUser,
-    tokenUser,
-  };
 
   const sumTotal = () => {
     return JSON.parse(localStorage.getItem('cartSelectProducts')).reduce(
@@ -116,13 +114,23 @@ export default function Cart() {
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
-    if (!state.length)
+    console.log(session_id);
+    if (!session_id)
+      Swal.fire({
+        icon: 'info',
+        title: 'Oops...',
+        text: 'Debe registrarse para realizar una compra',
+        confirmButtonText: 'Iniciar sesión',
+      }).then((result) => {
+        if (result.isConfirmed) history.push('/ingreso');
+      });
+    else if (!state.length)
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: 'Su carrito está vacío!',
       });
-    if (!nameCard)
+    else if (!nameCard)
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -134,6 +142,13 @@ export default function Cart() {
         card: elements.getElement(CardNumberElement),
       });
       setLoadingsti(true);
+      const idUser = copyLocalStorageUser.user.id;
+      const tokenUser = copyLocalStorageUser.token;
+      const obj = {
+        idProducts,
+        idUser,
+        tokenUser,
+      };
       if (!error) {
         const { id } = paymentMethod;
         const { data } = await axios.post(
@@ -153,6 +168,8 @@ export default function Cart() {
         const errormesa = errorMessages[data.error];
         data.error ? errorAlert(errormesa) : successPaymentAprobed();
       }
+      localStorage.setItem('cartSelectProducts', JSON.stringify([]));
+      history.push('/user');
       setLoadingsti(false);
     }
   };
