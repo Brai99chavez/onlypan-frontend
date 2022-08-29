@@ -19,6 +19,7 @@ export default function Cart() {
   const copyLocalStorage = JSON.parse(
     window.localStorage.getItem('cartSelectProducts')
   );
+  const copyLocalStorageUser = JSON.parse(window.localStorage.getItem("user"))
 
   const [loadingsti, setLoadingsti] = useState(false);
   const stripe = useStripe();
@@ -96,10 +97,12 @@ export default function Cart() {
       quantity: e.quantitySelectedCartSh,
     };
   });
-  const idUser = 'estoesnuestro';
+  const idUser = copyLocalStorageUser.user.id;
+  const tokenUser = copyLocalStorageUser.token
   const obj = {
     idProducts,
     idUser,
+    tokenUser
   };
 
   const sumTotal = () => {
@@ -122,7 +125,7 @@ export default function Cart() {
     if (!error) {
       const { id } = paymentMethod;
       const { data } = await axios.post(
-        '/payment',
+        'http://localhost:3001/payment',
         {
           error: error,
           id,
@@ -130,12 +133,14 @@ export default function Cart() {
           obj: obj,
         },
         {
-          headers: {
-            'auth-token': JSON.parse(localStorage.getItem('user')).token,
-          },
+          // headers: {
+          //   'auth-token': JSON.parse(localStorage.getItem('user')).token,
+          // },
         }
       );
       const errormesa = errorMessages[data.error];
+      console.log(errormesa);
+      console.log(data);
       data.error ? errorAlert(errormesa) : successPaymentAprobed();
     }
     setLoadingsti(false);
