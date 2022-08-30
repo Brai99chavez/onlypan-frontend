@@ -15,6 +15,7 @@ import Contact from './components/Contact/Contact';
 import CreateProduct from './components/CreateProduct/CreateProduct';
 import SignUp from './components/SignUp/SignUp';
 import UserAcount from './components/UserAcount/UserAcount';
+import TableOfUsers from './components/TableOfUsers/TableOfUsers';
 
 function App() {
   const stripePromise = loadStripe(
@@ -35,6 +36,7 @@ function App() {
             <Route path="/user" exact component={UserAcount} />
             <Route path="/carrito" exact component={Cart} />
             <Route path="/crear-producto" exact component={CreateProduct} />
+            <Route path="/lista-de-usuarios" exact component={TableOfUsers} />
             <Route path="/*" component={PageNotFound} />
           </Switch>
         </div>
