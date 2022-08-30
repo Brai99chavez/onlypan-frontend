@@ -194,3 +194,10 @@ export function getScoresForProduct(productId) {
       );
   };
 }
+
+export function postUserGoogle() {
+  return ( async () =>{
+       await axios.post("/user/google", JSON.parse(localStorage.getItem("user")))
+  })
+}
+

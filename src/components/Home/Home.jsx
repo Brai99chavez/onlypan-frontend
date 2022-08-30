@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getAllProducts, getTypes } from "../../redux/Actions/Actions";
+import { getAllProducts, getTypes, postUserGoogle } from "../../redux/Actions/Actions";
 import Error from "../Error/Error";
 import Loading from "../Loading/Loading";
 import SearchBar from "../SearchBar/SearchBar";
 import Slideshow from "../Slideshow/Slideshow";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
-import Swal from "sweetalert2";
 import "./Home.css";
 
 export default function Home() {
@@ -31,38 +29,19 @@ export default function Home() {
   }, [dispatch]);
 
   useEffect(() => {
+    console.log(isAuthenticated)
     if (isAuthenticated) {
-      const userLogged = async () => {
+      const userLogged = () => {
         const { given_name, email } = user;
         localStorage.setItem(
           "user",
           JSON.stringify({ name: given_name, email: email })
         );
-        
-        await axios
-          .post("/user/google", JSON.parse(localStorage.getItem("user")))
-          .then((res) => {
-            console.log(res);
-          });
-          // .then(() => {
-          //   Swal.fire({
-          //     icon: "success",
-          //     title: `Bienvenido/a de vuelta, ${email}!`,
-          //     showConfirmButton: false,
-          //     timer: 2000,
-          //   });
-          // })
-          // .catch((error) => {
-          //   Swal.fire({
-          //     icon: "error",
-          //     title: "No se pudo iniciar sesión.",
-          //     text: error.response.data.msg,
-          //   });
-          // });
+        dispatch(postUserGoogle())
       };
       return userLogged();
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user,dispatch]);
 
   const handleOnClick = (t) => {
     history.push(`/productos?tipo=${t}`);
