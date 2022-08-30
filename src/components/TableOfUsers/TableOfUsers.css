@@ -1,0 +1,18 @@
+.table{
+    @apply mx-auto mt-40 
+}
+
+.table-header{
+    @apply bg-sky-700 
+}
+.table-header tr th{
+    @apply py-2 px-5 text-white
+}
+
+.table-body{
+    @apply bg-white
+}
+
+.table-body tr td{
+    @apply py-2 px-5
+}
