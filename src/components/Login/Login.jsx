@@ -10,12 +10,27 @@ import axios from 'axios';
 
 export default function Login() {
   const history = useHistory();
+  const { isAuthenticated, user } = useAuth0();
+
   if (localStorage.getItem('user') !== '{}') history.push('/');
 
   const { loginWithRedirect } = useAuth0();
-  const { logout } = useAuth0();
   const { loading } = useSelector((state) => state);
-
+  if (isAuthenticated) {
+    (() => {
+      const { given_name, family_name, email, picture } = user;
+      axios
+        .post('/user/google', {
+          name: given_name,
+          lastName: family_name,
+          email: email,
+          image: picture,
+        })
+        .then((response) =>
+          localStorage.setItem('user', JSON.stringify(response.data))
+        );
+    })();
+  }
   if (loading) return <Loading />;
   return (
     <div className="login">
@@ -23,7 +38,6 @@ export default function Login() {
         <button onClick={() => loginWithRedirect()}>
           Continuar con Google
         </button>
-        <button onClick={() => logout()}>salir</button>
 
         <Formik
           initialValues={{ email: '', password: '' }}
@@ -39,8 +53,8 @@ export default function Login() {
             if (!values.password) errors.password = 'Completa este campo';
             return errors;
           }}
-          onSubmit={async (values) => {
-            await axios
+          onSubmit={(values) => {
+            axios
               .post('/user/signIn', values)
               .then((user) => {
                 localStorage.setItem('user', JSON.stringify(user.data));
