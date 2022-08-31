@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import img from '../../../img/logo.jpg';
+import { useAuth0 } from '@auth0/auth0-react';
 import '../Navbar.css';
+import axios from 'axios';
 
 export default function NavbarViewer() {
   const [loggedUser, setLoggedUser] = useState(
@@ -15,7 +17,24 @@ export default function NavbarViewer() {
       localStorage.setItem('user', JSON.stringify({}));
     }
     setLoggedUser(localStorage.getItem('user') !== '{}');
-  }, [controlUser]);
+  }, [controlUser, loggedUser]);
+
+  const { isAuthenticated, user } = useAuth0();
+  if (isAuthenticated && !loggedUser) {
+    const { given_name, family_name, email, picture } = user;
+    axios
+      .post('/user/google', {
+        name: given_name,
+        lastName: family_name,
+        email: email,
+        image: picture,
+      })
+      .then((response) =>
+        localStorage.setItem('user', JSON.stringify(response.data))
+      )
+      .then(() => setLoggedUser(true));
+  }
+
   return (
     <nav className="navbar">
       <NavLink to={'/'} className="nav-logo">
