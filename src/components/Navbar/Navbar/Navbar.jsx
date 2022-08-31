@@ -24,11 +24,11 @@ export default function NavbarViewer() {
       </NavLink>
       <div className="nav-buttons">
         <NavLink className="nav-btn" to={'/productos'}>
-          productos
+          Productos
         </NavLink>
         {selfRol !== "admin" ?
           <NavLink className="nav-btn" to={'/contacto'}>
-            contacto
+            Contacto
           </NavLink> : null}
         {/* <NavLink className="nav-btn" to={'/favoritos'}>
           favoritos
@@ -36,7 +36,7 @@ export default function NavbarViewer() {
         {selfRol === "admin" ?
           <>
             <NavLink className="nav-btn" to={'/crear-producto'}>
-              crear producto
+              Crear producto
             </NavLink>
             <NavLink className="nav-btn" to={'/lista-de-usuarios'}>
               Tabla usuarios

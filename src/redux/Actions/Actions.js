@@ -219,9 +219,8 @@ export function getAllUsers(token) {
 }
 
 export function modifyRolByAdmin(id, token) {
-  console.log(token)
   return async function (dispatch) {
-    await axios.put(`/user/rolmodify/${id}`, {
+    await axios.get(`/user/rolmodify/${id}`, {
         headers: {
           'auth_token': token,
         },

@@ -43,7 +43,7 @@ export default function TableOfUsers() {
                 <td>{p.email}</td>
                 <td>{p.phone}</td>
                 <td>{p.address}</td>
-                <td><select name="" id="" value={p.rol} onChange={ ()=> dispatch(modifyRolByAdmin(p.id,token))}>
+                <td><select name="" id="" value={p.rol} onChange={ ()=> dispatch(modifyRolByAdmin(p.id,token),window.location.reload())}>
                   <option value="user">usuario</option>
                   <option value="admin">admin</option>
                 </select></td>
@@ -65,7 +65,6 @@ export default function TableOfUsers() {
               <button><i className="fa-solid fa-trash-can"></i></button>
             </div>
           </div>
-
           )
         })}
       </div>
