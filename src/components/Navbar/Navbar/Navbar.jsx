@@ -7,6 +7,8 @@ export default function NavbarViewer() {
   const [loggedUser, setLoggedUser] = useState(
     localStorage.getItem('user') && localStorage.getItem('user') !== '{}'
   );
+  const selfRol = JSON.parse(localStorage.getItem("user")).user && JSON.parse(localStorage.getItem("user")).user.rol
+
   const controlUser = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     if (!controlUser) {
@@ -24,15 +26,26 @@ export default function NavbarViewer() {
         <NavLink className="nav-btn" to={'/productos'}>
           productos
         </NavLink>
-        <NavLink className="nav-btn" to={'/contacto'}>
-          contacto
-        </NavLink>
+        {selfRol !== "admin" ?
+          <NavLink className="nav-btn" to={'/contacto'}>
+            contacto
+          </NavLink> : null}
         {/* <NavLink className="nav-btn" to={'/favoritos'}>
           favoritos
         </NavLink> */}
-        <NavLink className="nav-btn" to={'/crear-producto'}>
-          crear producto
-        </NavLink>
+        {selfRol === "admin" ?
+          <>
+            <NavLink className="nav-btn" to={'/crear-producto'}>
+              crear producto
+            </NavLink>
+            <NavLink className="nav-btn" to={'/lista-de-usuarios'}>
+              Tabla usuarios
+            </NavLink>
+            <NavLink className="nav-btn" to={'/lista-de-productos'}>
+              Tabla Productos
+            </NavLink>
+          </>
+          : null}
       </div>
       <div className="nav-login">
         <NavLink className="nav-btn" to={'/carrito'}>
