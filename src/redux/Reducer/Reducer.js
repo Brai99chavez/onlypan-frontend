@@ -3,8 +3,8 @@ import {
   SORT_BY_PRICE,
   MIXED_SORT,
   GET_ALL_PRODUCTS,
-  GET_BY_NAME,
-  GET_FOR_ID,
+  GET_PRODUCT_BY_NAME,
+  GET_PRODUCT_FOR_ID,
   GET_TYPES,
   RESET_FILTERED_PRODUCTS,
   GET_USER_ORDERS,
@@ -13,6 +13,8 @@ import {
   GET_SCORES_FOR_USER,
   GET_SCORES_FOR_USER_AND_PRODUCT,
   GET_SCORES_FOR_PRODUCT,
+  GET_ALL_USERS,
+  CLEAR_DETAIL_PRODUCT,
 } from "../Actions/Actions";
 
 const inicialState = {
@@ -28,6 +30,7 @@ const inicialState = {
   loading: false,
   error: null,
   errorMessage: '',
+  allUsers: [],
 };
 
 const rootReducer = (state = inicialState, action) => {
@@ -47,7 +50,7 @@ const rootReducer = (state = inicialState, action) => {
         error: null,
         types: action.payload,
       };
-    case GET_BY_NAME:
+    case GET_PRODUCT_BY_NAME:
       return {
         ...state,
         loading: false,
@@ -68,7 +71,7 @@ const rootReducer = (state = inicialState, action) => {
         loading: false,
         filteredProducts: [],
       };
-    case GET_FOR_ID:
+    case GET_PRODUCT_FOR_ID:
       return {
         ...state,
         error: null,
@@ -127,7 +130,18 @@ const rootReducer = (state = inicialState, action) => {
         getProductScores: action.payload,
       };
     }
-    
+    case GET_ALL_USERS:{
+      return {
+        ...state,
+        allUsers: action.payload,
+      }
+    }
+    case CLEAR_DETAIL_PRODUCT: {
+      return {
+        ...state,
+        detailProduct: {}
+      }
+    }
     default:
       return state;
   }

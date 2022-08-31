@@ -1,9 +1,9 @@
 import axios from 'axios';
-
+export const CLEAR_DETAIL_PRODUCT = 'CLEAR_DETAIL_PRODUCT';
 export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
 export const GET_TYPES = 'GET_TYPES';
-export const GET_FOR_ID = 'GET_FOR_ID';
-export const GET_BY_NAME = 'GET_BY_NAME';
+export const GET_PRODUCT_FOR_ID = 'GET_FOR_ID';
+export const GET_PRODUCT_BY_NAME = 'GET_BY_NAME';
 export const GET_USER_ORDERS = 'GET_USER_ORDERS';
 export const RESET_FILTERED_PRODUCTS = 'RESET_FILTERED_PRODUCTS';
 export const LOADING = 'LOADING';
@@ -16,6 +16,8 @@ export const GET_SCORES_FOR_USER = 'GET_SCORES_FOR_USER';
 export const GET_SCORES_FOR_USER_AND_PRODUCT =
   'GET_SCORES_FOR_USER_AND_PRODUCT';
 export const GET_SCORES_FOR_PRODUCT = 'GET_SCORES_FOR_PRODUCT';
+export const GET_ALL_USERS = 'GET_ALL_USERS';
+export const CHANGE_ROL_BY_ADMIN = 'CHANGE_ROL_BY_ADMIN';
 
 export function loading() {
   return { type: LOADING };
@@ -28,7 +30,7 @@ export function handleError(error) {
 export function getAllProducts() {
   return function (dispatch) {
     axios
-      .get('/product')
+      .get('/product' )
       .then((response) =>
         dispatch({ type: GET_ALL_PRODUCTS, payload: response.data })
       )
@@ -55,7 +57,7 @@ export function getProductForId(id) {
     axios
       .get(`/product/${id}`)
       .then((response) =>
-        dispatch({ type: GET_FOR_ID, payload: response.data })
+        dispatch({ type: GET_PRODUCT_FOR_ID, payload: response.data })
       )
       .catch((error) => {
         dispatch(handleError(error));
@@ -63,12 +65,19 @@ export function getProductForId(id) {
       });
   };
 }
+
+export function clearDetailProduct() { 
+  return function (dispatch) { 
+    dispatch({ type:CLEAR_DETAIL_PRODUCT })
+  }
+}
+
 export function getByName(name) {
   return function (dispatch) {
     axios
       .get(`/product/query?name=${name}`)
       .then((response) =>
-        dispatch({ type: GET_BY_NAME, payload: response.data })
+        dispatch({ type: GET_PRODUCT_BY_NAME, payload: response.data })
       )
       .catch((error) => {
         dispatch(handleError());
@@ -107,7 +116,7 @@ export function mixedSort(option) {
       .get(`/product/typ?type=${option.type}&price=${option.sort}`)
       .then((response) =>
         dispatch({ type: MIXED_SORT, payload: response.data })
-      )
+    )
       .catch((error) => {
         dispatch(handleError(error));
         console.error(error);
@@ -192,5 +201,30 @@ export function getScoresForProduct(productId) {
       .then((response) =>
         dispatch({ type: GET_SCORES_FOR_PRODUCT, payload: response.data })
       );
+  };
+}
+export function getAllUsers(token) {
+  return async function (dispatch) {
+    await axios
+      .get(`/user`, {
+        headers: {
+          'auth_token': token,
+        },
+      })
+      .then((response) =>
+        dispatch({ type: GET_ALL_USERS, payload: response.data })
+      )
+      .catch((error) => console.log)
+  };
+}
+
+export function modifyRolByAdmin(id, token) {
+  return async function (dispatch) {
+    await axios.get(`/user/rolmodify/${id}`, {
+        headers: {
+          'auth_token': token,
+        },
+      })
+      .catch((error) => console.log(error))
   };
 }
