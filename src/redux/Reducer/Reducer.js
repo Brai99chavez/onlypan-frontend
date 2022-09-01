@@ -13,7 +13,8 @@ import {
   GET_SCORES_FOR_USER,
   GET_SCORES_FOR_USER_AND_PRODUCT,
   GET_SCORES_FOR_PRODUCT,
-} from "../Actions/Actions";
+  RANGE_PRICE,
+} from '../Actions/Actions';
 
 const inicialState = {
   products: [],
@@ -90,6 +91,13 @@ const rootReducer = (state = inicialState, action) => {
         loading: false,
         error: null,
       };
+    case RANGE_PRICE:
+      return {
+        ...state,
+        filteredProducts: action.payload,
+        loading: false,
+        error: null,
+      };
     case MIXED_SORT:
       return {
         ...state,
@@ -127,7 +135,7 @@ const rootReducer = (state = inicialState, action) => {
         getProductScores: action.payload,
       };
     }
-    
+
     default:
       return state;
   }

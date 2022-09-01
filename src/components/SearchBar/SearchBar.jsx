@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { getByName, resetFilteredProducts } from '../../redux/Actions/Actions';
 import Filters from './Filters/Filters';
@@ -21,8 +21,14 @@ function SearchBar({ setCurrentPage, tipo }) {
   const resetSelectFilters = () => {
     const type = document.querySelector('#type');
     const sortPrice = document.querySelector('#sortPrice');
+    const min = document.querySelector('#minPrice');
+    const max = document.querySelector('#maxPrice');
+
     type.value = '';
     sortPrice.value = '';
+    min.value = '';
+    max.value = '';
+    console.log(min.value);
   };
 
   const handleOnSubmit = (e) => {

@@ -10,6 +10,7 @@ import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import Pagination from '../Products/Pagination/Pagination';
 import ShoppingCartDropdown from './ShoppingCartDropdown/ShoppingCartDropdown';
+import FilterError from '../SearchBar/FilterError/FilterError';
 
 export default function Products() {
   const [addedToCart, setAddedToCart] = useState(false);
@@ -31,6 +32,7 @@ export default function Products() {
   const { products, filteredProducts, loading, error } = useSelector(
     (state) => state
   );
+
   let vista = filteredProducts.length ? filteredProducts : products;
 
   const itemsToRender = () => {
@@ -58,27 +60,33 @@ export default function Products() {
         <></>
       )}
       <SearchBar setCurrentPage={setCurrentPage} tipo={tipo} />
-      <div className="ProductCards">
-        {vista &&
-          itemsToRender().map((p) => (
-            <ProductCard
-              key={p.id}
-              id={p.id}
-              name={p.name}
-              price={p.price}
-              image={p.image}
-              description={p.description}
-              type={p.type}
-              setAddedToCart={setAddedToCart}
-            />
-          ))}
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        productsToRender={itemsToRender()}
-        pageNumbers={pageNumbers()}
-      />
+      {typeof filteredProducts === 'string' ? (
+        <div className="text-center"> No se encontró ningún producto</div>
+      ) : (
+        <>
+          <div className="ProductCards">
+            {vista.length &&
+              itemsToRender().map((p) => (
+                <ProductCard
+                  key={p.id}
+                  id={p.id}
+                  name={p.name}
+                  price={p.price}
+                  image={p.image}
+                  description={p.description}
+                  type={p.type}
+                  setAddedToCart={setAddedToCart}
+                />
+              ))}
+          </div>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            productsToRender={itemsToRender()}
+            pageNumbers={pageNumbers()}
+          />
+        </>
+      )}
     </div>
   );
 }
