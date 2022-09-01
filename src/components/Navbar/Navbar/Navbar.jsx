@@ -9,7 +9,7 @@ export default function NavbarViewer() {
   const [loggedUser, setLoggedUser] = useState(
     localStorage.getItem('user') && localStorage.getItem('user') !== '{}'
   );
-  const selfRol = JSON.parse(localStorage.getItem("user")).user && JSON.parse(localStorage.getItem("user")).user.rol
+  const selfRol = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).user && JSON.parse(localStorage.getItem("user")).user.rol
 
   const controlUser = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
