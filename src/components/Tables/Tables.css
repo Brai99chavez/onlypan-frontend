@@ -1,0 +1,55 @@
+.table-container{
+  @apply mt-40 mx-auto
+}
+
+.table{
+   @apply hidden sm:bg-white  mx-auto  w-5/6;
+}
+
+.thead{
+@apply bg-sky-700 text-white  
+}
+
+.thead .thead-row{
+
+}
+
+.thead .thead-row th{
+ @apply p-1 md:p-2 lg:p-3
+}
+
+
+.tbody{
+   
+}
+.tbody .tbody-row{
+@apply hover:bg-sky-200
+}
+.tbody .tbody-row td{
+  @apply px-2 py-2 text-center overflow-hidden max-w-sm
+}
+
+
+.table-mobile{
+  @apply grid grid-cols-1 m-auto  w-4/6 text-center sm:hidden
+}
+
+.table-mobile-body{
+  @apply m-4  rounded-xl p-2
+}
+
+.table-mobile-tittle{
+  @apply font-bold bg-sky-700 text-white rounded-t-2xl p-2
+}
+
+.table-mobile-details{
+  @apply bg-white rounded-b-2xl grid grid-cols-2 p-2
+}
+
+@media screen and (min-width:640px){
+  .table{
+   display: table;
+  }
+}
+
+
