@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { getByName, resetFilteredProducts } from '../../redux/Actions/Actions';
 import Filters from './Filters/Filters';
@@ -8,6 +8,12 @@ import './SearchBar.css';
 function SearchBar({ setCurrentPage, tipo }) {
   //redux
   const [value, setValue] = useState('');
+  const [changes, setChanges] = useState({
+    type: '',
+    sort: '',
+    min: '',
+    max: '',
+  });
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -21,14 +27,10 @@ function SearchBar({ setCurrentPage, tipo }) {
   const resetSelectFilters = () => {
     const type = document.querySelector('#type');
     const sortPrice = document.querySelector('#sortPrice');
-    const min = document.querySelector('#minPrice');
-    const max = document.querySelector('#maxPrice');
-
     type.value = '';
     sortPrice.value = '';
-    min.value = '';
-    max.value = '';
-    console.log(min.value);
+
+    setChanges({ type: '', sort: '', min: '', max: '' });
   };
 
   const handleOnSubmit = (e) => {
@@ -44,7 +46,11 @@ function SearchBar({ setCurrentPage, tipo }) {
     <div className="SearchBar">
       <div className="SearchBar-container">
         {location.pathname === '/productos' ? (
-          <Filters setCurrentPage={setCurrentPage} tipo={tipo} />
+          <Filters
+            setCurrentPage={setCurrentPage}
+            tipo={tipo}
+            changes={changes}
+          />
         ) : null}
         <form onSubmit={handleOnSubmit}>
           <input

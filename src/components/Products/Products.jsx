@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterByType, getAllProducts } from '../../redux/Actions/Actions';
+import { combinedFilter, getAllProducts } from '../../redux/Actions/Actions';
 import { useLocation } from 'react-router-dom';
 import './Products.css';
 //components
@@ -10,7 +10,6 @@ import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import Pagination from '../Products/Pagination/Pagination';
 import ShoppingCartDropdown from './ShoppingCartDropdown/ShoppingCartDropdown';
-import FilterError from '../SearchBar/FilterError/FilterError';
 
 export default function Products() {
   const [addedToCart, setAddedToCart] = useState(false);
@@ -27,7 +26,7 @@ export default function Products() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllProducts());
-    if (tipo) dispatch(filterByType(tipo));
+    if (tipo) dispatch(combinedFilter(tipo));
   }, [dispatch, tipo]);
   const { products, filteredProducts, loading, error } = useSelector(
     (state) => state

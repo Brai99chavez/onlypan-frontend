@@ -6,16 +6,16 @@ import {
   resetFilteredProducts,
 } from '../../../redux/Actions/Actions';
 
-export default function Filters({ setCurrentPage, tipo }) {
+export default function Filters({ setCurrentPage, tipo, changes }) {
   // redux
   const { products } = useSelector((state) => state);
   const maxPrice = Math.max(...products.map((p) => p.price));
-  const [changes, setChanges] = useState({
-    type: '',
-    sort: '',
-    min: '',
-    max: '',
-  });
+  // const [changes, setChanges] = useState({
+  //   type: '',
+  //   sort: '',
+  //   min: '',
+  //   max: '',
+  // });
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTypes());
