@@ -33,6 +33,9 @@ export default function NavbarViewer() {
         <NavLink className="nav-btn" to={'/crear-producto'}>
           crear producto
         </NavLink>
+        <NavLink className="nav-btn" to={'/maps'}>
+          estado del pedido
+        </NavLink>
       </div>
       <div className="nav-login">
         <NavLink className="nav-btn" to={'/carrito'}>
