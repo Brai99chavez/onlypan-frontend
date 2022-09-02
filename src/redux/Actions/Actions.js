@@ -228,3 +228,36 @@ export function modifyRolByAdmin(id, token) {
       .catch((error) => console.log(error))
   };
 }
+
+export function DisableUser(id, token) {
+  return async function (dispatch) {
+    await axios.get(`/user/delete/${id}`, {
+        headers: {
+          'auth_token': token,
+        },
+      })
+      .catch((error) => console.log(error))
+  };
+}
+
+export function DeleteProduct(id, token) {
+  return async function (dispatch) {
+    await axios.delete(`/product/delete/${id}`, {
+        headers: {
+          'auth_token': token,
+        },
+      })
+      .catch((error) => console.log(error))
+  };
+}
+ 
+export function ModifyProductById(id, token , value) {
+  return async function (dispatch) {
+    await axios.put(`/product/update/${id}`, value, {
+        headers: {
+          'auth_token': token,
+        },
+      })
+      .catch((error) => console.log(error))
+  };
+}

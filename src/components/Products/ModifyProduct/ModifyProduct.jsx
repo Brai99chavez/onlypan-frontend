@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux'
-import { clearDetailProduct, getProductForId, getTypes } from '../../../redux/Actions/Actions';
+import { clearDetailProduct, getProductForId, getTypes,ModifyProductById } from '../../../redux/Actions/Actions';
 import "./ModifyProduct.css"
 
 export default function ModifyProduct({ match }) {
-  const { id } = match.params;
-
+  const {id} = match.params
+  const token = JSON.parse(localStorage.getItem("user")).token
   // redux
   const dispatch = useDispatch()
 
@@ -18,10 +18,11 @@ export default function ModifyProduct({ match }) {
 
   const { detailProduct,types } = useSelector((state) => state);
   // componente
+
   return (
     <div className=" w-full mt-40">
-      {detailProduct.name && <Formik
-        
+      {detailProduct.name &&
+      <Formik
         validate={(values) => {
           let errors = {}
           if (!values.name) {
@@ -30,14 +31,15 @@ export default function ModifyProduct({ match }) {
         }}
 
         initialValues={{
-          nombre: detailProduct.name,
-          precio: detailProduct.price,
-          descripcion: detailProduct.description,
-          cantidad: detailProduct.quantity,
-          categoria: detailProduct.type
+          name: detailProduct.name,
+          price: detailProduct.price,
+          description: detailProduct.description,
+          quantity: detailProduct.quantity,
+          type: detailProduct.type
         }}
-        onSubmit={(values) => {
-          console.log('funca')
+          onSubmit={(values) => {
+            console.log(values)
+          dispatch(ModifyProductById(detailProduct.id,token,values))
         }}
       >
         {({values, handleSubmit, handleChange }) => (
@@ -46,10 +48,10 @@ export default function ModifyProduct({ match }) {
               <label htmlFor="nombre">nombre</label>
               <input
                 type="text"
-                id='nombre'
-                name='nombre'
+                id='name'
+                name='name'
                 placeholder="Nombre"
-                value={values.nombre}
+                value={values.name}
                 onChange={handleChange}
               />
             </div>
@@ -57,20 +59,20 @@ export default function ModifyProduct({ match }) {
               <label htmlFor="precio">precio</label>
               <input
                 type="text"
-                id='precio'
-                name='precio'
+                id='price'
+                name='price'
                 placeholder="precio"
-                value={values.precio}
+                value={values.price}
                 onChange={handleChange} />
             </div>
             <div className='form-inputs'> 
               <label htmlFor="precio">descripcion</label>
               <textarea
                 rows={5}
-                id='descripcion'
-                name='descripcion'
+                id='description'
+                name='description'
                 placeholder="descripcion"
-                value={values.descripcion}
+                value={values.description}
                 onChange={handleChange} />
             </div>
             <div className='form-inputs'>
@@ -87,13 +89,13 @@ export default function ModifyProduct({ match }) {
               <label htmlFor="precio">cantidad</label>
               <input
                 type="text"
-                id='cantidad'
-                name='cantidad'
+                id='quantity'
+                name='quantity'
                 placeholder="cantidad"
-                value={values.cantidad}
+                value={values.quantity}
                 onChange={handleChange} />
             </div>
-            <button>modificar</button>
+            <button type='submit'>modificar</button>
           </form>
         )}
       </Formik>}

@@ -16,6 +16,7 @@ export default function Login() {
 
   const { loginWithRedirect } = useAuth0();
   const { loading } = useSelector((state) => state);
+  console.log(user)
   if (isAuthenticated) {
     (() => {
       const { given_name, family_name, email, picture } = user;
@@ -54,7 +55,8 @@ export default function Login() {
             return errors;
           }}
           onSubmit={(values) => {
-            axios
+
+              axios
               .post('/user/signIn', values)
               .then((user) => {
                 localStorage.setItem('user', JSON.stringify(user.data));
@@ -75,6 +77,7 @@ export default function Login() {
                   text: error.response.data.msg,
                 });
               });
+            
           }}
         >
           {({
