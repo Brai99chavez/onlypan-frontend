@@ -18,6 +18,9 @@ export const GET_SCORES_FOR_USER_AND_PRODUCT =
 export const GET_SCORES_FOR_PRODUCT = 'GET_SCORES_FOR_PRODUCT';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const CHANGE_ROL_BY_ADMIN = 'CHANGE_ROL_BY_ADMIN';
+export const SEARCH_LOCALITATION = 'SEARCH_LOCALITATION'
+export const DELETE_LOCATION_SEARCH = 'DELETE_LOCATION_SEARCH' 
+export const SEARCH_UBICATION = 'SEARCH_UBICATION'
 
 export function loading() {
   return { type: LOADING };
@@ -227,4 +230,23 @@ export function modifyRolByAdmin(id, token) {
       })
       .catch((error) => console.log(error))
   };
+}
+
+
+export function  searchLocalitation (info){
+  return async function (dispatch){
+    return dispatch ({type: SEARCH_LOCALITATION, payload: info})
+  }
+}
+
+export function delete_location_search (info){
+  return async function (dispatch){
+    return dispatch ({type: DELETE_LOCATION_SEARCH, payload: info})
+  }
+}
+export function search_ubication (id){
+  console.log(id);
+  return async function (dispatch){
+    return dispatch ({type: SEARCH_UBICATION, payload: id})
+  }
 }
