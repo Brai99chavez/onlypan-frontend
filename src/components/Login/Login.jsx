@@ -1,44 +1,34 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import './Login.css';
 import { useAuth0 } from '@auth0/auth0-react';
 import Loading from '../Loading/Loading';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { createUserCart } from '../../redux/Actions/Actions';
 
 export default function Login() {
   const history = useHistory();
-  const { isAuthenticated, user } = useAuth0();
+  const dispatch = useDispatch();
 
   if (localStorage.getItem('user') !== '{}') history.push('/');
 
   const { loginWithRedirect } = useAuth0();
   const { loading } = useSelector((state) => state);
-  if (isAuthenticated) {
-    (() => {
-      const { given_name, family_name, email, picture } = user;
-      axios
-        .post('/user/google', {
-          name: given_name,
-          lastName: family_name,
-          email: email,
-          image: picture,
-        })
-        .then((response) =>
-          localStorage.setItem('user', JSON.stringify(response.data))
-        );
-    })();
-  }
+
   if (loading) return <Loading />;
   return (
     <div className="login">
       <div className="login-container">
-        <button onClick={() => loginWithRedirect()}>
-          Continuar con Google
+        <button
+          className="bg-gray-400 px-4 py-2 mx-7 my-4 rounded-full text-indigo-100 font-semibold transition-colors duration-150 hover:bg-sky-700 transition duration-700;"
+          onClick={() => loginWithRedirect()}
+        >
+          <i className="fa-brands fa-google mr-2" />
+          INICIAR SESIÓN CON GOOGLE
         </button>
-
         <Formik
           initialValues={{ email: '', password: '' }}
           validate={(values) => {
@@ -56,9 +46,16 @@ export default function Login() {
           onSubmit={(values) => {
             axios
               .post('/user/signIn', values)
-              .then((user) => {
-                localStorage.setItem('user', JSON.stringify(user.data));
+              .then((response) => {
+                localStorage.setItem('user', JSON.stringify(response.data));
+                const copyCart = JSON.parse(
+                  localStorage.getItem('cartSelectProducts')
+                );
+                dispatch(createUserCart(response.data.user.id, copyCart));
               })
+              .then(() =>
+                localStorage.setItem('cartSelectProducts', JSON.stringify([]))
+              )
               .then(() => {
                 Swal.fire({
                   icon: 'success',
@@ -129,6 +126,7 @@ export default function Login() {
             </form>
           )}
         </Formik>
+
         <p className="login-footer">
           Si no tenés cuenta, registrate{' '}
           <Link className="login-footer-link" to={'/registro'}>

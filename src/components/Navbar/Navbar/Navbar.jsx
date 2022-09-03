@@ -4,23 +4,30 @@ import img from '../../../img/logo.jpg';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../Navbar.css';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { createUserCart } from '../../../redux/Actions/Actions';
 
 export default function NavbarViewer() {
-  const [loggedUser, setLoggedUser] = useState(
+  const dispatch = useDispatch();
+  const [isUserLogged, setIsUserLogged] = useState(
     localStorage.getItem('user') && localStorage.getItem('user') !== '{}'
   );
-  const selfRol = JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).user && JSON.parse(localStorage.getItem("user")).user.rol
+
+  const selfRol =
+    JSON.parse(localStorage.getItem('user')) &&
+    JSON.parse(localStorage.getItem('user')).user &&
+    JSON.parse(localStorage.getItem('user')).user.rol;
 
   const controlUser = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     if (!controlUser) {
       localStorage.setItem('user', JSON.stringify({}));
     }
-    setLoggedUser(localStorage.getItem('user') !== '{}');
-  }, [controlUser, loggedUser]);
+    setIsUserLogged(localStorage.getItem('user') !== '{}');
+  }, [controlUser, isUserLogged]);
 
   const { isAuthenticated, user } = useAuth0();
-  if (isAuthenticated && !loggedUser) {
+  if (isAuthenticated && !isUserLogged) {
     const { given_name, family_name, email, picture } = user;
     axios
       .post('/user/google', {
@@ -29,12 +36,16 @@ export default function NavbarViewer() {
         email: email,
         image: picture,
       })
-      .then((response) =>
-        localStorage.setItem('user', JSON.stringify(response.data))
+      .then((response) => {
+        localStorage.setItem('user', JSON.stringify(response.data));
+        const copyCart = JSON.parse(localStorage.getItem('cartSelectProducts'));
+        dispatch(createUserCart(response.data.user.id, copyCart));
+      })
+      .then(() =>
+        localStorage.setItem('cartSelectProducts', JSON.stringify([]))
       )
-      .then(() => setLoggedUser(true));
+      .then(() => setIsUserLogged(true));
   }
-
   return (
     <nav className="navbar">
       <NavLink to={'/'} className="nav-logo">
@@ -45,14 +56,15 @@ export default function NavbarViewer() {
         <NavLink className="nav-btn" to={'/productos'}>
           Productos
         </NavLink>
-        {selfRol !== "admin" ?
+        {selfRol !== 'admin' ? (
           <NavLink className="nav-btn" to={'/contacto'}>
             Contacto
-          </NavLink> : null}
+          </NavLink>
+        ) : null}
         {/* <NavLink className="nav-btn" to={'/favoritos'}>
           favoritos
         </NavLink> */}
-        {selfRol === "admin" ?
+        {selfRol === 'admin' ? (
           <>
             <NavLink className="nav-btn" to={'/crear-producto'}>
               Crear producto
@@ -64,14 +76,14 @@ export default function NavbarViewer() {
               Tabla Productos
             </NavLink>
           </>
-          : null}
+        ) : null}
       </div>
       <div className="nav-login">
         <NavLink className="nav-btn" to={'/carrito'}>
           <i className="fa-solid fa-basket-shopping" />
         </NavLink>
-        {loggedUser ? (
-          <NavLink className="nav-login-btn" to={'/user'}>
+        {isUserLogged ? (
+          <NavLink className="nav-login-btn" to={'/usuario'}>
             <i className="fa-solid fa-user" />{' '}
             {controlUser.user && controlUser.user.name}
           </NavLink>

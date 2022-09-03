@@ -9,7 +9,6 @@ function UserAcount() {
   if (localStorage.getItem('user') === '{}') history.push('/');
   const user = JSON.parse(localStorage.getItem('user')).user;
   const { logout } = useAuth0();
-  console.log(user.image);
   return (
     <div className="userContainer">
       <div className="userTop">

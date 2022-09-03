@@ -13,6 +13,8 @@ import {
   GET_SCORES_FOR_PRODUCT,
   GET_ALL_USERS,
   CLEAR_DETAIL_PRODUCT,
+  CREATE_USER_CART,
+  GET_USER_CART,
 } from '../Actions/Actions';
 
 const inicialState = {
@@ -24,6 +26,7 @@ const inicialState = {
   filteredProducts: [],
   detailProduct: {},
   favorites: [],
+  cart: {},
   userOrders: [],
   loading: false,
   error: null,
@@ -115,6 +118,13 @@ const rootReducer = (state = inicialState, action) => {
         detailProduct: {},
       };
     }
+    case CREATE_USER_CART:
+    case GET_USER_CART:
+      return {
+        ...state,
+        cart: action.payload,
+      };
+
     case ERROR:
       return {
         ...state,
