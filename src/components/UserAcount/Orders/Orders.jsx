@@ -11,7 +11,7 @@ function Orders() {
   }, [dispatch]);
 
   const { userOrders } = useSelector((state) => state);
-
+  console.log(userOrders);
   return (
     <div className="ordersContainer">
       <h1 className="ordersTitle">Mis compras</h1>
@@ -34,6 +34,20 @@ function Orders() {
               </div>
             ))}
             <div className="font-bold text-lg">Total: ${o.totalPrice}</div>
+            <div className="pt-3">
+              <i class="fa-solid fa-circle fa-2xs px-2" />
+              <span className="underline underline-offset-1 mr-2">
+                Método de entrega:
+              </span>
+              {`${o.delivery === 'takeAway' ? 'Take Away' : 'Delivery'}`}
+            </div>
+            <div>
+              <i class="fa-solid fa-circle fa-2xs px-2" />
+              <span className="underline underline-offset-1 mr-2">
+                Estado del pedido:
+              </span>
+              {o.status.charAt(0).toUpperCase() + o.status.substring(1)}
+            </div>
           </div>
         ))
       )}

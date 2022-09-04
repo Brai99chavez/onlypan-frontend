@@ -1,11 +1,9 @@
 import {
-  FILTER_BY_TYPE,
-  SORT_BY_PRICE,
-  MIXED_SORT,
   GET_ALL_PRODUCTS,
   GET_PRODUCT_BY_NAME,
   GET_PRODUCT_FOR_ID,
   GET_TYPES,
+  MIXED_SORT,
   RESET_FILTERED_PRODUCTS,
   GET_USER_ORDERS,
   ERROR,
@@ -15,8 +13,10 @@ import {
   GET_SCORES_FOR_PRODUCT,
   GET_ALL_USERS,
   CLEAR_DETAIL_PRODUCT,
+  CREATE_USER_CART,
+  GET_USER_CART,
   GET_ALL_ORDERS,
-} from "../Actions/Actions";
+} from '../Actions/Actions';
 
 const inicialState = {
   products: [],
@@ -27,6 +27,7 @@ const inicialState = {
   filteredProducts: [],
   detailProduct: {},
   favorites: [],
+  cart: {},
   userOrders: [],
   loading: false,
   error: null,
@@ -66,34 +67,13 @@ const rootReducer = (state = inicialState, action) => {
         loading: false,
         userOrders: action.payload,
       };
-    case RESET_FILTERED_PRODUCTS:
-      return {
-        ...state,
-        error: null,
-        loading: false,
-        filteredProducts: [],
-      };
+
     case GET_PRODUCT_FOR_ID:
       return {
         ...state,
         error: null,
         loading: false,
         detailProduct: action.payload,
-      };
-
-    case FILTER_BY_TYPE:
-      return {
-        ...state,
-        filteredProducts: action.payload,
-        loading: false,
-        error: null,
-      };
-    case SORT_BY_PRICE:
-      return {
-        ...state,
-        filteredProducts: action.payload,
-        loading: false,
-        error: null,
       };
     case MIXED_SORT:
       return {
@@ -102,18 +82,14 @@ const rootReducer = (state = inicialState, action) => {
         loading: false,
         error: null,
       };
+    case RESET_FILTERED_PRODUCTS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        filteredProducts: [],
+      };
 
-    case ERROR:
-      return {
-        ...state,
-        error: true,
-        errorMessage: action.error,
-      };
-    case LOADING:
-      return {
-        ...state,
-        loading: true,
-      };
     case GET_SCORES_FOR_USER: {
       return {
         ...state,
@@ -132,18 +108,36 @@ const rootReducer = (state = inicialState, action) => {
         getProductScores: action.payload,
       };
     }
-    case GET_ALL_USERS:{
+    case GET_ALL_USERS: {
       return {
         ...state,
         allUsers: action.payload,
-      }
+      };
     }
     case CLEAR_DETAIL_PRODUCT: {
       return {
         ...state,
-        detailProduct: {}
-      }
+        detailProduct: {},
+      };
     }
+    case CREATE_USER_CART:
+    case GET_USER_CART:
+      return {
+        ...state,
+        cart: action.payload,
+      };
+
+    case ERROR:
+      return {
+        ...state,
+        error: true,
+        errorMessage: action.error,
+      };
+    case LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
     case GET_ALL_ORDERS: {
       return {
         ...state,

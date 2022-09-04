@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterByType, getAllProducts } from '../../redux/Actions/Actions';
+import { combinedFilter, getAllProducts } from '../../redux/Actions/Actions';
 import { useLocation } from 'react-router-dom';
 import './Products.css';
 //components
@@ -26,11 +26,12 @@ export default function Products() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllProducts());
-    if (tipo) dispatch(filterByType(tipo));
+    if (tipo) dispatch(combinedFilter(tipo));
   }, [dispatch, tipo]);
   const { products, filteredProducts, loading, error } = useSelector(
     (state) => state
   );
+
   let vista = filteredProducts.length ? filteredProducts : products;
 
   const itemsToRender = () => {
@@ -58,27 +59,33 @@ export default function Products() {
         <></>
       )}
       <SearchBar setCurrentPage={setCurrentPage} tipo={tipo} />
-      <div className="ProductCards">
-        {vista &&
-          itemsToRender().map((p) => (
-            <ProductCard
-              key={p.id}
-              id={p.id}
-              name={p.name}
-              price={p.price}
-              image={p.image}
-              description={p.description}
-              type={p.type}
-              setAddedToCart={setAddedToCart}
-            />
-          ))}
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        productsToRender={itemsToRender()}
-        pageNumbers={pageNumbers()}
-      />
+      {typeof filteredProducts === 'string' ? (
+        <div className="text-center"> No se encontró ningún producto</div>
+      ) : (
+        <>
+          <div className="ProductCards">
+            {vista.length &&
+              itemsToRender().map((p) => (
+                <ProductCard
+                  key={p.id}
+                  id={p.id}
+                  name={p.name}
+                  price={p.price}
+                  image={p.image}
+                  description={p.description}
+                  type={p.type}
+                  setAddedToCart={setAddedToCart}
+                />
+              ))}
+          </div>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            productsToRender={itemsToRender()}
+            pageNumbers={pageNumbers()}
+          />
+        </>
+      )}
     </div>
   );
 }
