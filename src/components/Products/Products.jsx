@@ -26,7 +26,8 @@ export default function Products() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllProducts());
-    if (tipo) dispatch(combinedFilter(tipo));
+    if (tipo)
+      dispatch(combinedFilter({ type: tipo, sort: '', min: '', max: '' }));
   }, [dispatch, tipo]);
   const { products, filteredProducts, loading, error } = useSelector(
     (state) => state
