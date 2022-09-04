@@ -1,0 +1,11 @@
+.cart{
+    @apply  bg-gray-300 my-28
+}
+
+.cart input{
+    @apply text-white
+}
+
+.StripeElement--focus {
+    color: white;
+}
