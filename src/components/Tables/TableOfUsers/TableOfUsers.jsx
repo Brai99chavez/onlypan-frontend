@@ -11,7 +11,7 @@ export default function TableOfUsers() {
 
   useEffect(() => {
     dispatch(getAllUsers(token));
-  }, [dispatch]);
+  }, [dispatch,token]);
 
   const { allUsers } = useSelector((state) => state);
 
@@ -46,7 +46,7 @@ export default function TableOfUsers() {
                   <option value="user">usuario</option>
                   <option value="admin">admin</option>
                 </select> : p.rol}</td>
-                { p.id != 1 ? <td><button onClick={() => dispatch(DisableUser(p.id,token) , window.location.reload())}>{ p.isAvailable ?<i className="fa-solid fa-ban text-red-700"></i> : <i class="fa-regular fa-square-check text-green-700"></i>}</button></td>:null}
+                { p.id !== 1 ? <td><button onClick={() => dispatch(DisableUser(p.id,token) , window.location.reload())}>{ p.isAvailable ?<i className="fa-solid fa-ban text-red-700"></i> : <i class="fa-regular fa-square-check text-green-700"></i>}</button></td>:null}
               </tr>
             )}
           </tbody>
@@ -59,14 +59,14 @@ export default function TableOfUsers() {
             <h1 className="table-mobile-tittle">{p.email} </h1>
             <div className='table-mobile-details'>
               <strong>name:</strong><p>{p.name} {p.lastName}</p>
-              <strong>Rol:</strong> <p>{p.id != 1 ? <select name="" id="" value={p.rol} onChange={ ()=> dispatch(modifyRolByAdmin(p.id,token),window.location.reload())}>
+              <strong>Rol:</strong> <p>{p.id !== 1 ? <select name="" id="" value={p.rol} onChange={ ()=> dispatch(modifyRolByAdmin(p.id,token),window.location.reload())}>
                   <option value="user">usuario</option>
                   <option value="admin">admin</option>
                 </select> : p.rol}</p>
               <strong>telefono:</strong><p>{p.phone}</p>
                 <strong>direccion:</strong><p>{p.address}</p>
               <Link to={`/modificar-usuario/${p.id}`}><i className="fa-solid fa-pen-to-square "></i></Link>
-              { p.id != 1 ? <td><button onClick={() => dispatch(DisableUser(p.id,token) , window.location.reload())}>{ p.isAvailable ?<i className="fa-solid fa-ban text-red-700"></i> : <i class="fa-regular fa-square-check text-green-700"></i>}</button></td>:null}
+              { p.id !== 1 ? <td><button onClick={() => dispatch(DisableUser(p.id,token) , window.location.reload())}>{ p.isAvailable ?<i className="fa-solid fa-ban text-red-700"></i> : <i class="fa-regular fa-square-check text-green-700"></i>}</button></td>:null}
             </div>
           </div>
           )

@@ -13,7 +13,6 @@ export default function TableOfProducts() {
   }, [dispatch]);
 
   const { products } = useSelector((state) => state);
-  console.log(products)
   const token = JSON.parse(localStorage.getItem("user")).token
 
   return (
@@ -52,7 +51,7 @@ export default function TableOfProducts() {
         </table>
       </div>
       <div className='table-mobile'>
-        {products && products.sort(function(a, b) {return a.id - b.id;}).map((p, i) =>
+        {products && products.map((p, i) =>
           <div className='table-mobile-body' key={i}>
             <h1 className="table-mobile-tittle">#{p.id} {p.name}</h1>
             <div className='table-mobile-details'>
