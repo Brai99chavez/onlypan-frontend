@@ -16,6 +16,8 @@ export const LOADING = 'LOADING';
 export const ERROR = 'ERROR';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const CHANGE_ROL_BY_ADMIN = 'CHANGE_ROL_BY_ADMIN';
+export const CREATE_USER_CART = 'CREATE_USER_CART';
+export const GET_USER_CART = 'GET_USER_CART';
 
 export function loading() {
   return { type: LOADING };
@@ -233,3 +235,31 @@ export function modifyRolByAdmin(id, token) {
       });
   };
 }
+
+export const createUserCart = (id, cart) => {
+  return async function (dispatch) {
+    await axios
+      .post(`/cart/${id}`, cart)
+      .then(() => axios.get(`/cart/${id}`))
+      .then((response) =>
+        dispatch({ type: CREATE_USER_CART, payload: response.data[0] })
+      )
+      .catch((error) => {
+        dispatch(handleError(error));
+        console.error(error);
+      });
+  };
+};
+export const getUserCart = (id) => {
+  return async function (dispatch) {
+    await axios
+      .get(`/cart/${id}`)
+      .then((response) => {
+        dispatch({ type: GET_USER_CART, payload: response.data[0] });
+      })
+      .catch((error) => {
+        dispatch(handleError(error));
+        console.error(error);
+      });
+  };
+};
