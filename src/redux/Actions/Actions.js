@@ -18,6 +18,7 @@ export const GET_SCORES_FOR_USER_AND_PRODUCT =
 export const GET_SCORES_FOR_PRODUCT = 'GET_SCORES_FOR_PRODUCT';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const CHANGE_ROL_BY_ADMIN = 'CHANGE_ROL_BY_ADMIN';
+export const GET_ALL_ORDERS = 'GET_ALL_ORDERS';
 
 export function loading() {
   return { type: LOADING };
@@ -214,7 +215,7 @@ export function getAllUsers(token) {
       .then((response) =>
         dispatch({ type: GET_ALL_USERS, payload: response.data })
       )
-      .catch((error) => console.log)
+      .catch((error) => console.log(error))
   };
 }
 
@@ -260,4 +261,13 @@ export function ModifyProductById(id, token , value) {
       })
       .catch((error) => console.log(error))
   };
+}
+export function getOrders(token) {
+  return async function (dispatch) {
+    axios.get(`/order`, { headers: { 'auth_token': token } })
+      .then((response) =>
+        dispatch({ type: GET_ALL_ORDERS, payload: response.data })
+      )
+      .catch((error) => console.log('error'))
+  }
 }

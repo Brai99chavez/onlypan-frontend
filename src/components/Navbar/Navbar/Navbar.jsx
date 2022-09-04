@@ -63,6 +63,9 @@ export default function NavbarViewer() {
             <NavLink className="nav-btn" to={'/lista-de-productos'}>
               Tabla Productos
             </NavLink>
+            <NavLink className="nav-btn" to={'/lista-de-Ordenes'}>
+              lista-de-Ordenes
+            </NavLink>
           </>
           : null}
       </div>

@@ -15,6 +15,7 @@ import {
   GET_SCORES_FOR_PRODUCT,
   GET_ALL_USERS,
   CLEAR_DETAIL_PRODUCT,
+  GET_ALL_ORDERS,
 } from "../Actions/Actions";
 
 const inicialState = {
@@ -31,6 +32,7 @@ const inicialState = {
   error: null,
   errorMessage: '',
   allUsers: [],
+  orders:[],
 };
 
 const rootReducer = (state = inicialState, action) => {
@@ -140,6 +142,12 @@ const rootReducer = (state = inicialState, action) => {
       return {
         ...state,
         detailProduct: {}
+      }
+    }
+    case GET_ALL_ORDERS: {
+      return {
+        ...state,
+        orders:action.payload
       }
     }
     default:
