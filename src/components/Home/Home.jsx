@@ -15,16 +15,17 @@ export default function Home() {
   const controlCart = JSON.parse(localStorage.getItem('cartSelectProducts'));
   const controlFavs = JSON.parse(localStorage.getItem('favoritesSelected'));
 
+
+  if (!controlCart)
+  localStorage.setItem('cartSelectProducts', JSON.stringify([]));
+
+if (!controlFavs)
+  localStorage.setItem('favoritesSelected', JSON.stringify([]));
+
   useEffect(() => {
     dispatch(getAllProducts());
     dispatch(getTypes());
-
-    if (!controlCart)
-      localStorage.setItem('cartSelectProducts', JSON.stringify([]));
-
-    if (!controlFavs)
-      localStorage.setItem('favoritesSelected', JSON.stringify([]));
-  }, [dispatch,controlCart,controlFavs]);
+  }, [dispatch]);
 
   const handleOnClick = (t) => {
     history.push(`/productos?tipo=${t}`);
