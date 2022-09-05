@@ -15,7 +15,7 @@ import Contact from './components/Contact/Contact';
 import CreateProduct from './components/CreateProduct/CreateProduct';
 import SignUp from './components/SignUp/SignUp';
 import UserAcount from './components/UserAcount/UserAcount';
-import Serch from './components/Maps/Serch';
+import Maps from '../src/components/Maps/Map';
 import TableOfProducts from './components/Tables/TableOfProducts/TableOfProducts';
 import TableOfUsers from './components/Tables/TableOfUsers/TableOfUsers';
 import ModifyProduct from './components/Products/ModifyProduct/ModifyProduct';
@@ -40,7 +40,7 @@ function App() {
           <Route path="/seleccionar-entrega" component={SelectDelivery} />
           <Route path="/carrito" exact component={Cart} />
           <Route path="/crear-producto" exact component={CreateProduct} />
-            <Route path="/maps" exact component ={Serch}/>
+            <Route path="/maps" exact component ={Maps}/>
           <Route path="/lista-de-usuarios" exact component={TableOfUsers} />
           <Route path="/lista-de-productos" exact component={TableOfProducts} />
           <Route

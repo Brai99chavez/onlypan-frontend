@@ -70,7 +70,7 @@ export default function NavbarViewer() {
         {/* <NavLink className="nav-btn" to={'/favoritos'}>
           favoritos
         </NavLink> */}
-        {selfRol === 'admin' ? (
+        {selfRol === 'admin' ? 
           <>
             <NavLink className="nav-btn" to={'/crear-producto'}>
               Crear producto
@@ -82,7 +82,7 @@ export default function NavbarViewer() {
               Tabla Productos
             </NavLink>
           </>
-        ) : null}
+          : null}
         <NavLink className="nav-btn" to={'/maps'}>
           estado del pedido
         </NavLink>
