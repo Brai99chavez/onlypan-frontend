@@ -16,32 +16,42 @@ import CreateProduct from './components/CreateProduct/CreateProduct';
 import SignUp from './components/SignUp/SignUp';
 import UserAcount from './components/UserAcount/UserAcount';
 import Serch from './components/Maps/Serch';
+import TableOfProducts from './components/Tables/TableOfProducts/TableOfProducts';
+import TableOfUsers from './components/Tables/TableOfUsers/TableOfUsers';
+import ModifyProduct from './components/Products/ModifyProduct/ModifyProduct';
+import SelectDelivery from './components/Cart/SelectDelivery/SelectDelivery';
 
 function App() {
   const stripePromise = loadStripe(
     'pk_test_51LaJmxF13fYbs0BsX1wFBN5ewQU5qWqBUdJx3DykrwIcy8D93ZK8Y1bmFQxMGnzDdEpfFwCE6hGSb2fHq9oUN5YJ00CoyP5txg'
   );
   return (
-    
-      <Elements stripe={stripePromise}>
-        <div>
-          <Route path="/*" component={Navbar} />
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/productos" exact component={Products} />
-            <Route path="/detail/:id" exact component={ProductDetail} />
-            <Route path="/contacto" exact component={Contact} />
-            <Route path="/ingreso" exact component={Login} />
-            <Route path="/registro" exact component={SignUp} />
-            <Route path="/user" exact component={UserAcount} />
-            <Route path="/carrito" exact component={Cart} />
-            <Route path="/crear-producto" exact component={CreateProduct} />
+    <Elements stripe={stripePromise}>
+      <div>
+        <Route path="/*" component={Navbar} />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/productos" exact component={Products} />
+          <Route path="/detail/:id" exact component={ProductDetail} />
+          <Route path="/contacto" exact component={Contact} />
+          <Route path="/ingreso" exact component={Login} />
+          <Route path="/registro" exact component={SignUp} />
+          <Route path="/usuario" exact component={UserAcount} />
+          <Route path="/seleccionar-entrega" component={SelectDelivery} />
+          <Route path="/carrito" exact component={Cart} />
+          <Route path="/crear-producto" exact component={CreateProduct} />
             <Route path="/maps" exact component ={Serch}/>
-            <Route path="/*" component={PageNotFound} />
-          </Switch>
-        </div>
-      </Elements>
-   
+          <Route path="/lista-de-usuarios" exact component={TableOfUsers} />
+          <Route path="/lista-de-productos" exact component={TableOfProducts} />
+          <Route
+            path="/modificar-producto/:id"
+            exact
+            component={ModifyProduct}
+          />
+          <Route path="/*" component={PageNotFound} />
+        </Switch>
+      </div>
+    </Elements>
   );
 }
 
