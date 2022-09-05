@@ -34,7 +34,10 @@ export default function Search() {
   // 1(pin):-34.608121
 
   return (
-    <div className="prueba">
+    <React.Fragment>
+
+    
+    <div className="prueba mt-40 mx-auto" >
       <form>
         <input
           autoComplete="shipping address-line1"
@@ -42,7 +45,9 @@ export default function Search() {
           onChange={onQueryChanged}
         />
       </form>
-      {value.length &&
+      
+    </div>
+    {value.length &&
         se?.map((e) => (
           <CardSearch
             id={e.id}
@@ -50,6 +55,7 @@ export default function Search() {
             place_name={e.place_name}
           />
         ))}
-    </div>
+  </React.Fragment>
   );
+
 }

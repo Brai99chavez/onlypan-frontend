@@ -16,7 +16,7 @@ export default function CardSearch({ id, texte_es, place_name }) {
         <p>
           <h6>{place_name}</h6>
         </p>
-        <button key={id} onClick={() => sendInfoLocation(id)}>
+        <button key={id} onClick={() => sendInfoLocation(id)} className="botonLocalitation">
           {" "}
           estoy aqui
         </button>
