@@ -10,12 +10,7 @@ export default function Filters({ setCurrentPage, tipo, changes }) {
   // redux
   const { products } = useSelector((state) => state);
   const maxPrice = Math.max(...products.map((p) => p.price));
-  // const [changes, setChanges] = useState({
-  //   type: '',
-  //   sort: '',
-  //   min: '',
-  //   max: '',
-  // });
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTypes());
@@ -27,7 +22,7 @@ export default function Filters({ setCurrentPage, tipo, changes }) {
     setCurrentPage(1);
     if (tipo) changes.type = tipo;
     changes[e.target.name] = e.target.value;
-
+    console.log(changes);
     if (
       changes.sort !== '' ||
       changes.type !== '' ||

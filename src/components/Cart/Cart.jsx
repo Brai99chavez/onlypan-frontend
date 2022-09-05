@@ -12,35 +12,33 @@ import {
 import Swal from 'sweetalert2';
 import SelectDelivery from './SelectDelivery/SelectDelivery';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserCart } from '../../redux/Actions/Actions';
+import { emptyCart, getUserCart } from '../../redux/Actions/Actions';
 
 export default function Cart() {
   const [nameCard, setNameCard] = useState('');
   const [chooseLocation, setChooseLocation] = useState(true);
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const dispatch = useDispatch();
+
   let loggedUser =
     localStorage.getItem('user') !== '{}'
       ? JSON.parse(localStorage.getItem('user'))
       : false;
 
-  useEffect(() => {
-    if (loggedUser)
-      dispatch(getUserCart(JSON.parse(localStorage.getItem('user')).user.id));
-  }, [dispatch]);
+  const copyLocalStorageUser = JSON.parse(localStorage.getItem('user'));
 
+  useEffect(() => {
+    if (loggedUser) {
+      dispatch(getUserCart(copyLocalStorageUser.user.id));
+    }
+  }, [dispatch]);
   const { cart } = useSelector((state) => state);
 
-  const [state, setState] = useState(
-    loggedUser
-      ? cart && cart
-      : JSON.parse(localStorage.getItem('cartSelectProducts'))
-  );
-  console.log(state);
-  const copyLocalStorage = JSON.parse(
-    localStorage.getItem('cartSelectProducts')
-  );
-  const copyLocalStorageUser = JSON.parse(window.localStorage.getItem('user'));
+  const [userCart, setUserCart] = useState(() => {
+    if (!loggedUser) {
+      return JSON.parse(localStorage.getItem('cartSelectProducts'));
+    }
+  });
 
   const [loadingsti, setLoadingsti] = useState(false);
   const stripe = useStripe();
@@ -110,20 +108,15 @@ export default function Cart() {
   };
   const errorMsgName = validationName(nameCard);
 
-  const idProducts = copyLocalStorage.map((e) => {
-    return {
-      id: e.id,
-      quantity: e.quantitySelectedCartSh,
-    };
-  });
-
   const sumTotal = () => {
-    return JSON.parse(localStorage.getItem('cartSelectProducts')).reduce(
-      (a, b) => {
-        return a + b.price * b.quantitySelectedCartSh;
-      },
-      0
-    );
+    if (!loggedUser) {
+      return JSON.parse(localStorage.getItem('cartSelectProducts')).reduce(
+        (a, b) => {
+          return a + b.price * b.quantitySelectedCartSh;
+        },
+        0
+      );
+    }
   };
   const [total, setTotal] = useState(sumTotal());
 
@@ -138,7 +131,7 @@ export default function Cart() {
       }).then((result) => {
         if (result.isConfirmed) history.push('/ingreso');
       });
-    else if (!state.length)
+    else if (!cart.products.length)
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -156,6 +149,12 @@ export default function Cart() {
         card: elements.getElement(CardNumberElement),
       });
       setLoadingsti(true);
+      const idProducts = cart.products.map((e) => {
+        return {
+          id: e.id,
+          quantity: e.productCart.quantity,
+        };
+      });
       const idUser = copyLocalStorageUser.user.id;
       const tokenUser = copyLocalStorageUser.token;
       const obj = {
@@ -163,6 +162,11 @@ export default function Cart() {
         idUser,
         tokenUser,
       };
+
+      const amount = cart.products.reduce((a, b) => {
+        return a + b.price * b.productCart.quantity;
+      }, 0);
+
       if (!error) {
         const { id } = paymentMethod;
         const { data } = await axios.post(
@@ -170,7 +174,7 @@ export default function Cart() {
           {
             error: error,
             id,
-            amount: total,
+            amount,
             delivery: selectedDelivery,
             obj: obj,
           },
@@ -183,8 +187,7 @@ export default function Cart() {
         const errormesa = errorMessages[data.error];
         data.error ? errorAlert(errormesa) : successPaymentAprobed();
       }
-      localStorage.setItem('cartSelectProducts', JSON.stringify([]));
-
+      dispatch(emptyCart(copyLocalStorageUser.user.id));
       setLoadingsti(false);
     }
   };
@@ -200,15 +203,43 @@ export default function Cart() {
                   <h1 className="text-xl font-medium">Mi carrito</h1>
                   {/* // productos   */}
                   <div className="overflow-y-auto h-96">
-                    {!state.length || !Object.keys.apply(state).length ? (
+                    {loggedUser ? (
+                      cart.products && !cart.products.length ? (
+                        <div className="mt-4">Su carrito está vacío</div>
+                      ) : (
+                        cart.id &&
+                        cart.products.map((e) => (
+                          <CartCard
+                            user={copyLocalStorageUser}
+                            cart={cart}
+                            loggedUser={loggedUser}
+                            setUserCart={setUserCart}
+                            setTotal={setTotal}
+                            sumTotal={sumTotal}
+                            key={e.id}
+                            id={e.id}
+                            image={e.image}
+                            isAvailable={e.isAvailable}
+                            name={e.name}
+                            price={e.price}
+                            type={e.type}
+                            quantitySelectedCartSh={e.productCart.quantity}
+                          />
+                        ))
+                      )
+                    ) : !userCart.length ? (
                       <div className="mt-4">Su carrito está vacío</div>
                     ) : (
-                      state.map((e) => (
+                      userCart.map((e) => (
                         <CartCard
-                          setState={setState}
+                          user={copyLocalStorageUser}
+                          cart={cart}
+                          loggedUser={loggedUser}
+                          setUserCart={setUserCart}
                           setTotal={setTotal}
                           sumTotal={sumTotal}
                           key={e.id}
+                          id={e.id}
                           image={e.image}
                           isAvailable={e.isAvailable}
                           name={e.name}
@@ -236,7 +267,14 @@ export default function Cart() {
                         Subtotal:
                       </span>
                       <span className="text-lg font-bold text-gray-800 ">
-                        ${total}
+                        $
+                        {loggedUser
+                          ? !Object.keys(cart).length
+                            ? 0
+                            : cart.products.reduce((a, b) => {
+                                return a + b.price * b.productCart.quantity;
+                              }, 0)
+                          : total}
                       </span>
                     </div>
                   </div>
@@ -345,13 +383,17 @@ export default function Cart() {
                           Comprar{loadingsti ? loadingPayment() : null}
                         </button>
                       </form>
-                      <button
-                        onClick={() => setChooseLocation(true)}
-                        className="text-md font-medium text-blue-500"
-                      >
-                        <i className="fa fa-arrow-left text-sm pr-2" />
-                        Volver
-                      </button>
+                      {loggedUser ? (
+                        <button
+                          onClick={() => setChooseLocation(true)}
+                          className="text-md font-medium text-blue-500"
+                        >
+                          <i className="fa fa-arrow-left text-sm pr-2" />
+                          Volver
+                        </button>
+                      ) : (
+                        <></>
+                      )}
                     </>
                   )}
                 </div>

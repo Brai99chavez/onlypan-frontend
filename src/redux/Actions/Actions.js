@@ -21,6 +21,9 @@ export const DELETE_LOCATION_SEARCH = 'DELETE_LOCATION_SEARCH'
 export const SEARCH_UBICATION = 'SEARCH_UBICATION'
 export const CREATE_USER_CART = 'CREATE_USER_CART';
 export const GET_USER_CART = 'GET_USER_CART';
+export const DELETE_PRODUCT_IN_CART = 'DELETE_PRODUCT_IN_CART';
+export const CHANGE_AMOUNT_IN_CART = 'CHANGE_AMOUNT_IN_CART';
+export const EMPTY_CART = 'EMPTY_CART';
 
 export function loading() {
   return { type: LOADING };
@@ -278,6 +281,52 @@ export const getUserCart = (id) => {
       .then((response) => {
         dispatch({ type: GET_USER_CART, payload: response.data[0] });
       })
+      .catch((error) => {
+        dispatch(handleError(error));
+        console.error(error);
+      });
+  };
+};
+
+export const deleteProductInCart = (id, productId) => {
+  return async function (dispatch) {
+    await axios
+      .delete(`/cart/deletePro/${id}`, { data: { id: productId } })
+      .then(() => axios.get(`/cart/${id}`))
+      .then((response) =>
+        dispatch({ type: DELETE_PRODUCT_IN_CART, payload: response.data[0] })
+      )
+      .catch((error) => {
+        dispatch(handleError(error));
+        console.error(error);
+      });
+  };
+};
+
+export const changeAmountInCart = (id, product) => {
+  return async function (dispatch) {
+    await axios
+      .put(`/cart/update/${id}`, product)
+      .then(() => axios.get(`/cart/${id}`))
+      .then((response) =>
+        dispatch({ type: CHANGE_AMOUNT_IN_CART, payload: response.data[0] })
+      )
+      .catch((error) => {
+        dispatch(handleError(error));
+        console.error(error);
+      });
+  };
+};
+
+export const emptyCart = (id) => {
+  return async function (dispatch) {
+    await axios.delete(`/cart/delete/${id}`);
+    await axios.post(`/cart/${id}`);
+    await axios
+      .get(`/${id}`)
+      .then((response) =>
+        dispatch({ type: EMPTY_CART, payload: response.data })
+      )
       .catch((error) => {
         dispatch(handleError(error));
         console.error(error);

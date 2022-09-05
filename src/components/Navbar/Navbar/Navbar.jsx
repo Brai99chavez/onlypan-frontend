@@ -5,7 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import '../Navbar.css';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { createUserCart } from '../../../redux/Actions/Actions';
+import { createUserCart, getUserCart } from '../../../redux/Actions/Actions';
 
 export default function NavbarViewer() {
   const dispatch = useDispatch();
@@ -19,12 +19,18 @@ export default function NavbarViewer() {
     JSON.parse(localStorage.getItem('user')).user.rol;
 
   const controlUser = JSON.parse(localStorage.getItem('user'));
+
   useEffect(() => {
     if (!controlUser) {
       localStorage.setItem('user', JSON.stringify({}));
     }
     setIsUserLogged(localStorage.getItem('user') !== '{}');
   }, [controlUser, isUserLogged]);
+
+  useEffect(() => {
+    if (isUserLogged)
+      dispatch(getUserCart(JSON.parse(localStorage.getItem('user')).user.id));
+  }, [dispatch]);
 
   const { isAuthenticated, user } = useAuth0();
   if (isAuthenticated && !isUserLogged) {
