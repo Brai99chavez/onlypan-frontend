@@ -24,7 +24,7 @@ export default function Home() {
 
     if (!controlFavs)
       localStorage.setItem('favoritesSelected', JSON.stringify([]));
-  }, [dispatch]);
+  }, [dispatch,controlCart,controlFavs]);
 
   const handleOnClick = (t) => {
     history.push(`/productos?tipo=${t}`);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux'
 import { clearDetailProduct, getProductForId, getTypes,ModifyProductById } from '../../../redux/Actions/Actions';
@@ -24,7 +24,6 @@ export default function ModifyProduct({ match }) {
       {detailProduct.name &&
       <Formik
         validate={(values) => {
-          let errors = {}
           if (!values.name) {
             console.log('no puede estar vacio')
           }

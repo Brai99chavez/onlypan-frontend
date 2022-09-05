@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrders } from '../../../redux/Actions/Actions';
-import { Link } from 'react-router-dom';
+
 
 export default function TableOfOrders() {
 
     const dispatch = useDispatch();
     const token = JSON.parse(localStorage.getItem("user")).token
-    useEffect(() => { dispatch(getOrders(token)) }, [dispatch])
+    useEffect(() => { dispatch(getOrders(token)) }, [dispatch,token])
     const { orders } = useSelector((state) => state);
     
     console.log(orders)
