@@ -18,6 +18,9 @@ import {
   DELETE_PRODUCT_IN_CART,
   CHANGE_AMOUNT_IN_CART,
   EMPTY_CART,
+  GET_ALL_FAVORITES,
+  ADD_FAVORITE,
+  DELETE_FAVORITE,
 } from '../Actions/Actions';
 
 const inicialState = {
@@ -31,6 +34,7 @@ const inicialState = {
   favorites: [],
   cart: {},
   userOrders: [],
+  userFavorites: [],
   loading: false,
   error: null,
   errorMessage: '',
@@ -131,7 +135,14 @@ const rootReducer = (state = inicialState, action) => {
         cart: action.payload,
         error: null,
       };
-
+    case GET_ALL_FAVORITES:
+    case ADD_FAVORITE:
+    case DELETE_FAVORITE:
+      return {
+        ...state,
+        userFavorites: action.payload,
+        error: null,
+      };
     case ERROR:
       return {
         ...state,

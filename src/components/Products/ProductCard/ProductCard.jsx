@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { changeAmountInCart } from '../../../redux/Actions/Actions';
+import {
+  addFavorite,
+  changeAmountInCart,
+  deleteFavorite,
+} from '../../../redux/Actions/Actions';
 import './ProductCard.css';
 
 export default function ProductCard({
+  userFavorites,
   cart,
   user,
   loggedUser,
@@ -18,6 +23,7 @@ export default function ProductCard({
 }) {
   const { products } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const copyLocalStorageCart = JSON.parse(
     localStorage.getItem('cartSelectProducts')
@@ -45,8 +51,15 @@ export default function ProductCard({
     return amountInCart;
   };
 
+  // const isFavorite =
+  //   userFavorites.length && userFavorites.filter((x) => x.name === name).length
+  //     ? true
+  //     : false;
+
   const [amountToAdd, setAmountToAdd] = useState(getAmountInCart());
-  // const [favoriteHeart, setFavoriteHeart] = useState(false);
+  const [favoriteHeart, setFavoriteHeart] = useState(
+    userFavorites.length && userFavorites.filter((x) => x.name === name).length
+  );
 
   const handleSumButon = () => {
     setAmountToAdd(amountToAdd + 1);
@@ -101,23 +114,27 @@ export default function ProductCard({
     }
   };
 
-  // const handleAddFavorites = (nameCard) => {
-  //   setFavoriteHeart(!favoriteHeart);
-  //   const copyLocalStorage = JSON.parse(
-  //     localStorage.getItem('favoritesSelected')
-  //   );
-  //   const duplicate = copyLocalStorage.filter((e) => e.name === nameCard);
-  //   if (!duplicate.length) {
-  //     const productAddFavorites = products.filter((e) => e.name === nameCard);
-
-  //     localStorage.setItem(
-  //       'favoritesSelected',
-  //       JSON.stringify(copyLocalStorage.concat(productAddFavorites))
-  //     );
-  //   } else {
-  //     alert('ya tienes este producto en tus favoritos');
-  //   }
-  // };
+  const handleClickOnHeart = (nameCard) => {
+    if (!loggedUser) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Oops...',
+        text: 'Debe registrarse para agregar a favoritos',
+        confirmButtonText: 'Iniciar sesión',
+        showCloseButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) history.push('/ingreso');
+      });
+    } else {
+      setFavoriteHeart(!favoriteHeart);
+      console.log(favoriteHeart);
+      if (!favoriteHeart) {
+        dispatch(addFavorite({ userId: user.user.id, productId: id }));
+      } else {
+        dispatch(deleteFavorite({ userId: user.user.id, id }));
+      }
+    }
+  };
   return (
     <div className="ProductCard">
       <div className="ProductCardImage">
@@ -125,14 +142,14 @@ export default function ProductCard({
       </div>
       <div className="ProductCardDetails">
         <p className="ProductCardTittle">{name}</p>
-        {/* <button className="favorite">
+        <button className="favorite">
           <i
-            onClick={() => handleAddFavorites(name)}
+            onClick={() => handleClickOnHeart(name)}
             className={`fa-heart butonAddFav ${
               favoriteHeart ? 'fa-solid' : 'fa-regular'
             }`}
           />
-        </button> */}
+        </button>
 
         <div className="ProductCardDescription">
           <p>${price}</p>

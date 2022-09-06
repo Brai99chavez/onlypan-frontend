@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   combinedFilter,
+  getAllFavorites,
   getAllProducts,
   getUserCart,
 } from '../../redux/Actions/Actions';
@@ -27,6 +28,7 @@ export default function Products() {
   useEffect(() => {
     if (loggedUser) {
       dispatch(getUserCart(copyLocalStorageUser.user.id));
+      dispatch(getAllFavorites(copyLocalStorageUser.user.id));
     }
   }, [dispatch]);
 
@@ -46,9 +48,9 @@ export default function Products() {
     if (tipo)
       dispatch(combinedFilter({ type: tipo, sort: '', min: '', max: '' }));
   }, [dispatch, tipo]);
-  const { products, cart, filteredProducts, loading, error } = useSelector(
-    (state) => state
-  );
+
+  const { products, filteredProducts, cart, userFavorites, loading, error } =
+    useSelector((state) => state);
 
   let vista = filteredProducts.length ? filteredProducts : products;
 
@@ -85,6 +87,7 @@ export default function Products() {
             {vista.length &&
               itemsToRender().map((p) => (
                 <ProductCard
+                  userFavorites={userFavorites}
                   cart={cart}
                   user={copyLocalStorageUser}
                   loggedUser={loggedUser}

@@ -67,9 +67,9 @@ export default function NavbarViewer() {
             Contacto
           </NavLink>
         ) : null}
-        {/* <NavLink className="nav-btn" to={'/favoritos'}>
-          favoritos
-        </NavLink> */}
+        <NavLink className="nav-btn" to={'/favoritos'}>
+          Favoritos
+        </NavLink>
         {selfRol === 'admin' ? (
           <>
             <NavLink className="nav-btn" to={'/crear-producto'}>

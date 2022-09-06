@@ -19,6 +19,7 @@ import TableOfProducts from './components/Tables/TableOfProducts/TableOfProducts
 import TableOfUsers from './components/Tables/TableOfUsers/TableOfUsers';
 import ModifyProduct from './components/Products/ModifyProduct/ModifyProduct';
 import SelectDelivery from './components/Cart/SelectDelivery/SelectDelivery';
+import Favorites from './components/Favorites/Favorites';
 
 function App() {
   const stripePromise = loadStripe(
@@ -38,6 +39,7 @@ function App() {
           <Route path="/usuario" exact component={UserAcount} />
           <Route path="/seleccionar-entrega" component={SelectDelivery} />
           <Route path="/carrito" exact component={Cart} />
+          <Route path="/favoritos" exact component={Favorites} />
           <Route path="/crear-producto" exact component={CreateProduct} />
           <Route path="/lista-de-usuarios" exact component={TableOfUsers} />
           <Route path="/lista-de-productos" exact component={TableOfProducts} />

@@ -21,6 +21,9 @@ export const GET_USER_CART = 'GET_USER_CART';
 export const DELETE_PRODUCT_IN_CART = 'DELETE_PRODUCT_IN_CART';
 export const CHANGE_AMOUNT_IN_CART = 'CHANGE_AMOUNT_IN_CART';
 export const EMPTY_CART = 'EMPTY_CART';
+export const GET_ALL_FAVORITES = 'GET_ALL_FAVORITES';
+export const ADD_FAVORITE = 'ADD_FAVORITE';
+export const DELETE_FAVORITE = 'DELETE_FAVORITE';
 
 export function loading() {
   return { type: LOADING };
@@ -302,10 +305,59 @@ export const emptyCart = (id) => {
     await axios.delete(`/cart/delete/${id}`);
     await axios.post(`/cart/${id}`);
     await axios
-      .get(`/${id}`)
+      .get(`/cart/${id}`)
       .then((response) =>
         dispatch({ type: EMPTY_CART, payload: response.data })
       )
+      .catch((error) => {
+        dispatch(handleError(error));
+        console.error(error);
+      });
+  };
+};
+
+export const getAllFavorites = (id) => {
+  return async function (dispatch) {
+    await axios
+      .get(`/favorite/all/${id}`)
+      .then((response) => {
+        dispatch({
+          type: GET_ALL_FAVORITES,
+          payload: response.data.products,
+        });
+      })
+      .catch((error) => {
+        dispatch(handleError(error));
+        console.error(error);
+      });
+  };
+};
+
+export const addFavorite = (data) => {
+  return async function (dispatch) {
+    await axios.post(`/favorite`, data);
+    await axios
+      .get(`/favorite/all/${data.userId}`)
+      .then((response) => {
+        dispatch({ type: ADD_FAVORITE, payload: response.data.products });
+      })
+      .catch((error) => {
+        dispatch(handleError(error));
+        console.error(error);
+      });
+  };
+};
+
+export const deleteFavorite = (data) => {
+  return async function (dispatch) {
+    await axios.delete(`/favorite/delete/${data.userId}`, {
+      data: { id: data.id },
+    });
+    await axios
+      .get(`/favorite/all/${data.userId}`)
+      .then((response) => {
+        dispatch({ type: DELETE_FAVORITE, payload: response.data.products });
+      })
       .catch((error) => {
         dispatch(handleError(error));
         console.error(error);
