@@ -356,13 +356,13 @@ export const emptyCart = (id, token) => {
         auth_token: token,
       },
     });
-    await axios.post(`/cart/${id}`, {
+    await axios.post(`/cart/${id}`,[], {
       headers: {
         auth_token: token,
       },
     });
     await axios
-      .get(`/${id}`, {
+      .get(`/cart/${id}`, {
         headers: {
           auth_token: token,
         },
