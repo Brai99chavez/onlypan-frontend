@@ -8,7 +8,7 @@ function Orders() {
   const userId = JSON.parse(localStorage.getItem('user')).user.id;
   useEffect(() => {
     dispatch(getUserOrders(userId));
-  }, [dispatch]);
+  }, [dispatch,userId]);
 
   const { userOrders } = useSelector((state) => state);
   return (

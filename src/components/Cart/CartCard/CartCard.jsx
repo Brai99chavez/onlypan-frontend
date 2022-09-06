@@ -93,12 +93,7 @@ function CartCard({
           >
             -
           </button>
-          <input
-            disabled
-            type="text"
-            className="focus:outline-none bg-gray-100 border h-6 w-8 rounded text-sm px-2 mx-2"
-            value={amountInCart}
-          />
+            <p className="mx-4">{amountInCart}</p>
           <button
             onClick={() => handleChangeAmount('suma')}
             className="font-semibold cursor-pointer"

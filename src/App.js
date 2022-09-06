@@ -19,6 +19,7 @@ import TableOfProducts from './components/Tables/TableOfProducts/TableOfProducts
 import TableOfUsers from './components/Tables/TableOfUsers/TableOfUsers';
 import ModifyProduct from './components/Products/ModifyProduct/ModifyProduct';
 import SelectDelivery from './components/Cart/SelectDelivery/SelectDelivery';
+import TableOfOrders from './components/Tables/TableOfOrders/TableOfOrders';
 
 function App() {
   const stripePromise = loadStripe(
@@ -41,6 +42,7 @@ function App() {
           <Route path="/crear-producto" exact component={CreateProduct} />
           <Route path="/lista-de-usuarios" exact component={TableOfUsers} />
           <Route path="/lista-de-productos" exact component={TableOfProducts} />
+            <Route path="/lista-de-Ordenes" exact component={TableOfOrders} />
           <Route
             path="/modificar-producto/:id"
             exact

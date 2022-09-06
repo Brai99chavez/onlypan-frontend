@@ -21,6 +21,7 @@ import {
   DELETE_PRODUCT_IN_CART,
   CHANGE_AMOUNT_IN_CART,
   EMPTY_CART,
+  GET_ALL_ORDERS,
 } from '../Actions/Actions';
 
 const inicialState = {
@@ -38,6 +39,7 @@ const inicialState = {
   error: null,
   errorMessage: '',
   allUsers: [],
+  orders:[],
   locations: [],
   ubicationUserDeliver: []
 };
@@ -148,6 +150,12 @@ const rootReducer = (state = inicialState, action) => {
         ...state,
         loading: true,
       };
+    case GET_ALL_ORDERS: {
+      return {
+        ...state,
+        orders:action.payload
+      }
+    }
     case SEARCH_LOCALITATION:{
       return {
         ...state,

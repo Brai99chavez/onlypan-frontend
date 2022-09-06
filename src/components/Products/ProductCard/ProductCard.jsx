@@ -15,6 +15,7 @@ export default function ProductCard({
   type,
   id,
   setAddedToCart,
+  quantity
 }) {
   const { products } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -137,6 +138,8 @@ export default function ProductCard({
         <div className="ProductCardDescription">
           <p>${price}</p>
           <span className="ProductCardtype">Categoría: {type}</span>
+          <br />
+          <span className="ProductCardtype">stock: {quantity}</span>
         </div>
       </div>
       <div className="ProductCardButtons">
