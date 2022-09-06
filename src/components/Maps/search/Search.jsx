@@ -37,24 +37,26 @@ export default function Search() {
     <React.Fragment>
 
     
-    <div className="prueba mt-40 mx-auto" >
+    <div className="prueba" >
       <form>
         <input
           autoComplete="shipping address-line1"
           value={value}
           onChange={onQueryChanged}
+          type="text"
+          className="text-black w-64"
         />
       </form>
       
     </div>
-    {value.length &&
+    {value.length ? 
         se?.map((e) => (
           <CardSearch
             id={e.id}
             texte_es={e.texte_es}
             place_name={e.place_name}
           />
-        ))}
+        )) :  null}
   </React.Fragment>
   );
 
