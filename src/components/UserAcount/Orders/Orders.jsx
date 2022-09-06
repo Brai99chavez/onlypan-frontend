@@ -8,10 +8,9 @@ function Orders() {
   const userId = JSON.parse(localStorage.getItem('user')).user.id;
   useEffect(() => {
     dispatch(getUserOrders(userId));
-  }, [dispatch]);
+  }, [dispatch,userId]);
 
   const { userOrders } = useSelector((state) => state);
-  console.log(userOrders);
   return (
     <div className="ordersContainer">
       <h1 className="ordersTitle">Mis compras</h1>

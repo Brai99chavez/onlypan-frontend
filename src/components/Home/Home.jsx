@@ -14,12 +14,12 @@ export default function Home() {
   const { types, loading, error } = useSelector((state) => state);
   const controlCart = JSON.parse(localStorage.getItem('cartSelectProducts'));
 
+  if (!controlCart)
+    localStorage.setItem('cartSelectProducts', JSON.stringify([]));
+
   useEffect(() => {
     dispatch(getAllProducts());
     dispatch(getTypes());
-
-    if (!controlCart)
-      localStorage.setItem('cartSelectProducts', JSON.stringify([]));
   }, [dispatch]);
 
   const handleOnClick = (t) => {

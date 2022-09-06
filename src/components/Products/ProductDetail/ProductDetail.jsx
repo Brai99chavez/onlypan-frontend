@@ -95,6 +95,9 @@ function ProductDetail({ match }) {
             <strong>Precio:</strong> ${detailProduct.price}
           </p>
           <p>
+            <strong>Stock:</strong> {detailProduct.quantity}
+          </p>
+          <p>
             <strong>Tipo: </strong>
             {detailProduct.type[0].toUpperCase() +
               detailProduct.type.substring(1).toLowerCase()}

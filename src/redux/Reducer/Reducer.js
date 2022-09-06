@@ -13,11 +13,15 @@ import {
   GET_SCORES_FOR_PRODUCT,
   GET_ALL_USERS,
   CLEAR_DETAIL_PRODUCT,
+  SEARCH_LOCALITATION,
+  DELETE_LOCATION_SEARCH,
+  SEARCH_UBICATION,
   CREATE_USER_CART,
   GET_USER_CART,
   DELETE_PRODUCT_IN_CART,
   CHANGE_AMOUNT_IN_CART,
   EMPTY_CART,
+  GET_ALL_ORDERS,
   GET_ALL_FAVORITES,
   ADD_FAVORITE,
   DELETE_FAVORITE,
@@ -39,6 +43,9 @@ const inicialState = {
   error: null,
   errorMessage: '',
   allUsers: [],
+  orders: [],
+  locations: [],
+  ubicationUserDeliver: [],
 };
 
 const rootReducer = (state = inicialState, action) => {
@@ -154,6 +161,37 @@ const rootReducer = (state = inicialState, action) => {
         ...state,
         loading: true,
       };
+    case GET_ALL_ORDERS: {
+      return {
+        ...state,
+        orders: action.payload,
+      };
+    }
+    case SEARCH_LOCALITATION: {
+      return {
+        ...state,
+        locations: action.payload,
+      };
+    }
+    case DELETE_LOCATION_SEARCH: {
+      return {
+        ...state,
+        locations: action.payload,
+      };
+    }
+    case SEARCH_UBICATION: {
+      const copyLocation = [...state.locations];
+      const ubicationUserSelected = copyLocation.filter(
+        (ubi) => ubi.id === action.payload
+      );
+
+      return {
+        ...state,
+        ubicationUserDeliver: state.ubicationUserDeliver.concat(
+          ubicationUserSelected
+        ),
+      };
+    }
     default:
       return state;
   }

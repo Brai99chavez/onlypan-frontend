@@ -27,7 +27,9 @@ export default function Products() {
 
   useEffect(() => {
     if (loggedUser) {
-      dispatch(getUserCart(copyLocalStorageUser.user.id));
+      dispatch(
+        getUserCart(copyLocalStorageUser.user.id, copyLocalStorageUser.token)
+      );
       dispatch(getAllFavorites(copyLocalStorageUser.user.id));
     }
   }, [dispatch]);
@@ -98,6 +100,7 @@ export default function Products() {
                   image={p.image}
                   description={p.description}
                   type={p.type}
+                  quantity={p.quantity}
                   setAddedToCart={setAddedToCart}
                 />
               ))}

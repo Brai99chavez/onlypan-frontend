@@ -26,10 +26,10 @@ export default function Cart() {
       : false;
 
   const copyLocalStorageUser = JSON.parse(localStorage.getItem('user'));
-
   useEffect(() => {
     if (loggedUser) {
-      dispatch(getUserCart(copyLocalStorageUser.user.id));
+      console.log(copyLocalStorageUser.token);
+      dispatch(getUserCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token ));
     }
   }, [dispatch]);
   const { cart } = useSelector((state) => state);
@@ -187,12 +187,17 @@ export default function Cart() {
         const errormesa = errorMessages[data.error];
         data.error ? errorAlert(errormesa) : successPaymentAprobed();
       }
-      dispatch(emptyCart(copyLocalStorageUser.user.id));
+      dispatch(emptyCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token));
       setLoadingsti(false);
     }
   };
+
+  const inputStyle = {
+    color: '#fff'
+  }
+
   return (
-    <div className="h-100% bg-gray-300 my-28">
+    <div className="cart h-100%">
       <div className="py-12">
         <div className="max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg  md:max-w-5xl">
           <div className="md:flex ">
@@ -360,7 +365,13 @@ export default function Cart() {
                           <label className="text-xs text-gray-400 ">
                             Numero de tarjeta
                           </label>
-                          <CardNumberElement />
+                          <CardNumberElement
+                        options={{
+                          style: {
+                            base: inputStyle,
+                          },
+                        }}
+                      />
                         </div>
                         <div className="grid grid-cols-3 gap-2 pt-2 mb-3">
                           <div className="col-span-2 ">
@@ -368,12 +379,26 @@ export default function Cart() {
                               Fecha de vencimiento
                             </label>
                             <div className="grid grid-cols-2 gap-2">
-                              <CardExpiryElement />
+    
+                          <CardExpiryElement
+                            options={{
+                              style: {
+                                base: inputStyle,
+                              },
+                            }}
+                          />
                             </div>
                           </div>
                           <div className="">
                             <label className="text-xs text-gray-400">CVV</label>
-                            <CardCvcElement />
+    
+                        <CardCvcElement
+                          options={{
+                            style: {
+                              base: inputStyle,
+                            },
+                          }}
+                        />
                           </div>
                         </div>
                         <button
