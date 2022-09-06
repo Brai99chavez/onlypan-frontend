@@ -21,6 +21,7 @@ export const GET_USER_CART = 'GET_USER_CART';
 export const DELETE_PRODUCT_IN_CART = 'DELETE_PRODUCT_IN_CART';
 export const CHANGE_AMOUNT_IN_CART = 'CHANGE_AMOUNT_IN_CART';
 export const EMPTY_CART = 'EMPTY_CART';
+export const GET_ALL_ORDERS = 'GET_ALL_ORDERS';
 
 export function loading() {
   return { type: LOADING };
@@ -109,10 +110,12 @@ export function resetFilteredProducts() {
   return { type: RESET_FILTERED_PRODUCTS };
 }
 
-export function createProduct(value) {
+export function createProduct(value,token) {
   return function (dispatch) {
     axios
-      .post('/product', value)
+      .post('/product', value,{headers: {
+        auth_token: token,
+      }})
       .then((response) => dispatch({ type: CREATE_PRODUCT }))
       .catch((error) => {
         dispatch(handleError(error));
@@ -312,3 +315,45 @@ export const emptyCart = (id) => {
       });
   };
 };
+
+export function DisableUser(id, token) {
+  return async function (dispatch) {
+    await axios.get(`/user/delete/${id}`, {
+        headers: {
+          'auth_token': token,
+        },
+      })
+      .catch((error) => console.log(error))
+  };
+}
+
+export function DeleteProduct(id, token) {
+  return async function (dispatch) {
+    await axios.delete(`/product/delete/${id}`, {
+        headers: {
+          'auth_token': token,
+        },
+      })
+      .catch((error) => console.log(error))
+  };
+}
+ 
+export function ModifyProductById(id, token , value) {
+  return async function (dispatch) {
+    await axios.put(`/product/update/${id}`, value, {
+        headers: {
+          'auth_token': token,
+        },
+      })
+      .catch((error) => console.log(error))
+  };
+}
+export function getOrders(token) {
+  return async function (dispatch) {
+    axios.get(`/order`, { headers: { 'auth_token': token } })
+      .then((response) =>
+        dispatch({ type: GET_ALL_ORDERS, payload: response.data })
+      )
+      .catch((error) => console.log('error'))
+  }
+}

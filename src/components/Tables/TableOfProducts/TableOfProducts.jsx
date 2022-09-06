@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { getAllProducts } from '../../../redux/Actions/Actions';
+import { DeleteProduct, getAllProducts } from '../../../redux/Actions/Actions';
 import "../Tables.css"
 
 export default function TableOfProducts() {
-
+  
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function TableOfProducts() {
   }, [dispatch]);
 
   const { products } = useSelector((state) => state);
-
+  const token = JSON.parse(localStorage.getItem("user")).token
 
   return (
     <React.Fragment>
@@ -41,9 +41,9 @@ export default function TableOfProducts() {
                 <td>{p.price}</td>
                 <td>{p.quantity}</td>
                 <td>{p.type}</td>
-                <td>{p.isAvailable ? 'si' : 'no'} </td>
+                <td>{p.quantity > 0 ? 'si' : 'no'} </td>
                 <td><Link to={`/modificar-producto/${p.id}`}><i className="fa-solid fa-pen-to-square "></i></Link></td>
-                <td><button><i className="fa-solid fa-trash-can"></i></button></td>
+                <td><button onClick={() => dispatch(DeleteProduct(p.id,token) , window.location.reload())} ><i className="fa-solid fa-trash-can"></i></button></td>
               </tr>
 
             )}
@@ -52,19 +52,17 @@ export default function TableOfProducts() {
       </div>
       <div className='table-mobile'>
         {products && products.map((p, i) =>
-
           <div className='table-mobile-body' key={i}>
             <h1 className="table-mobile-tittle">#{p.id} {p.name}</h1>
             <div className='table-mobile-details'>
               <p><strong>precio:</strong> ${p.price}</p>
               <p><strong>cantidad:</strong> {p.quantity}</p>
               <p><strong>categoria:</strong> {p.type}</p>
-              <p><strong>disponible:</strong> {p.isAvailable ? 'si' : 'no'}</p>
+              <p><strong>disponible:</strong> {p.quantity > 0 ? 'si' : 'no'}</p>
               <Link to={`/modificar-producto/${p.id}`}><i className="fa-solid fa-pen-to-square "></i></Link>
                 <button><i className="fa-solid fa-trash-can"></i></button>
             </div>
           </div>
-
         )}
       </div>
     </React.Fragment>
