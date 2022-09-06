@@ -10,11 +10,12 @@ export default function CardSearch({ id, texte_es, place_name }) {
     dispatch(search_ubication(info));
   };
   return (
-    <ul>
-      <li key={id} className="item-location">
+    <div > 
+<ul className="item-location" >
+      <li key={id} className="fondoLi">
         <h6>{texte_es}</h6>
         <p>
-          <h6>{place_name}</h6>
+          {place_name}
         </p>
         <button key={id} onClick={() => sendInfoLocation(id)} className="botonLocalitation">
           {" "}
@@ -22,5 +23,7 @@ export default function CardSearch({ id, texte_es, place_name }) {
         </button>
       </li>
     </ul>
+    </div>
+    
   );
 }

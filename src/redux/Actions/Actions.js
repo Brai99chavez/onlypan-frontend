@@ -260,11 +260,19 @@ export function search_ubication (id){
     return dispatch ({type: SEARCH_UBICATION, payload: id})
   }
 }
-export const createUserCart = (id, cart) => {
+export const createUserCart = (id, cart, token) => {
   return async function (dispatch) {
     await axios
-      .post(`/cart/${id}`, cart)
-      .then(() => axios.get(`/cart/${id}`))
+      .post(`/cart/${id}`, cart, {
+        headers: {
+          auth_token: token,
+        },
+      })
+      .then(() => axios.get(`/cart/${id}`, {
+        headers: {
+          auth_token: token,
+        },
+      }))
       .then((response) =>
         dispatch({ type: CREATE_USER_CART, payload: response.data[0] })
       )
@@ -274,10 +282,14 @@ export const createUserCart = (id, cart) => {
       });
   };
 };
-export const getUserCart = (id) => {
+export const getUserCart = (id, token) => {
   return async function (dispatch) {
     await axios
-      .get(`/cart/${id}`)
+      .get(`/cart/${id}`, {
+        headers: {
+          auth_token: token,
+        },
+      })
       .then((response) => {
         dispatch({ type: GET_USER_CART, payload: response.data[0] });
       })
@@ -288,11 +300,19 @@ export const getUserCart = (id) => {
   };
 };
 
-export const deleteProductInCart = (id, productId) => {
+export const deleteProductInCart = (id, productId, token) => {
   return async function (dispatch) {
     await axios
-      .delete(`/cart/deletePro/${id}`, { data: { id: productId } })
-      .then(() => axios.get(`/cart/${id}`))
+      .delete(`/cart/deletePro/${id}`, { data: { id: productId } }, {
+        headers: {
+          auth_token: token,
+        },
+      })
+      .then(() => axios.get(`/cart/${id}`, {
+        headers: {
+          auth_token: token,
+        },
+      }))
       .then((response) =>
         dispatch({ type: DELETE_PRODUCT_IN_CART, payload: response.data[0] })
       )
@@ -303,11 +323,19 @@ export const deleteProductInCart = (id, productId) => {
   };
 };
 
-export const changeAmountInCart = (id, product) => {
+export const changeAmountInCart = (id, product, token) => {
   return async function (dispatch) {
     await axios
-      .put(`/cart/update/${id}`, product)
-      .then(() => axios.get(`/cart/${id}`))
+      .put(`/cart/update/${id}`, product, {
+        headers: {
+          auth_token: token,
+        },
+      })
+      .then(() => axios.get(`/cart/${id}`, {
+        headers: {
+          auth_token: token,
+        },
+      }))
       .then((response) =>
         dispatch({ type: CHANGE_AMOUNT_IN_CART, payload: response.data[0] })
       )
@@ -318,12 +346,24 @@ export const changeAmountInCart = (id, product) => {
   };
 };
 
-export const emptyCart = (id) => {
+export const emptyCart = (id, token) => {
   return async function (dispatch) {
-    await axios.delete(`/cart/delete/${id}`);
-    await axios.post(`/cart/${id}`);
+    await axios.delete(`/cart/delete/${id}`, {
+      headers: {
+        auth_token: token,
+      },
+    });
+    await axios.post(`/cart/${id}`, {
+      headers: {
+        auth_token: token,
+      },
+    });
     await axios
-      .get(`/${id}`)
+      .get(`/${id}`, {
+        headers: {
+          auth_token: token,
+        },
+      })
       .then((response) =>
         dispatch({ type: EMPTY_CART, payload: response.data })
       )

@@ -11,7 +11,6 @@ function Orders() {
   }, [dispatch]);
 
   const { userOrders } = useSelector((state) => state);
-  console.log(userOrders);
   return (
     <div className="ordersContainer">
       <h1 className="ordersTitle">Mis compras</h1>

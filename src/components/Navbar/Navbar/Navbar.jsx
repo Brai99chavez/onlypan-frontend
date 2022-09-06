@@ -45,7 +45,8 @@ export default function NavbarViewer() {
       .then((response) => {
         localStorage.setItem('user', JSON.stringify(response.data));
         const copyCart = JSON.parse(localStorage.getItem('cartSelectProducts'));
-        dispatch(createUserCart(response.data.user.id, copyCart));
+        
+        dispatch(createUserCart(response.data.user.id, copyCart, response.data.token));
       })
       .then(() =>
         localStorage.setItem('cartSelectProducts', JSON.stringify([]))
@@ -83,9 +84,6 @@ export default function NavbarViewer() {
             </NavLink>
           </>
           : null}
-        <NavLink className="nav-btn" to={'/maps'}>
-          estado del pedido
-        </NavLink>
       </div>
       <div className="nav-login">
         <NavLink className="nav-btn" to={'/carrito'}>

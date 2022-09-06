@@ -22,7 +22,7 @@ export default function ShoppingCartCard({
       localStorage.setItem('cartSelectProducts', JSON.stringify(cleared));
       setUserCart(cleared);
     } else {
-      dispatch(deleteProductInCart(user.user.id, id));
+      dispatch(deleteProductInCart(user.user.id, id, user.token));
     }
   };
   return (
