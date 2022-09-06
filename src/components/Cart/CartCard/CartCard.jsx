@@ -80,7 +80,7 @@ function CartCard({
   return (
     <div className="flex justify-between items-center mt-6 pt-6">
       <div className="flex  items-center">
-        <img src={image} width="80" alt="product" />
+        <img src={image} width="80" alt="product" className="rounded-xl" />
         <div className="flex flex-col ml-3">
           <span className="md:text-md font-medium">{name}</span>
         </div>

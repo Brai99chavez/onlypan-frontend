@@ -13,14 +13,9 @@ export default function Home() {
   const history = useHistory();
   const { types, loading, error } = useSelector((state) => state);
   const controlCart = JSON.parse(localStorage.getItem('cartSelectProducts'));
-  const controlFavs = JSON.parse(localStorage.getItem('favoritesSelected'));
-
 
   if (!controlCart)
-  localStorage.setItem('cartSelectProducts', JSON.stringify([]));
-
-if (!controlFavs)
-  localStorage.setItem('favoritesSelected', JSON.stringify([]));
+    localStorage.setItem('cartSelectProducts', JSON.stringify([]));
 
   useEffect(() => {
     dispatch(getAllProducts());
