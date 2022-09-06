@@ -1,6 +1,6 @@
-
-
-
+.form {
+    @apply w-80 m-auto bg-white p-5 rounded-xl
+}
 
 .form-inputs input{
     @apply text-center p-3   

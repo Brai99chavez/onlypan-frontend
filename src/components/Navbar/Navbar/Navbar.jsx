@@ -70,13 +70,13 @@ export default function NavbarViewer() {
               Crear producto
             </NavLink>
             <NavLink className="nav-btn" to={'/lista-de-usuarios'}>
-              Tabla usuarios
+              Lista usuarios
             </NavLink>
             <NavLink className="nav-btn" to={'/lista-de-productos'}>
-              Tabla Productos
+              Lista Productos
             </NavLink>
             <NavLink className="nav-btn" to={'/lista-de-Ordenes'}>
-              lista-de-Ordenes
+              Lista de Ordenes
             </NavLink>
           </>
         ) : null}

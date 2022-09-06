@@ -16,7 +16,7 @@ export default function CreateProduct() {
     dispatch(getTypes());
   }, [dispatch]);
   const { products, types } = useSelector((state) => state);
-
+  const token = JSON.parse(localStorage.getItem("user")).token
   return (
     <Formik
       initialValues={{
@@ -25,6 +25,7 @@ export default function CreateProduct() {
         image: '',
         description: '',
         type: '',
+        quantity: 0,
       }}
       validate={(values) => {
         const expresiones = {
@@ -63,13 +64,16 @@ export default function CreateProduct() {
         if (values.description.length < 5 || values.description.length >= 200)
           errors.description =
             'La descripción debe tener entre 5 y 200 caracteres';
+        if (values.quantity < 0)
+          errors.quantity = 'el stock debe ser mayor o igual a 0';
         if (!values.type) errors.type = 'Debe seleccionar una categoría';
         if (!types.includes(values.type))
           errors.type = 'Seleccione una categoría existente.';
         return errors;
       }}
       onSubmit={(values, actions) => {
-        dispatch(createProduct(values));
+        console.log(values)
+        dispatch(createProduct(values,token));
         Swal.fire({
           icon: 'success',
           title: 'Producto creado',
@@ -83,6 +87,7 @@ export default function CreateProduct() {
             image: '',
             description: '',
             type: '',
+            quantity: 0,
           },
         });
       }}
@@ -153,6 +158,22 @@ export default function CreateProduct() {
                 </div>
                 <br />
                 <div className="createCol">
+                <label className="create-detail">
+                    <span>Stock:</span>
+                    <input
+                      name="quantity"
+                      value={values.quantity}
+                      type="number"
+                      placeholder="20"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <div className="createErrorContainer">
+                      {errors.quantity && touched.quantity && (
+                        <div className="createError">{errors.quantity}</div>
+                      )}
+                    </div>
+                  </label>
                   <label className="create-detail">
                     <span>Descripción:</span>
                     <br />

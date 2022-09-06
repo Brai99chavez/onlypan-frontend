@@ -74,6 +74,7 @@ export default function Products() {
                   image={p.image}
                   description={p.description}
                   type={p.type}
+                  quantity={p.quantity}
                   setAddedToCart={setAddedToCart}
                 />
               ))}

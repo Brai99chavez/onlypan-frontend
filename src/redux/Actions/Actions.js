@@ -107,10 +107,12 @@ export function resetFilteredProducts() {
   return { type: RESET_FILTERED_PRODUCTS };
 }
 
-export function createProduct(value) {
+export function createProduct(value,token) {
   return function (dispatch) {
     axios
-      .post('/product', value)
+      .post('/product', value,{headers: {
+        auth_token: token,
+      }})
       .then((response) => dispatch({ type: CREATE_PRODUCT }))
       .catch((error) => {
         dispatch(handleError(error));
