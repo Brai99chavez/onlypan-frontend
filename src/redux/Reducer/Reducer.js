@@ -15,6 +15,9 @@ import {
   CLEAR_DETAIL_PRODUCT,
   CREATE_USER_CART,
   GET_USER_CART,
+  DELETE_PRODUCT_IN_CART,
+  CHANGE_AMOUNT_IN_CART,
+  EMPTY_CART,
   GET_ALL_ORDERS,
 } from '../Actions/Actions';
 
@@ -122,9 +125,13 @@ const rootReducer = (state = inicialState, action) => {
     }
     case CREATE_USER_CART:
     case GET_USER_CART:
+    case DELETE_PRODUCT_IN_CART:
+    case CHANGE_AMOUNT_IN_CART:
+    case EMPTY_CART:
       return {
         ...state,
         cart: action.payload,
+        error: null,
       };
 
     case ERROR:

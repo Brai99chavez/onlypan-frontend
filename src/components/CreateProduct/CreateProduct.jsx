@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createProduct,
@@ -9,7 +9,10 @@ import './CreateProduct.css';
 import { Formik } from 'formik';
 import Swal from 'sweetalert2';
 
+
 export default function CreateProduct() {
+  const [imagen, setImage] = useState("")
+    const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllProducts());
@@ -17,6 +20,31 @@ export default function CreateProduct() {
   }, [dispatch]);
   const { products, types } = useSelector((state) => state);
   const token = JSON.parse(localStorage.getItem("user")).token
+  //funciones
+  // cloudinary
+  let ownErrors = {}
+  const uploading = async (e) => {
+        try {
+          const files = e.target.files
+          const data = new FormData()
+          let a = files[0].type?.split("/").pop()
+          console.log(a ==="png" , "filese[0].size>2000000");
+            if (files[0]===undefined) return ownErrors.errors = "insert"
+            if(a !=="png") return ownErrors.errors = "valid"
+            console.log(ownErrors.errors, "errors")
+            if(a ==="png") ownErrors.errors = ""
+          if(true){data.append("file", files[0])
+          data.append("upload_preset", "images")
+          setLoading(true)
+          const response = await fetch("https://api.cloudinary.com/v1_1/onlypan/upload", { method: "POST", body: data })
+          const file = await response.json()
+          setImage(file.secure_url)
+          setLoading(false)}
+        } catch (error) {
+          console.log(error);
+        }
+    }
+  
   return (
     <Formik
       initialValues={{
@@ -31,7 +59,7 @@ export default function CreateProduct() {
         const expresiones = {
           numeros: / *([.0-9])*\d/g,
           caracteresEs: /[\[\\\^\$\.\|\?\*\+\(\)\{\}]/g, //eslint-disable-line
-          url: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi, //eslint-disable-line
+          // url: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi, //eslint-disable-line
           instru: /^[a-zA-Z0-9_-\s]{4,200}$/, //eslint-disable-line
           numPosi: /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/gm, //eslint-disable-line
         };
@@ -54,8 +82,9 @@ export default function CreateProduct() {
         )
           errors.name = 'Ya existe un producto con ese nombre';
 
-        if (!expresiones.url.test(values.image))
-          errors.image = 'Ingrese un link valido para la imagen';
+        if (ownErrors.errors === "insert") errors.image = "Ingrese una imagen"
+        if (ownErrors.errors === "valid") errors.image = "Ingrese un una imagen de formato png"
+        //   errors.image = 'Ingrese un link valido para la imagen';
 
         if (values.price <= 0) errors.price = 'El precio debe ser mayor a 0';
         if (!values.description) errors.description = 'Completa este campo';
@@ -69,11 +98,12 @@ export default function CreateProduct() {
         if (!values.type) errors.type = 'Debe seleccionar una categoría';
         if (!types.includes(values.type))
           errors.type = 'Seleccione una categoría existente.';
+        console.log(errors);
         return errors;
       }}
       onSubmit={(values, actions) => {
-        console.log(values)
-        dispatch(createProduct(values,token));
+        values.image = imagen
+        dispatch(createProduct(values));
         Swal.fire({
           icon: 'success',
           title: 'Producto creado',
@@ -90,6 +120,9 @@ export default function CreateProduct() {
             quantity: 0,
           },
         });
+        setTimeout(() => {
+          window.location.replace("");
+        }, 1500)
       }}
     >
       {({
@@ -143,12 +176,14 @@ export default function CreateProduct() {
                     <span>Imagen:</span>
                     <input
                       name="image"
-                      value={values.image}
-                      type="text"
+                      // value={values.image}
+                      type="file"
                       placeholder="Link..."
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={e => uploading(e)}
                       onBlur={handleBlur}
                     />
+                    {loading?<h3>Loading...</h3>: <img src={imagen}  style={{width: "100px"}} /> }
                   </label>
                   <div className="createErrorContainer">
                     {errors.image && touched.image && (
