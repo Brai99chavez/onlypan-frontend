@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { changeAmountInCart } from '../../../redux/Actions/Actions';
 import './ProductCard.css';
 
 export default function ProductCard({
+  cart,
+  user,
+  loggedUser,
   name,
   price,
   image,
@@ -13,16 +17,30 @@ export default function ProductCard({
   setAddedToCart,
 }) {
   const { products } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-  const copyLocalStorage = JSON.parse(
+  const copyLocalStorageCart = JSON.parse(
     localStorage.getItem('cartSelectProducts')
   );
 
   const getAmountInCart = () => {
-    const indexInCart = copyLocalStorage.findIndex((p) => p.name === name);
     let amountInCart = 0;
-    if (indexInCart !== -1) {
-      amountInCart = copyLocalStorage[indexInCart].quantitySelectedCartSh;
+    if (!loggedUser) {
+      const indexInCart = copyLocalStorageCart.findIndex(
+        (p) => p.name === name
+      );
+      if (indexInCart !== -1) {
+        amountInCart = copyLocalStorageCart[indexInCart].quantitySelectedCartSh;
+      }
+    } else {
+      if (cart.products && cart.products.length) {
+        const indexInCart = cart.products.findIndex((p) => p.name === name);
+        if (indexInCart !== -1) {
+          amountInCart = cart.products[indexInCart].productCart.quantity;
+        }
+      } else {
+        amountInCart = 0;
+      }
     }
     return amountInCart;
   };
@@ -37,25 +55,41 @@ export default function ProductCard({
   const handleResButon = () => {
     amountToAdd <= 1 ? setAmountToAdd(0) : setAmountToAdd(amountToAdd - 1);
   };
-
   const handleAddProductToCart = (nameCard, quantity) => {
-    const productAddShoppingCart = products.filter((e) => e.name === nameCard);
-    const duplicate = copyLocalStorage.filter((e) => e.name === nameCard);
     if (quantity > 0) {
-      if (!duplicate.length) {
-        productAddShoppingCart[0].quantitySelectedCartSh = quantity;
-        localStorage.setItem(
-          'cartSelectProducts',
-          JSON.stringify(copyLocalStorage.concat(productAddShoppingCart))
+      const productAddShoppingCart = products.filter(
+        (e) => e.name === nameCard
+      );
+      if (!loggedUser) {
+        const duplicate = copyLocalStorageCart.filter(
+          (e) => e.name === nameCard
         );
+
+        if (!duplicate.length) {
+          productAddShoppingCart[0].quantitySelectedCartSh = quantity;
+          localStorage.setItem(
+            'cartSelectProducts',
+            JSON.stringify(copyLocalStorageCart.concat(productAddShoppingCart))
+          );
+        } else {
+          const prodIndex = copyLocalStorageCart.findIndex(
+            (p) => p.name === nameCard
+          );
+          copyLocalStorageCart[prodIndex].quantitySelectedCartSh = quantity;
+          localStorage.setItem(
+            'cartSelectProducts',
+            JSON.stringify(copyLocalStorageCart)
+          );
+        }
       } else {
-        const prodIndex = copyLocalStorage.findIndex(
-          (p) => p.name === nameCard
-        );
-        copyLocalStorage[prodIndex].quantitySelectedCartSh = quantity;
-        localStorage.setItem(
-          'cartSelectProducts',
-          JSON.stringify(copyLocalStorage)
+        const totalPrice = price * quantity;
+
+        dispatch(
+          changeAmountInCart(user.user.id, {
+            id: productAddShoppingCart[0].id,
+            quantity,
+            totalPrice,
+          })
         );
       }
       setAddedToCart(true);
