@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SwitchSelector from 'react-switch-selector';
+import Search from '../../Maps/search/Search';
 
 function SelectDelivery({ setChooseLocation, setSelectedDelivery }) {
   const [delivery, setDelivery] = useState('takeAway');
@@ -60,11 +61,11 @@ function SelectDelivery({ setChooseLocation, setSelectedDelivery }) {
           />
         </div>
       ) : (
-        <div className="font-medium text-gray-100 h-2/3">
+        <div className="font-medium text-gray-100 h-2/3 overflow-y-auto h-72 mb-5" >
           <label className="font-medium text-gray-100 ">
             Ingrese la dirección de entrega:
           </label>
-          <input type="text" />
+          <Search/>
         </div>
       )}
       <button

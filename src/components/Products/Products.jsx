@@ -26,7 +26,7 @@ export default function Products() {
 
   useEffect(() => {
     if (loggedUser) {
-      dispatch(getUserCart(copyLocalStorageUser.user.id));
+      dispatch(getUserCart(copyLocalStorageUser.user.id, copyLocalStorageUser.token));
     }
   }, [dispatch]);
 

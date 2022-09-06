@@ -26,10 +26,10 @@ export default function Cart() {
       : false;
 
   const copyLocalStorageUser = JSON.parse(localStorage.getItem('user'));
-
   useEffect(() => {
     if (loggedUser) {
-      dispatch(getUserCart(copyLocalStorageUser.user.id));
+      console.log(copyLocalStorageUser.token);
+      dispatch(getUserCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token ));
     }
   }, [dispatch]);
   const { cart } = useSelector((state) => state);
