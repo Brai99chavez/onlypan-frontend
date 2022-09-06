@@ -23,10 +23,10 @@ export default function Login() {
     <div className="login">
       <div className="login-container">
         <button
-          className="bg-gray-400 px-4 py-2 mx-7 my-4 rounded-full text-indigo-100 font-semibold transition-colors duration-150 hover:bg-sky-700 transition duration-700;"
+          className="bg-gray-400 px-4 py-2 mx-7 my-4 rounded-full text-indigo-100 font-semibold transition-colors duration-150 hover:bg-sky-700  duration-700;"
           onClick={() => loginWithRedirect()}
         >
-          <i className="fa-brands fa-google mr-2" />
+          <i className="fa-brands fa-google mr-2 text-white-500" />
           INICIAR SESIÓN CON GOOGLE
         </button>
         <Formik
@@ -44,7 +44,8 @@ export default function Login() {
             return errors;
           }}
           onSubmit={(values) => {
-            axios
+
+              axios
               .post('/user/signIn', values)
               .then((response) => {
                 localStorage.setItem('user', JSON.stringify(response.data));
@@ -72,6 +73,7 @@ export default function Login() {
                   text: error.response.data.msg,
                 });
               });
+            
           }}
         >
           {({
