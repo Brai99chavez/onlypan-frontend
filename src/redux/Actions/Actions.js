@@ -362,7 +362,7 @@ export const emptyCart = (id, token) => {
       },
     });
     await axios
-      .get(`/${id}`, {
+      .get(`/cart/${id}`, {
         headers: {
           auth_token: token,
         },
