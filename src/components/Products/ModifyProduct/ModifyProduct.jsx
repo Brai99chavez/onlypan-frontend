@@ -5,6 +5,7 @@ import { clearDetailProduct, getProductForId, getTypes, ModifyProductById } from
 import "./ModifyProduct.css"
 import { faSortAlphaDownAlt } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function ModifyProduct({ match }) {
   const { id } = match.params
@@ -67,12 +68,12 @@ export default function ModifyProduct({ match }) {
             return errors;
           }}
           onSubmit={(values, actions) => {
+            
             dispatch(ModifyProductById(detailProduct.id, token, values));
             history.push('/lista-de-productos')
-            
-            faSortAlphaDownAlt.fire({
+            Swal.fire({
               icon: 'success',
-              title: 'Producto creado',
+              title: 'Producto Modificado',
               showConfirmButton: false,
               timer: 1500,
             });

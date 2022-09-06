@@ -103,7 +103,8 @@ export default function CreateProduct() {
       }}
       onSubmit={(values, actions) => {
         values.image = imagen
-        dispatch(createProduct(values));
+        console.log(values)
+        dispatch(createProduct(values,token));
         Swal.fire({
           icon: 'success',
           title: 'Producto creado',
@@ -120,9 +121,7 @@ export default function CreateProduct() {
             quantity: 0,
           },
         });
-        setTimeout(() => {
-          window.location.replace("");
-        }, 1500)
+       
       }}
     >
       {({
