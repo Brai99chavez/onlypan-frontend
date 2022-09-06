@@ -1,0 +1,13 @@
+.item-location{
+    @apply  w-64  my-8 text-sm h-2 justify-center text-left inline-block gap-y-2 
+}
+
+.botonLocalitation{
+    @apply bg-sky-600 ml-40 
+}
+p{
+    @apply    text-sm text-slate-900
+}
+.fondoLi{
+    @apply   bg-white rounded-md p-px 
+}

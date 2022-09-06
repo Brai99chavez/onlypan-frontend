@@ -48,7 +48,7 @@ function CartCard({
       setUserCart(cleared);
       setTotal(sumTotal());
     } else {
-      dispatch(deleteProductInCart(user.user.id, id));
+      dispatch(deleteProductInCart(user.user.id, id, user.token));
     }
   };
 
@@ -71,7 +71,7 @@ function CartCard({
       } else {
         const totalPrice = price * quantity;
         dispatch(
-          changeAmountInCart(user.user.id, { id, quantity, totalPrice })
+          changeAmountInCart(user.user.id, { id, quantity, totalPrice }, user.token)
         );
         setAmountInCart(() => quantity);
       }

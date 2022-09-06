@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux'
 import { clearDetailProduct, getProductForId, getTypes, ModifyProductById } from '../../../redux/Actions/Actions';
 import "./ModifyProduct.css"
-import { faSortAlphaDownAlt } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 

@@ -7,11 +7,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Loading from '../Loading/Loading';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { createUserCart } from '../../redux/Actions/Actions';
 
 export default function Login() {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   if (localStorage.getItem('user') !== '{}') history.push('/');
 
@@ -49,10 +47,6 @@ export default function Login() {
               .post('/user/signIn', values)
               .then((response) => {
                 localStorage.setItem('user', JSON.stringify(response.data));
-                const copyCart = JSON.parse(
-                  localStorage.getItem('cartSelectProducts')
-                );
-                dispatch(createUserCart(response.data.user.id, copyCart));
               })
               .then(() =>
                 localStorage.setItem('cartSelectProducts', JSON.stringify([]))

@@ -34,7 +34,7 @@ export default function ProductCard({
         amountInCart = copyLocalStorageCart[indexInCart].quantitySelectedCartSh;
       }
     } else {
-      if (cart.products && cart.products.length) {
+      if (cart && cart.products && cart.products.length) {
         const indexInCart = cart.products.findIndex((p) => p.name === name);
         if (indexInCart !== -1) {
           amountInCart = cart.products[indexInCart].productCart.quantity;
@@ -90,7 +90,7 @@ export default function ProductCard({
             id: productAddShoppingCart[0].id,
             quantity,
             totalPrice,
-          })
+          }, user.token)
         );
       }
       setAddedToCart(true);
