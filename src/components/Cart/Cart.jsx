@@ -187,7 +187,7 @@ export default function Cart() {
         const errormesa = errorMessages[data.error];
         data.error ? errorAlert(errormesa) : successPaymentAprobed();
       }
-      dispatch(emptyCart(copyLocalStorageUser.user.id));
+      dispatch(emptyCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token));
       setLoadingsti(false);
     }
   };
