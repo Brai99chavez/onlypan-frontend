@@ -23,7 +23,7 @@ export default function TableOfOrders() {
     
   function handleDelivered(id,token){ 
     Swal.fire({
-      title: 'Eliminacion',
+      title: 'Estado de Orden',
       text: "¿Queres cambiar el estado de la orden?", 
       icon:'warning',
       showCancelButton: true,
