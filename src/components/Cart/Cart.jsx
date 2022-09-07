@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './Cart.css';
@@ -16,6 +17,7 @@ import { emptyCart, getUserCart } from '../../redux/Actions/Actions';
 
 export default function Cart() {
   const [nameCard, setNameCard] = useState('');
+
   const [chooseLocation, setChooseLocation] = useState(true);
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const dispatch = useDispatch();
@@ -38,6 +40,7 @@ export default function Cart() {
       return JSON.parse(localStorage.getItem('cartSelectProducts'));
     }
   });
+
 
   const [loadingsti, setLoadingsti] = useState(false);
   const stripe = useStripe();
@@ -87,7 +90,9 @@ export default function Cart() {
       title: 'Pago aprobado',
       showConfirmButton: false,
       timer: 1500,
+
     }).then(() => history.push('/usuario'));
+
 
     elements.getElement(CardCvcElement).clear();
     elements.getElement(CardExpiryElement).clear();
@@ -121,6 +126,7 @@ export default function Cart() {
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
+
     if (!loggedUser)
       Swal.fire({
         icon: 'info',
@@ -148,6 +154,7 @@ export default function Cart() {
         card: elements.getElement(CardNumberElement),
       });
       setLoadingsti(true);
+
       const idProducts = cart.products.map((e) => {
         return {
           id: e.id,
@@ -162,10 +169,12 @@ export default function Cart() {
       const obj = {
         numero,
         direccion,
+
         idProducts,
         idUser,
         tokenUser,
       };
+
 
       const amount = cart.products.reduce((a, b) => {
         return a + b.price * b.productCart.quantity;
@@ -191,7 +200,9 @@ export default function Cart() {
         const errormesa = errorMessages[data.error];
         data.error ? errorAlert(errormesa) : successPaymentAprobed();
       }
+
       dispatch(emptyCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token));
+
       setLoadingsti(false);
     }
   };

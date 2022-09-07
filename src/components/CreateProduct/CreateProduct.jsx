@@ -9,7 +9,6 @@ import './CreateProduct.css';
 import { Formik } from 'formik';
 import Swal from 'sweetalert2';
 
-
 export default function CreateProduct() {
   const [imagen, setImage] = useState("")
     const [loading, setLoading] = useState(false)
@@ -59,7 +58,9 @@ export default function CreateProduct() {
         const expresiones = {
           numeros: / *([.0-9])*\d/g,
           caracteresEs: /[\[\\\^\$\.\|\?\*\+\(\)\{\}]/g, //eslint-disable-line
+
           // url: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi, //eslint-disable-line
+
           instru: /^[a-zA-Z0-9_-\s]{4,200}$/, //eslint-disable-line
           numPosi: /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/gm, //eslint-disable-line
         };
@@ -102,9 +103,11 @@ export default function CreateProduct() {
         return errors;
       }}
       onSubmit={(values, actions) => {
+
         values.image = imagen
         console.log(values)
         dispatch(createProduct(values,token));
+
         Swal.fire({
           icon: 'success',
           title: 'Producto creado',
@@ -118,10 +121,11 @@ export default function CreateProduct() {
             image: '',
             description: '',
             type: '',
+
             quantity: 0,
           },
         });
-       
+
       }}
     >
       {({

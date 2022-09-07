@@ -24,6 +24,7 @@ export default function NavbarViewer() {
     if (!controlUser) {
       localStorage.setItem('user', JSON.stringify({}));
     }
+
     setIsUserLogged(localStorage.getItem('user') !== '{}');
   }, [controlUser, isUserLogged]);
 
@@ -55,6 +56,7 @@ export default function NavbarViewer() {
       )
       .then(() => setIsUserLogged(true));
   }
+
   return (
     <nav className="navbar">
       <NavLink to={'/'} className="nav-logo">

@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import './Login.css';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -14,12 +14,14 @@ export default function Login() {
   if (localStorage.getItem('user') !== '{}') history.push('/');
 
   const { loginWithRedirect } = useAuth0();
+
   const { loading } = useSelector((state) => state);
 
   if (loading) return <Loading />;
   return (
     <div className="login">
       <div className="login-container">
+
         <button
           className="bg-gray-400 px-4 py-2 mx-7 my-4 rounded-full text-indigo-100 font-semibold transition-colors duration-150 hover:bg-sky-700  duration-700;"
           onClick={() => loginWithRedirect()}
@@ -27,6 +29,7 @@ export default function Login() {
           <i className="fa-brands fa-google mr-2 text-white-500" />
           INICIAR SESIÓN CON GOOGLE
         </button>
+
         <Formik
           initialValues={{ email: '', password: '' }}
           validate={(values) => {
@@ -41,9 +44,11 @@ export default function Login() {
             if (!values.password) errors.password = 'Completa este campo';
             return errors;
           }}
+
           onSubmit={(values) => {
 
               axios
+
               .post('/user/signIn', values)
               .then((response) => {
                 localStorage.setItem('user', JSON.stringify(response.data));
