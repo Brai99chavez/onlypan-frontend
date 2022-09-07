@@ -26,7 +26,6 @@ export default function TableOfProducts() {
               <th>Precio</th>
               <th>cantidad</th>
               <th>categoria</th>
-              <th>disponible</th>
               <th>Editar</th>
               <th>Eliminar</th>
             </tr>
@@ -35,12 +34,11 @@ export default function TableOfProducts() {
 
             {products && products.map((p, i) =>
 
-              <tr className="tbody-row" key={i}>
+              <tr className={`tbody-row ${p.quantity >= 1 ? 'text-black' : 'text-red-700'}`} key={i}>
                 <td>{p.name}</td>
                 <td>{p.price}</td>
                 <td>{p.quantity}</td>
                 <td>{p.type}</td>
-                <td>{p.isAvailable === true ? 'si' : 'no'} </td>
                 <td><Link to={`/modificar-producto/${p.id}`}><i className="fa-solid fa-pen-to-square "></i></Link></td>
                 <td><button onClick={() => dispatch(DeleteProduct(p.id,token))} ><i className="fa-solid fa-trash-can"></i></button></td>
               </tr>
