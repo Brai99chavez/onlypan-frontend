@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import SwitchSelector from 'react-switch-selector';
 import Search from '../../Maps/search/Search';
+import Swal from "sweetalert2";
 
 function SelectDelivery({ setChooseLocation, setSelectedDelivery }) {
+  const addressLocalStorage  = JSON.parse(localStorage.getItem('user'))
+  const [stateAddress, setStateAddress] = useState(false)
   const [delivery, setDelivery] = useState('takeAway');
   const options = [
     {
@@ -29,10 +32,41 @@ function SelectDelivery({ setChooseLocation, setSelectedDelivery }) {
   const onChange = (newValue) => {
     setDelivery(newValue);
   };
-  const handleOnClick = () => {
+  const handleOnClick =  async() => {
+    const expressiones = {
+      num:  /^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/
+  }
     setChooseLocation(false);
     setSelectedDelivery(delivery);
-  };
+    const { value: quantity } = await Swal.fire({
+    title: 'Por favor agregue su numero de telefono',
+    input: 'text',
+    showCancelButton: true,
+    cancelButtonText: 'Cancelar',
+    inputValidator: (value) => {
+      if(value.length <= 9){
+        return "numero muy corto"
+    } else
+    if(!expressiones.num.test(value)){
+        return "ingresa un numero valido de Argentina"
+    }
+    }
+  }) 
+  console.log(quantity);
+  if(quantity){
+    const copyLocalStorage = JSON.parse(localStorage.getItem('user'))
+    copyLocalStorage.user.phone = quantity
+    localStorage.setItem('user', JSON.stringify(copyLocalStorage))
+  }
+  }
+
+
+  const setAddressTrue = ()=>{
+      setStateAddress(true)
+  }
+  const setAddressFalse = ()=>{
+    setStateAddress(false)
+  }
   return (
     <>
       <h1 className="text-xl font-medium text-gray-100 block pb-3">
@@ -65,7 +99,10 @@ function SelectDelivery({ setChooseLocation, setSelectedDelivery }) {
           <label className="font-medium text-gray-100 ">
             Ingrese la dirección de entrega:
           </label>
-          <Search/>
+          {stateAddress? <> <Search/> <button onClick={setAddressFalse}><i class="fa-solid fa-check"></i></button> </> : <> <p style={{color:"white"}} className="mt-2.5">{addressLocalStorage.user.address}</p> <button onClick={setAddressTrue}><i class="fa-solid fa-pen-to-square"></i></button> </> }
+         
+          
+          
         </div>
       )}
       <button

@@ -1,13 +1,17 @@
+import { stringify } from "postcss";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import { search_ubication } from "../../../redux/Actions/Actions";
 import "../search/cardSearch.css";
-export default function CardSearch({ id, texte_es, place_name }) {
+export default function CardSearch({ id, texte_es, place_name, setValue }) {
   const dispatch = useDispatch();
 
-  const sendInfoLocation = (info) => {
+  const sendInfoLocation = (info, texte_es) => {
     dispatch(search_ubication(info));
+    const copyLocalStorage = JSON.parse(localStorage.getItem('user'))
+   copyLocalStorage.user.address= place_name
+   localStorage.setItem('user', JSON.stringify(copyLocalStorage))
+   setValue('')
   };
   return (
     <div > 
@@ -17,7 +21,7 @@ export default function CardSearch({ id, texte_es, place_name }) {
         <p>
           {place_name}
         </p>
-        <button key={id} onClick={() => sendInfoLocation(id)} className="botonLocalitation">
+        <button key={id} onClick={() => sendInfoLocation(id, place_name)} className="botonLocalitation">
           {" "}
           estoy aqui
         </button>
