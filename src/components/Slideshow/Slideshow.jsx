@@ -8,7 +8,7 @@ import carousel3 from '../../img/carousel3.jpg';
 
 function Slideshow() {
   return (
-    <Carousel autoPlay showThumbs={false} className="Carousel">
+    <Carousel autoPlay infiniteLoop showThumbs={false} className="Carousel">
       <div>
         <img src={carousel1} alt="carousel" height="200px" />
       </div>
