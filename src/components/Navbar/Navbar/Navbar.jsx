@@ -112,9 +112,10 @@ export default function NavbarViewer() {
         ) : null}
       </div>
       <div className="nav-login">
-        <NavLink className="nav-btn" to={'/carrito'}>
+        {selfRol !== 'admin' ? <NavLink className="nav-btn" to={'/carrito'}>
           <i className="fa-solid fa-basket-shopping" />
-        </NavLink>
+        </NavLink>:null}
+        
         {isUserLogged ? (
           <NavLink className="nav-login-btn" to={'/usuario'}>
             <i className="fa-solid fa-user" />{' '}
