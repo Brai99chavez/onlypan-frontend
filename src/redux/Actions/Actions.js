@@ -314,11 +314,12 @@ export const deleteProductInCart = (id, productId, token) => {
     await axios
       .delete(
         `/cart/deletePro/${id}`,
-        { data: { id: productId } },
+
         {
           headers: {
             auth_token: token,
           },
+          data: { id: productId },
         }
       )
       .then(() =>
@@ -444,7 +445,7 @@ export const getAllFavorites = (id) => {
       .then((response) => {
         dispatch({
           type: GET_ALL_FAVORITES,
-          payload: response.data.products,
+          payload: response.data.products || [],
         });
       })
       .catch((error) => {
@@ -460,7 +461,7 @@ export const addFavorite = (data) => {
     await axios
       .get(`/favorite/all/${data.userId}`)
       .then((response) => {
-        dispatch({ type: ADD_FAVORITE, payload: response.data.products });
+        dispatch({ type: ADD_FAVORITE, payload: response.data.products || [] });
       })
       .catch((error) => {
         dispatch(handleError(error));
@@ -477,7 +478,10 @@ export const deleteFavorite = (data) => {
     await axios
       .get(`/favorite/all/${data.userId}`)
       .then((response) => {
-        dispatch({ type: DELETE_FAVORITE, payload: response.data.products });
+        dispatch({
+          type: DELETE_FAVORITE,
+          payload: response.data.products || [],
+        });
       })
       .catch((error) => {
         dispatch(handleError(error));

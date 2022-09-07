@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import Swal from "sweetalert2";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import {
   changeAmountInCart,
   deleteProductInCart,
-} from "../../../redux/Actions/Actions";
+} from '../../../redux/Actions/Actions';
 
 function CartCard({
   user,
@@ -17,13 +17,12 @@ function CartCard({
   setUserCart,
   sumTotal,
   setTotal,
-  quantity
+  quantity,
 }) {
-  console.log(quantity);
   const dispatch = useDispatch();
 
   const copyLocalStorageCart = JSON.parse(
-    localStorage.getItem("cartSelectProducts")
+    localStorage.getItem('cartSelectProducts')
   );
   const getAmountInCart = () => {
     let amountInCart = 0;
@@ -47,7 +46,7 @@ function CartCard({
   const handlerDeleteProduct = (name) => {
     if (!loggedUser) {
       const cleared = copyLocalStorageCart.filter((e) => e.name !== name);
-      localStorage.setItem("cartSelectProducts", JSON.stringify(cleared));
+      localStorage.setItem('cartSelectProducts', JSON.stringify(cleared));
       setUserCart(cleared);
       setTotal(sumTotal());
     } else {
@@ -56,12 +55,12 @@ function CartCard({
   };
 
   const handleChangeAmount = (op) => {
-    op === "suma"
+    op === 'suma'
       ? amountInCart < quantity
         ? (amountInCart += 1)
         : Swal.fire({
-            icon: "error",
-            text: "No hay mas productos disponibles en stock",
+            icon: 'error',
+            text: 'No hay mas productos disponibles en stock',
           })
       : (amountInCart -= 1);
 
@@ -72,7 +71,7 @@ function CartCard({
         );
         copyLocalStorageCart[prodIndex].quantitySelectedCartSh = amountInCart;
         localStorage.setItem(
-          "cartSelectProducts",
+          'cartSelectProducts',
           JSON.stringify(copyLocalStorageCart)
         );
         setAmountInCart(getAmountInCart());
@@ -101,14 +100,14 @@ function CartCard({
       <div className="flex justify-center items-center">
         <div className="pr-8 flex ">
           <button
-            onClick={() => handleChangeAmount("rest")}
+            onClick={() => handleChangeAmount('rest')}
             className="font-semibold cursor-pointer"
           >
             -
           </button>
           <p className="mx-4">{amountInCart}</p>
           <button
-            onClick={() => handleChangeAmount("suma")}
+            onClick={() => handleChangeAmount('suma')}
             className="font-semibold cursor-pointer"
           >
             +
