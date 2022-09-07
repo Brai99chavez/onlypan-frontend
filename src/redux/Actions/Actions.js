@@ -406,8 +406,7 @@ export function DisableUser(id, token) {
 
 export function DeleteProduct(id, token) {
   return async function (dispatch) {
-    await axios
-      .delete(`/product/delete/${id}`, {
+    await axios.get(`/product/delete/${id}`, {
         headers: {
           auth_token: token,
         },
@@ -434,6 +433,15 @@ export function getOrders(token) {
       .then((response) =>
         dispatch({ type: GET_ALL_ORDERS, payload: response.data })
       )
+      .catch((error) => console.log('error'));
+  };
+}
+export function updateOrder(id, token) {
+  console.log(id)
+  console.log('----------------------')
+  return async function (dispatch) {
+    axios
+      .get(`/order/update/${id}`, { headers: { auth_token: token } })
       .catch((error) => console.log('error'));
   };
 }

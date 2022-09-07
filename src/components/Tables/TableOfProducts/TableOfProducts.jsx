@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { DeleteProduct, getAllProducts } from '../../../redux/Actions/Actions';
 import "../Tables.css"
 
@@ -15,18 +16,35 @@ export default function TableOfProducts() {
   const { products } = useSelector((state) => state);
   const token = JSON.parse(localStorage.getItem("user")).token
 
+  function handleDelete(id,token) {
+    Swal.fire({
+      title: 'Eliminacion',
+      text: "¿Estas seguro de eliminar este producto?", 
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borralo!',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(DeleteProduct(id, token))
+        .then(window.location.reload())
+      }
+    })
+  }
+
   return (
     <React.Fragment>
       <div className='table-container'>
         <table className='table'>
           <thead className="thead">
             <tr className="thead-row" >
-              <th>id</th>
+
               <th>Nombre</th>
               <th>Precio</th>
               <th>cantidad</th>
               <th>categoria</th>
-              <th>disponible</th>
               <th>Editar</th>
               <th>Eliminar</th>
             </tr>
@@ -35,15 +53,13 @@ export default function TableOfProducts() {
 
             {products && products.map((p, i) =>
 
-              <tr className="tbody-row" key={i}>
-                <td>#{p.id}</td>
+              <tr className={`tbody-row ${p.quantity >= 1 ? 'text-black' : 'text-red-700'}`} key={i}>
                 <td>{p.name}</td>
                 <td>{p.price}</td>
                 <td>{p.quantity}</td>
                 <td>{p.type}</td>
-                <td>{p.quantity > 0 ? 'si' : 'no'} </td>
                 <td><Link to={`/modificar-producto/${p.id}`}><i className="fa-solid fa-pen-to-square "></i></Link></td>
-                <td><button onClick={() => dispatch(DeleteProduct(p.id,token) , window.location.reload())} ><i className="fa-solid fa-trash-can"></i></button></td>
+                <td><button onClick={() => handleDelete(p.id,token)} ><i className="fa-solid fa-trash-can"></i></button></td>
               </tr>
 
             )}

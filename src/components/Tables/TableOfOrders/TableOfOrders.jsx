@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOrders } from '../../../redux/Actions/Actions';
+import { getOrders, updateOrder } from '../../../redux/Actions/Actions';
 
 
 export default function TableOfOrders() {
@@ -10,7 +10,6 @@ export default function TableOfOrders() {
     useEffect(() => { dispatch(getOrders(token)) }, [dispatch,token])
     const { orders } = useSelector((state) => state);
     
-    console.log(orders)
   return (
     <React.Fragment>
       <div className='table-container'>
@@ -20,10 +19,9 @@ export default function TableOfOrders() {
               <th>Id</th>
               <th>Fecha</th>
               <th>Precio total</th>
-              <th>Estado</th>
               <th>Cantidad</th>
-
-
+              <th>Estado</th>
+              <th>Entrega</th>
             </tr>
           </thead>
           <tbody className='tbody'>
@@ -31,15 +29,16 @@ export default function TableOfOrders() {
             {orders && orders.map((o, i) =>
 
               <tr className="tbody-row" key={i}>
-                <td>#{i+1}</td>
+                <td>#{o.id}</td>
                 <td>{o.createdAt.substring(8, 10) +
                 '/' +
                 o.createdAt.substring(5, 7) +
                 '/' +
                 o.createdAt.substring(0, 4)}</td>
                 <td>{o.totalPrice}</td>
-                <td>{o.status}</td>
                 <td>{o.products.length}</td>
+                <td>{o.status}</td>
+                <td>{o.status === 'entregado' ? <button disabled className='bg-green-500 p-1 rounded-xl'>Entregado</button>:<button className='bg-orange-500 p-1 rounded-xl' onClick={() => {dispatch(updateOrder(o.id,token),window.location.reload())}}>Entregar</button>}</td>
               </tr>
             )}
           </tbody>

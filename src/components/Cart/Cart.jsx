@@ -282,7 +282,7 @@ export default function Cart() {
                         {loggedUser
                           ? !Object.keys(cart).length
                             ? 0
-                            : cart.products.reduce((a, b) => {
+                            : cart.products && cart.products.reduce((a, b) => {
                                 return a + b.price * b.productCart.quantity;
                               }, 0)
                           : total}

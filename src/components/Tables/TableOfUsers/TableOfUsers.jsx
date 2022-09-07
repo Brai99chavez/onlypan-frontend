@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { DisableUser, getAllUsers, modifyRolByAdmin } from '../../../redux/Actions/Actions';
 
 
@@ -15,6 +16,22 @@ export default function TableOfUsers() {
 
   const { allUsers } = useSelector((state) => state);
 
+  function handleBan(id,token) {
+    Swal.fire({
+      title: 'Ban',
+      text: "¿Estas seguro de Banear este usuario?", 
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borralo!',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(DisableUser(id,token) , window.location.reload())
+      }
+    })
+  }
 
   return (
     <React.Fragment>
@@ -46,7 +63,7 @@ export default function TableOfUsers() {
                   <option value="user">usuario</option>
                   <option value="admin">admin</option>
                 </select> : p.rol}</td>
-                { p.id !== 1 ? <td><button onClick={() => dispatch(DisableUser(p.id,token) , window.location.reload())}>{ p.isAvailable ?<i className="fa-solid fa-ban text-red-700"></i> : <i class="fa-regular fa-square-check text-green-700"></i>}</button></td>:null}
+                { p.id !== 1 ? <td><button onClick={() => handleBan(p.id,token)}>{ p.isAvailable ?<i className="fa-solid fa-ban text-red-700"></i> : <i class="fa-regular fa-square-check text-green-700"></i>}</button></td>:null}
               </tr>
             )}
           </tbody>
@@ -66,7 +83,7 @@ export default function TableOfUsers() {
               <strong>telefono:</strong><p>{p.phone}</p>
                 <strong>direccion:</strong><p>{p.address}</p>
               <Link to={`/modificar-usuario/${p.id}`}><i className="fa-solid fa-pen-to-square "></i></Link>
-              { p.id !== 1 ? <td><button onClick={() => dispatch(DisableUser(p.id,token) , window.location.reload())}>{ p.isAvailable ?<i className="fa-solid fa-ban text-red-700"></i> : <i class="fa-regular fa-square-check text-green-700"></i>}</button></td>:null}
+              { p.id !== 1 ? <td><button onClick={() => handleBan(p.id,token)}>{ p.isAvailable ?<i className="fa-solid fa-ban text-red-700"></i> : <i class="fa-regular fa-square-check text-green-700"></i>}</button></td>:null}
             </div>
           </div>
           )
