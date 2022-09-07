@@ -314,11 +314,12 @@ export const deleteProductInCart = (id, productId, token) => {
     await axios
       .delete(
         `/cart/deletePro/${id}`,
-        { data: { id: productId } },
+
         {
           headers: {
             auth_token: token,
           },
+          data: { id: productId },
         }
       )
       .then(() =>
@@ -405,8 +406,7 @@ export function DisableUser(id, token) {
 
 export function DeleteProduct(id, token) {
   return async function (dispatch) {
-    await axios
-      .delete(`/product/delete/${id}`, {
+    await axios.get(`/product/delete/${id}`, {
         headers: {
           auth_token: token,
         },
@@ -436,6 +436,15 @@ export function getOrders(token) {
       .catch((error) => console.log('error'));
   };
 }
+export function updateOrder(id, token) {
+  console.log(id)
+  console.log('----------------------')
+  return async function (dispatch) {
+    axios
+      .get(`/order/update/${id}`, { headers: { auth_token: token } })
+      .catch((error) => console.log('error'));
+  };
+}
 
 export const getAllFavorites = (id) => {
   return async function (dispatch) {
@@ -444,7 +453,7 @@ export const getAllFavorites = (id) => {
       .then((response) => {
         dispatch({
           type: GET_ALL_FAVORITES,
-          payload: response.data.products,
+          payload: response.data.products || [],
         });
       })
       .catch((error) => {
@@ -460,7 +469,7 @@ export const addFavorite = (data) => {
     await axios
       .get(`/favorite/all/${data.userId}`)
       .then((response) => {
-        dispatch({ type: ADD_FAVORITE, payload: response.data.products });
+        dispatch({ type: ADD_FAVORITE, payload: response.data.products || [] });
       })
       .catch((error) => {
         dispatch(handleError(error));
@@ -477,7 +486,10 @@ export const deleteFavorite = (data) => {
     await axios
       .get(`/favorite/all/${data.userId}`)
       .then((response) => {
-        dispatch({ type: DELETE_FAVORITE, payload: response.data.products });
+        dispatch({
+          type: DELETE_FAVORITE,
+          payload: response.data.products || [],
+        });
       })
       .catch((error) => {
         dispatch(handleError(error));

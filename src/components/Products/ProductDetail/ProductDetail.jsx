@@ -83,12 +83,14 @@ function ProductDetail({ match }) {
                   ))
                 : null
               : null}
+
             <p>
               Valoración:{' '}
               {getProductScores === 0
                 ? 'Ninguna valoración'
                 : getProductScores + '/5'}
             </p>
+
           </div>
 
           <p>

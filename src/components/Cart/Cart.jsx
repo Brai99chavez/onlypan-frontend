@@ -16,6 +16,7 @@ import { emptyCart, getUserCart } from '../../redux/Actions/Actions';
 
 export default function Cart() {
   const [nameCard, setNameCard] = useState('');
+
   const [chooseLocation, setChooseLocation] = useState(true);
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const dispatch = useDispatch();
@@ -28,7 +29,9 @@ export default function Cart() {
   const copyLocalStorageUser = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     if (loggedUser) {
-      dispatch(getUserCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token ));
+      dispatch(
+        getUserCart(copyLocalStorageUser.user.id, copyLocalStorageUser.token)
+      );
     }
   }, [dispatch]);
   const { cart } = useSelector((state) => state);
@@ -121,6 +124,7 @@ export default function Cart() {
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
+
     if (!loggedUser)
       Swal.fire({
         icon: 'info',
@@ -148,6 +152,7 @@ export default function Cart() {
         card: elements.getElement(CardNumberElement),
       });
       setLoadingsti(true);
+
       const idProducts = cart.products.map((e) => {
         return {
           id: e.id,
@@ -156,12 +161,13 @@ export default function Cart() {
       });
       const idUser = copyLocalStorageUser.user.id;
       const tokenUser = copyLocalStorageUser.token;
-      const direccion = copyLocalStorageUser.user.address
-      const numero = copyLocalStorageUser.user.phone
-      console.log(direccion);
+      const direccion = copyLocalStorageUser.user.address;
+      const numero = copyLocalStorageUser.user.phone;
+
       const obj = {
         numero,
         direccion,
+
         idProducts,
         idUser,
         tokenUser,
@@ -189,16 +195,22 @@ export default function Cart() {
           }
         );
         const errormesa = errorMessages[data.error];
-        data.error ? errorAlert(errormesa) : successPaymentAprobed();
+        if (data.error) errorAlert(errormesa);
+        else {
+          successPaymentAprobed();
+          dispatch(
+            emptyCart(copyLocalStorageUser.user.id, copyLocalStorageUser.token)
+          );
+        }
       }
-      dispatch(emptyCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token));
+
       setLoadingsti(false);
     }
   };
 
   const inputStyle = {
-    color: '#fff'
-  }
+    color: '#fff',
+  };
 
   return (
     <div className="cart h-100%">
@@ -282,7 +294,8 @@ export default function Cart() {
                         {loggedUser
                           ? !Object.keys(cart).length
                             ? 0
-                            : cart.products.reduce((a, b) => {
+                            : cart.products &&
+                              cart.products.reduce((a, b) => {
                                 return a + b.price * b.productCart.quantity;
                               }, 0)
                           : total}
@@ -372,12 +385,12 @@ export default function Cart() {
                             Numero de tarjeta
                           </label>
                           <CardNumberElement
-                        options={{
-                          style: {
-                            base: inputStyle,
-                          },
-                        }}
-                      />
+                            options={{
+                              style: {
+                                base: inputStyle,
+                              },
+                            }}
+                          />
                         </div>
                         <div className="grid grid-cols-3 gap-2 pt-2 mb-3">
                           <div className="col-span-2 ">
@@ -385,26 +398,25 @@ export default function Cart() {
                               Fecha de vencimiento
                             </label>
                             <div className="grid grid-cols-2 gap-2">
-    
-                          <CardExpiryElement
-                            options={{
-                              style: {
-                                base: inputStyle,
-                              },
-                            }}
-                          />
+                              <CardExpiryElement
+                                options={{
+                                  style: {
+                                    base: inputStyle,
+                                  },
+                                }}
+                              />
                             </div>
                           </div>
                           <div className="">
                             <label className="text-xs text-gray-400">CVV</label>
-    
-                        <CardCvcElement
-                          options={{
-                            style: {
-                              base: inputStyle,
-                            },
-                          }}
-                        />
+
+                            <CardCvcElement
+                              options={{
+                                style: {
+                                  base: inputStyle,
+                                },
+                              }}
+                            />
                           </div>
                         </div>
                         <button

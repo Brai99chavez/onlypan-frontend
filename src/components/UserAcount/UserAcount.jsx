@@ -12,7 +12,9 @@ function UserAcount() {
   return (
     <div className="userContainer">
       <div className="userTop">
+
         <img src={user.image} alt="profile" className="rounded-full mr-4" />
+
         <h1 className="userName">{user.name + ' ' + user.lastName}</h1>
       </div>
       <br />

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+
 import Swal from 'sweetalert2';
 import {
   addFavorite,
@@ -20,7 +22,7 @@ export default function ProductCard({
   type,
   id,
   setAddedToCart,
-  quantity
+  quantity,
 }) {
   const { products } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -54,9 +56,11 @@ export default function ProductCard({
 
 
   const [amountToAdd, setAmountToAdd] = useState(getAmountInCart());
+
   const [favoriteHeart, setFavoriteHeart] = useState(
     userFavorites.length && userFavorites.filter((x) => x.name === name).length
   );
+
 
   const handleSumButon = () => {
     if(quantity > amountToAdd){
@@ -102,11 +106,15 @@ export default function ProductCard({
         const totalPrice = price * quantity;
 
         dispatch(
-          changeAmountInCart(user.user.id, {
-            id: productAddShoppingCart[0].id,
-            quantity,
-            totalPrice,
-          }, user.token)
+          changeAmountInCart(
+            user.user.id,
+            {
+              id: productAddShoppingCart[0].id,
+              quantity,
+              totalPrice,
+            },
+            user.token
+          )
         );
       }
       setAddedToCart(true);
@@ -131,7 +139,6 @@ export default function ProductCard({
       });
     } else {
       setFavoriteHeart(!favoriteHeart);
-      console.log(favoriteHeart);
       if (!favoriteHeart) {
         dispatch(addFavorite({ userId: user.user.id, productId: id }));
       } else {
@@ -139,6 +146,7 @@ export default function ProductCard({
       }
     }
   };
+
   return (
     <div className="ProductCard">
       <div className="ProductCardImage">
@@ -153,7 +161,9 @@ export default function ProductCard({
               favoriteHeart ? 'fa-solid' : 'fa-regular'
             }`}
           />
+
         </button>
+
 
         <div className="ProductCardDescription">
           <p>${price}</p>
