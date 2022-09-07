@@ -228,6 +228,7 @@ export default function Cart() {
                             name={e.name}
                             price={e.price}
                             type={e.type}
+                            quantity={e.quantity}
                             quantitySelectedCartSh={e.productCart.quantity}
                           />
                         ))
@@ -250,6 +251,7 @@ export default function Cart() {
                           name={e.name}
                           price={e.price}
                           type={e.type}
+                          quantity={e.quantity}
                           quantitySelectedCartSh={e.quantitySelectedCartSh}
                         />
                       ))
