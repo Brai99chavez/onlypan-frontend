@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SwitchSelector from 'react-switch-selector';
 import Search from '../../Maps/search/Search';
 import Swal from "sweetalert2";
+import { useSelector } from 'react-redux';
 
 function SelectDelivery({ setChooseLocation, setSelectedDelivery }) {
   const addressLocalStorage  = JSON.parse(localStorage.getItem('user'))
@@ -64,9 +65,6 @@ function SelectDelivery({ setChooseLocation, setSelectedDelivery }) {
   const setAddressTrue = ()=>{
       setStateAddress(true)
   }
-  const setAddressFalse = ()=>{
-    setStateAddress(false)
-  }
   return (
     <>
       <h1 className="text-xl font-medium text-gray-100 block pb-3">
@@ -99,7 +97,7 @@ function SelectDelivery({ setChooseLocation, setSelectedDelivery }) {
           <label className="font-medium text-gray-100 ">
             Ingrese la dirección de entrega:
           </label>
-          {stateAddress? <> <Search/> <button onClick={setAddressFalse}><i class="fa-solid fa-check"></i></button> </> : <> <p style={{color:"white"}} className="mt-2.5">{addressLocalStorage.user.address}</p> <button onClick={setAddressTrue}><i class="fa-solid fa-pen-to-square"></i></button> </> }
+          {stateAddress? <> <Search setStateAddress={setStateAddress}/> </> : <> <p style={{color:"white"}} className="mt-2.5">{addressLocalStorage.user.address}</p> <button onClick={setAddressTrue}><i class="fa-solid fa-pen-to-square"></i></button> </> }
          
           
           
