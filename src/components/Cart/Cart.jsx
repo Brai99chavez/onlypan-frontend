@@ -28,7 +28,6 @@ export default function Cart() {
   const copyLocalStorageUser = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     if (loggedUser) {
-      console.log(copyLocalStorageUser.token);
       dispatch(getUserCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token ));
     }
   }, [dispatch]);
@@ -157,7 +156,12 @@ export default function Cart() {
       });
       const idUser = copyLocalStorageUser.user.id;
       const tokenUser = copyLocalStorageUser.token;
+      const direccion = copyLocalStorageUser.user.address
+      const numero = copyLocalStorageUser.user.phone
+      console.log(direccion);
       const obj = {
+        numero,
+        direccion,
         idProducts,
         idUser,
         tokenUser,

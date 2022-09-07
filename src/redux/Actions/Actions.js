@@ -258,7 +258,6 @@ export function delete_location_search (info){
   }
 }
 export function search_ubication (id){
-  console.log(id);
   return async function (dispatch){
     return dispatch ({type: SEARCH_UBICATION, payload: id})
   }

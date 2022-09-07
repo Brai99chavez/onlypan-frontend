@@ -8,6 +8,8 @@ import {
 } from "../../../redux/Actions/Actions";
 import { useSelector } from "react-redux/";
 import CardSearch from "./CardSearch";
+
+
 export default function Search() {
   const se = useSelector((state) => state.locations);
   const dispatch = useDispatch();
@@ -37,14 +39,15 @@ export default function Search() {
     <React.Fragment>
 
     
-    <div className="prueba" >
-      <form>
+    <div>
+      <form className="text-black">
         <input
           autoComplete="shipping address-line1"
           value={value}
           onChange={onQueryChanged}
           type="text"
-          className="text-black w-64"
+          style={{color:"black"}}
+          className="w-64"
         />
       </form>
       
@@ -52,8 +55,9 @@ export default function Search() {
     {value.length ? 
         se?.map((e) => (
           <CardSearch
+            setValue= {setValue}
             id={e.id}
-            texte_es={e.texte_es}
+            texte_es={e.text_es}
             place_name={e.place_name}
           />
         )) :  null}
