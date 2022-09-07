@@ -63,10 +63,12 @@ export default function NavbarViewer() {
             icon: 'error',
             title: 'No se pudo iniciar sesión.',
             text: error.response.data.msg,
-            showConfirmButton: false,
-
-            timer: 1500,
-          }).then(() => logout());
+            showConfirmButton: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              logout();
+            }
+          });
         }
       });
   }
