@@ -50,10 +50,10 @@ function ProductDetail({ match }) {
   function changeStars(value, userId, productId) {
     if (getOneScore === 0) {
       dispatch(addScore(value, userId, productId));
-      window.location.reload();
+      setTimeout(() => {window.location.replace("")},1000)
     } else {
       dispatch(updateScore(value, userId, productId));
-      window.location.reload();
+      setTimeout(() => {window.location.replace("")},1000)
     }
   }
 
