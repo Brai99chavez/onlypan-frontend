@@ -31,7 +31,7 @@ export default function NavbarViewer() {
 
   useEffect(() => {
     if (isUserLogged)
-      dispatch(getUserCart(JSON.parse(localStorage.getItem('user')).user.id));
+      dispatch(getUserCart(JSON.parse(localStorage.getItem('user')).user.id,JSON.parse(localStorage.getItem('user')).token));
   }, [dispatch]);
 
   const { isAuthenticated, user, logout } = useAuth0();
