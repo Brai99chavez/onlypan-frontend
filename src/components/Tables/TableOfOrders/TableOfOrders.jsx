@@ -1,9 +1,19 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom';
 import { getOrders, updateOrder } from '../../../redux/Actions/Actions';
 
 
 export default function TableOfOrders() {
+
+  const history = useHistory();
+  if (!JSON.parse(localStorage.getItem("user")).user) {
+      history.push('/')
+  } else {
+    if (JSON.parse(localStorage.getItem("user")).user.rol !== 'admin') { 
+      history.push('/')
+    }
+  }
 
     const dispatch = useDispatch();
     const token = JSON.parse(localStorage.getItem("user")).token

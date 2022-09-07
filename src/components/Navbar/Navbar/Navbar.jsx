@@ -30,7 +30,7 @@ export default function NavbarViewer() {
   }, [controlUser, isUserLogged]);
 
   useEffect(() => {
-    if (isUserLogged && JSON.parse(localStorage.getItem('user')).user.id !== 1)
+    if (isUserLogged)
       dispatch(getUserCart(JSON.parse(localStorage.getItem('user')).user.id,JSON.parse(localStorage.getItem('user')).token));
   }, [dispatch]);
 
@@ -80,17 +80,20 @@ export default function NavbarViewer() {
         <h2>OnlyPan</h2>
       </NavLink>
       <div className="nav-buttons">
-        <NavLink className="nav-btn" to={'/productos'}>
-          Productos
-        </NavLink>
+
         {selfRol !== 'admin' ? (
-          <NavLink className="nav-btn" to={'/contacto'}>
-            Contacto
-          </NavLink>
+          <>
+            <NavLink className="nav-btn" to={'/contacto'}>
+              Contacto
+            </NavLink>
+            <NavLink className="nav-btn" to={'/productos'}>
+              Productos
+            </NavLink>
+            <NavLink className="nav-btn" to={'/favoritos'}>
+              Favoritos
+            </NavLink>
+          </>
         ) : null}
-        <NavLink className="nav-btn" to={'/favoritos'}>
-          Favoritos
-        </NavLink>
         {selfRol === 'admin' ? (
           <>
             <NavLink className="nav-btn" to={'/crear-producto'}>
@@ -109,9 +112,10 @@ export default function NavbarViewer() {
         ) : null}
       </div>
       <div className="nav-login">
-        <NavLink className="nav-btn" to={'/carrito'}>
+        {selfRol !== 'admin' ? <NavLink className="nav-btn" to={'/carrito'}>
           <i className="fa-solid fa-basket-shopping" />
-        </NavLink>
+        </NavLink>:null}
+        
         {isUserLogged ? (
           <NavLink className="nav-login-btn" to={'/usuario'}>
             <i className="fa-solid fa-user" />{' '}

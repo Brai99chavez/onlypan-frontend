@@ -11,5 +11,5 @@
   @apply font-bold text-3xl text-center;
 }
 .logOutButton {
-  @apply font-bold m-4 ml-96 h-10 m-4 px-5 text-indigo-100 bg-gray-400 rounded-lg transition-colors duration-150 hover:bg-sky-700 transition duration-700;
+  @apply font-bold mt-2  h-10  px-5 text-indigo-100 bg-gray-400 rounded-lg  hover:bg-sky-700 transition duration-700;
 }

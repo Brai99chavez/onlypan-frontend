@@ -90,8 +90,8 @@ export function getByName(name) {
         dispatch({ type: GET_PRODUCT_BY_NAME, payload: response.data })
       )
       .catch((error) => {
-        dispatch(handleError());
-        console.error(error);
+        dispatch({ type: GET_PRODUCT_BY_NAME, payload: 'me gusta el pan' });
+
       });
   };
 }
@@ -107,7 +107,7 @@ export function combinedFilter(option) {
       )
       .catch((error) => {
         dispatch(handleError(error));
-        console.error(error);
+
       });
   };
 }

@@ -1,11 +1,21 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { DisableUser, getAllUsers, modifyRolByAdmin } from '../../../redux/Actions/Actions';
 
 
 export default function TableOfUsers() {
+
+  const history = useHistory();
+  if (!JSON.parse(localStorage.getItem("user")).user) {
+      history.push('/')
+  } else {
+    if (JSON.parse(localStorage.getItem("user")).user.rol !== 'admin') { 
+      history.push('/')
+    }
+  }
+
 
   const token = JSON.parse(localStorage.getItem("user")).token
   const dispatch = useDispatch()
