@@ -78,17 +78,20 @@ export default function NavbarViewer() {
         <h2>OnlyPan</h2>
       </NavLink>
       <div className="nav-buttons">
-        <NavLink className="nav-btn" to={'/productos'}>
-          Productos
-        </NavLink>
+
         {selfRol !== 'admin' ? (
-          <NavLink className="nav-btn" to={'/contacto'}>
-            Contacto
-          </NavLink>
+          <>
+            <NavLink className="nav-btn" to={'/contacto'}>
+              Contacto
+            </NavLink>
+            <NavLink className="nav-btn" to={'/productos'}>
+              Productos
+            </NavLink>
+            <NavLink className="nav-btn" to={'/favoritos'}>
+              Favoritos
+            </NavLink>
+          </>
         ) : null}
-        <NavLink className="nav-btn" to={'/favoritos'}>
-          Favoritos
-        </NavLink>
         {selfRol === 'admin' ? (
           <>
             <NavLink className="nav-btn" to={'/crear-producto'}>

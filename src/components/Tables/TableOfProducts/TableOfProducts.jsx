@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { DeleteProduct, getAllProducts } from '../../../redux/Actions/Actions';
 import "../Tables.css"
@@ -12,6 +12,16 @@ export default function TableOfProducts() {
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
+
+
+  const history = useHistory();
+  if (!JSON.parse(localStorage.getItem("user")).user) {
+      history.push('/')
+  } else {
+    if (JSON.parse(localStorage.getItem("user")).user.rol !== 'admin') { 
+      history.push('/')
+    }
+  }
 
   const { products } = useSelector((state) => state);
   const token = JSON.parse(localStorage.getItem("user")).token
