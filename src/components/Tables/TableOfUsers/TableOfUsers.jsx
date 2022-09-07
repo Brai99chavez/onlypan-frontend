@@ -16,15 +16,15 @@ export default function TableOfUsers() {
     }
   }
 
-
   const token = JSON.parse(localStorage.getItem("user")).token
+
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getAllUsers(token));
   }, [dispatch,token]);
-
   const { allUsers } = useSelector((state) => state);
+
 
   function handleBan(id,token) {
     Swal.fire({
@@ -38,7 +38,7 @@ export default function TableOfUsers() {
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(DisableUser(id,token) , window.location.reload())
+        dispatch(DisableUser(id, token))
       }
     })
   }
@@ -54,7 +54,7 @@ export default function TableOfUsers() {
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(DisableUser(id,token) , window.location.reload())
+        dispatch(DisableUser(id,token))
       }
     })
   }
@@ -72,7 +72,7 @@ export default function TableOfUsers() {
       cancelButtonText: 'No!'
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(modifyRolByAdmin(id, token),window.location.reload())
+        dispatch(modifyRolByAdmin(id, token))
       }
     })
   }
