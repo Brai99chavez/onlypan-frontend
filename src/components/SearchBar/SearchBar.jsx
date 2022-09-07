@@ -8,6 +8,12 @@ import './SearchBar.css';
 function SearchBar({ setCurrentPage, tipo }) {
   //redux
   const [value, setValue] = useState('');
+  const [changes, setChanges] = useState({
+    type: '',
+    sort: '',
+    min: '',
+    max: '',
+  });
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -23,6 +29,8 @@ function SearchBar({ setCurrentPage, tipo }) {
     const sortPrice = document.querySelector('#sortPrice');
     type.value = '';
     sortPrice.value = '';
+
+    setChanges({ type: '', sort: '', min: '', max: '' });
   };
 
   const handleOnSubmit = (e) => {
@@ -38,7 +46,11 @@ function SearchBar({ setCurrentPage, tipo }) {
     <div className="SearchBar">
       <div className="SearchBar-container">
         {location.pathname === '/productos' ? (
-          <Filters setCurrentPage={setCurrentPage} tipo={tipo} />
+          <Filters
+            setCurrentPage={setCurrentPage}
+            tipo={tipo}
+            changes={changes}
+          />
         ) : null}
         <form onSubmit={handleOnSubmit}>
           <input

@@ -1,11 +1,9 @@
 import {
-  FILTER_BY_TYPE,
-  SORT_BY_PRICE,
-  MIXED_SORT,
   GET_ALL_PRODUCTS,
-  GET_BY_NAME,
-  GET_FOR_ID,
+  GET_PRODUCT_BY_NAME,
+  GET_PRODUCT_FOR_ID,
   GET_TYPES,
+  MIXED_SORT,
   RESET_FILTERED_PRODUCTS,
   GET_USER_ORDERS,
   ERROR,
@@ -13,7 +11,21 @@ import {
   GET_SCORES_FOR_USER,
   GET_SCORES_FOR_USER_AND_PRODUCT,
   GET_SCORES_FOR_PRODUCT,
-} from "../Actions/Actions";
+  GET_ALL_USERS,
+  CLEAR_DETAIL_PRODUCT,
+  SEARCH_LOCALITATION,
+  DELETE_LOCATION_SEARCH,
+  SEARCH_UBICATION,
+  CREATE_USER_CART,
+  GET_USER_CART,
+  DELETE_PRODUCT_IN_CART,
+  CHANGE_AMOUNT_IN_CART,
+  EMPTY_CART,
+  GET_ALL_ORDERS,
+  GET_ALL_FAVORITES,
+  ADD_FAVORITE,
+  DELETE_FAVORITE,
+} from '../Actions/Actions';
 
 const inicialState = {
   products: [],
@@ -23,11 +35,16 @@ const inicialState = {
   getProductScores: 0,
   filteredProducts: [],
   detailProduct: {},
-  favorites: [],
+  cart: {},
   userOrders: [],
+  userFavorites: [],
   loading: false,
   error: null,
   errorMessage: '',
+  allUsers: [],
+  orders: [],
+  locations: [],
+  ubicationUserDeliver: [],
 };
 
 const rootReducer = (state = inicialState, action) => {
@@ -47,7 +64,7 @@ const rootReducer = (state = inicialState, action) => {
         error: null,
         types: action.payload,
       };
-    case GET_BY_NAME:
+    case GET_PRODUCT_BY_NAME:
       return {
         ...state,
         loading: false,
@@ -61,34 +78,13 @@ const rootReducer = (state = inicialState, action) => {
         loading: false,
         userOrders: action.payload,
       };
-    case RESET_FILTERED_PRODUCTS:
-      return {
-        ...state,
-        error: null,
-        loading: false,
-        filteredProducts: [],
-      };
-    case GET_FOR_ID:
+
+    case GET_PRODUCT_FOR_ID:
       return {
         ...state,
         error: null,
         loading: false,
         detailProduct: action.payload,
-      };
-
-    case FILTER_BY_TYPE:
-      return {
-        ...state,
-        filteredProducts: action.payload,
-        loading: false,
-        error: null,
-      };
-    case SORT_BY_PRICE:
-      return {
-        ...state,
-        filteredProducts: action.payload,
-        loading: false,
-        error: null,
       };
     case MIXED_SORT:
       return {
@@ -97,18 +93,14 @@ const rootReducer = (state = inicialState, action) => {
         loading: false,
         error: null,
       };
+    case RESET_FILTERED_PRODUCTS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        filteredProducts: [],
+      };
 
-    case ERROR:
-      return {
-        ...state,
-        error: true,
-        errorMessage: action.error,
-      };
-    case LOADING:
-      return {
-        ...state,
-        loading: true,
-      };
     case GET_SCORES_FOR_USER: {
       return {
         ...state,
@@ -127,7 +119,78 @@ const rootReducer = (state = inicialState, action) => {
         getProductScores: action.payload,
       };
     }
-    
+    case GET_ALL_USERS: {
+      return {
+        ...state,
+        allUsers: action.payload,
+      };
+    }
+    case CLEAR_DETAIL_PRODUCT: {
+      return {
+        ...state,
+        detailProduct: {},
+      };
+    }
+    case CREATE_USER_CART:
+    case GET_USER_CART:
+    case DELETE_PRODUCT_IN_CART:
+    case CHANGE_AMOUNT_IN_CART:
+    case EMPTY_CART:
+      return {
+        ...state,
+        cart: action.payload,
+        error: null,
+      };
+    case GET_ALL_FAVORITES:
+    case ADD_FAVORITE:
+    case DELETE_FAVORITE:
+      return {
+        ...state,
+        userFavorites: action.payload,
+        error: null,
+      };
+    case ERROR:
+      return {
+        ...state,
+        error: true,
+        errorMessage: action.error,
+      };
+    case LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_ALL_ORDERS: {
+      return {
+        ...state,
+        orders: action.payload,
+      };
+    }
+    case SEARCH_LOCALITATION: {
+      return {
+        ...state,
+        locations: action.payload,
+      };
+    }
+    case DELETE_LOCATION_SEARCH: {
+      return {
+        ...state,
+        locations: action.payload,
+      };
+    }
+    case SEARCH_UBICATION: {
+      const copyLocation = [...state.locations];
+      const ubicationUserSelected = copyLocation.filter(
+        (ubi) => ubi.id === action.payload
+      );
+
+      return {
+        ...state,
+        ubicationUserDeliver: state.ubicationUserDeliver.concat(
+          ubicationUserSelected
+        ),
+      };
+    }
     default:
       return state;
   }

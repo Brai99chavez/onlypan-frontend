@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterByType, getAllProducts } from '../../redux/Actions/Actions';
+import {
+  combinedFilter,
+  getAllFavorites,
+  getAllProducts,
+  getUserCart,
+} from '../../redux/Actions/Actions';
 import { useLocation } from 'react-router-dom';
 import './Products.css';
 //components
@@ -12,6 +17,23 @@ import Pagination from '../Products/Pagination/Pagination';
 import ShoppingCartDropdown from './ShoppingCartDropdown/ShoppingCartDropdown';
 
 export default function Products() {
+  let loggedUser =
+    localStorage.getItem('user') !== '{}'
+      ? JSON.parse(localStorage.getItem('user'))
+      : false;
+
+  const copyLocalStorageUser = JSON.parse(localStorage.getItem('user'));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (loggedUser) {
+      dispatch(
+        getUserCart(copyLocalStorageUser.user.id, copyLocalStorageUser.token)
+      );
+      dispatch(getAllFavorites(copyLocalStorageUser.user.id));
+    }
+  }, [dispatch]);
+
   const [addedToCart, setAddedToCart] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -23,14 +45,15 @@ export default function Products() {
   const tipo = query.get('tipo');
 
   // redux
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllProducts());
-    if (tipo) dispatch(filterByType(tipo));
+    if (tipo)
+      dispatch(combinedFilter({ type: tipo, sort: '', min: '', max: '' }));
   }, [dispatch, tipo]);
-  const { products, filteredProducts, loading, error } = useSelector(
-    (state) => state
-  );
+
+  const { products, filteredProducts, cart, userFavorites, loading, error } =
+    useSelector((state) => state);
+
   let vista = filteredProducts.length ? filteredProducts : products;
 
   const itemsToRender = () => {
@@ -53,32 +76,43 @@ export default function Products() {
   return (
     <div className="productsContainer">
       {addedToCart ? (
-        <ShoppingCartDropdown setAddedToCart={setAddedToCart} />
+        <ShoppingCartDropdown cart={cart} setAddedToCart={setAddedToCart} />
       ) : (
         <></>
       )}
       <SearchBar setCurrentPage={setCurrentPage} tipo={tipo} />
-      <div className="ProductCards">
-        {vista &&
-          itemsToRender().map((p) => (
-            <ProductCard
-              key={p.id}
-              id={p.id}
-              name={p.name}
-              price={p.price}
-              image={p.image}
-              description={p.description}
-              type={p.type}
-              setAddedToCart={setAddedToCart}
-            />
-          ))}
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        productsToRender={itemsToRender()}
-        pageNumbers={pageNumbers()}
-      />
+      {typeof filteredProducts === 'string' ? (
+        <div className="text-center"> No se encontró ningún producto</div>
+      ) : (
+        <>
+          <div className="ProductCards">
+            {vista.length &&
+              itemsToRender().map((p) => (
+                <ProductCard
+                  userFavorites={userFavorites}
+                  cart={cart}
+                  user={copyLocalStorageUser}
+                  loggedUser={loggedUser}
+                  key={p.id}
+                  id={p.id}
+                  name={p.name}
+                  price={p.price}
+                  image={p.image}
+                  description={p.description}
+                  type={p.type}
+                  quantity={p.quantity}
+                  setAddedToCart={setAddedToCart}
+                />
+              ))}
+          </div>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            productsToRender={itemsToRender()}
+            pageNumbers={pageNumbers()}
+          />
+        </>
+      )}
     </div>
   );
 }

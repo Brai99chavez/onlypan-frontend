@@ -10,20 +10,25 @@ import axios from 'axios';
 
 export default function Login() {
   const history = useHistory();
+
   if (localStorage.getItem('user') !== '{}') history.push('/');
 
   const { loginWithRedirect } = useAuth0();
-  const { logout } = useAuth0();
+
   const { loading } = useSelector((state) => state);
 
   if (loading) return <Loading />;
   return (
     <div className="login">
       <div className="login-container">
-        <button onClick={() => loginWithRedirect()}>
-          Continuar con Google
+
+        <button
+          className="bg-gray-400 px-4 py-2 mx-7 my-4 rounded-full text-indigo-100 font-semibold transition-colors duration-150 hover:bg-sky-700  duration-700;"
+          onClick={() => loginWithRedirect()}
+        >
+          <i className="fa-brands fa-google mr-2 text-white-500" />
+          INICIAR SESIÓN CON GOOGLE
         </button>
-        <button onClick={() => logout()}>salir</button>
 
         <Formik
           initialValues={{ email: '', password: '' }}
@@ -39,12 +44,18 @@ export default function Login() {
             if (!values.password) errors.password = 'Completa este campo';
             return errors;
           }}
-          onSubmit={async (values) => {
-            await axios
+
+          onSubmit={(values) => {
+
+              axios
+
               .post('/user/signIn', values)
-              .then((user) => {
-                localStorage.setItem('user', JSON.stringify(user.data));
+              .then((response) => {
+                localStorage.setItem('user', JSON.stringify(response.data));
               })
+              .then(() =>
+                localStorage.setItem('cartSelectProducts', JSON.stringify([]))
+              )
               .then(() => {
                 Swal.fire({
                   icon: 'success',
@@ -61,6 +72,7 @@ export default function Login() {
                   text: error.response.data.msg,
                 });
               });
+            
           }}
         >
           {({
@@ -115,6 +127,7 @@ export default function Login() {
             </form>
           )}
         </Formik>
+
         <p className="login-footer">
           Si no tenés cuenta, registrate{' '}
           <Link className="login-footer-link" to={'/registro'}>

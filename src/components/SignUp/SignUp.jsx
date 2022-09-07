@@ -1,16 +1,18 @@
 import React from 'react';
 import './SignUp.css';
 import { Formik } from 'formik';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../Loading/Loading';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { createUserCart } from '../../redux/Actions/Actions';
 
 function SignUp() {
   const { loading } = useSelector((state) => state);
-
+  const dispatch = useDispatch();
   const history = useHistory();
+
   if (localStorage.getItem('user') !== '{}') history.push('/');
 
   if (loading) return <Loading />;
@@ -58,9 +60,16 @@ function SignUp() {
           onSubmit={async (values) => {
             await axios
               .post('/user/signUp', values)
-              .then((user) => {
-                localStorage.setItem('user', JSON.stringify(user.data));
+              .then((response) => {
+                localStorage.setItem('user', JSON.stringify(response.data));
+                const copyCart = JSON.parse(
+                  localStorage.getItem('cartSelectProducts')
+                );
+                dispatch(createUserCart(response.data.user.id, copyCart,response.data.token));
               })
+              .then(() =>
+                localStorage.setItem('cartSelectProducts', JSON.stringify([]))
+              )
               .then(() => {
                 Swal.fire({
                   icon: 'success',
