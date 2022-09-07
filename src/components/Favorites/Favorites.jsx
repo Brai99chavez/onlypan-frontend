@@ -42,6 +42,7 @@ function Favorites() {
                         name={e.name}
                         id={e.id}
                         price={e.id}
+                        quantity={e.quantity}
                         key={e.id}
                       />
                     ))

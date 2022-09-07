@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import {
   changeAmountInCart,
   deleteProductInCart,
@@ -16,6 +17,7 @@ function CartCard({
   setUserCart,
   sumTotal,
   setTotal,
+  quantity,
 }) {
   const dispatch = useDispatch();
 
@@ -39,7 +41,7 @@ function CartCard({
     }
     return amountInCart;
   };
-  const [amountInCart, setAmountInCart] = useState(getAmountInCart());
+  let [amountInCart, setAmountInCart] = useState(getAmountInCart());
 
   const handlerDeleteProduct = (name) => {
     if (!loggedUser) {
@@ -48,21 +50,26 @@ function CartCard({
       setUserCart(cleared);
       setTotal(sumTotal());
     } else {
-      console.log(user, id);
       dispatch(deleteProductInCart(user.user.id, id, user.token));
     }
   };
 
   const handleChangeAmount = (op) => {
-    let quantity = amountInCart;
-    op === 'suma' ? (quantity += 1) : (quantity -= 1);
+    op === 'suma'
+      ? amountInCart < quantity
+        ? (amountInCart += 1)
+        : Swal.fire({
+            icon: 'error',
+            text: 'No hay mas productos disponibles en stock',
+          })
+      : (amountInCart -= 1);
 
-    if (quantity > 0) {
+    if (amountInCart > 0) {
       if (!loggedUser) {
         const prodIndex = copyLocalStorageCart.findIndex(
           (p) => p.name === name
         );
-        copyLocalStorageCart[prodIndex].quantitySelectedCartSh = quantity;
+        copyLocalStorageCart[prodIndex].quantitySelectedCartSh = amountInCart;
         localStorage.setItem(
           'cartSelectProducts',
           JSON.stringify(copyLocalStorageCart)
@@ -70,15 +77,15 @@ function CartCard({
         setAmountInCart(getAmountInCart());
         setTotal(sumTotal());
       } else {
-        const totalPrice = price * quantity;
+        const totalPrice = price * amountInCart;
         dispatch(
           changeAmountInCart(
             user.user.id,
-            { id, quantity, totalPrice },
+            { id, quantity: amountInCart, totalPrice },
             user.token
           )
         );
-        setAmountInCart(() => quantity);
+        setAmountInCart(() => amountInCart);
       }
     }
   };

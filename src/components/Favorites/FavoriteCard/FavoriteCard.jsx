@@ -7,7 +7,8 @@ import {
   deleteFavorite,
 } from '../../../redux/Actions/Actions';
 
-function FavoriteCard({ user, image, name, id, price }) {
+function FavoriteCard({ user, image, name, id, price, quantity }) {
+  let prodQuantity = quantity;
   const dispatch = useDispatch();
   const handleAddToCart = async () => {
     const { value: quantity } = await Swal.fire({
@@ -19,6 +20,8 @@ function FavoriteCard({ user, image, name, id, price }) {
       inputValidator: (value) => {
         if (!value || value === '0') {
           return 'Debe ingresar por lo menos uno';
+        }else if(value > prodQuantity){
+          return `No puede agregar mas productos. ${prodQuantity} en stock.`
         }
       },
     });
