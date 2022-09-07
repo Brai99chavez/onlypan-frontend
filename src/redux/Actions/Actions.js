@@ -435,6 +435,15 @@ export function getOrders(token) {
       .catch((error) => console.log('error'));
   };
 }
+export function updateOrder(id, token) {
+  console.log(id)
+  console.log('----------------------')
+  return async function (dispatch) {
+    axios
+      .get(`/order/update/${id}`, { headers: { auth_token: token } })
+      .catch((error) => console.log('error'));
+  };
+}
 
 export const getAllFavorites = (id) => {
   return async function (dispatch) {
