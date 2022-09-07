@@ -26,13 +26,15 @@ function FavoriteCard({ user, image, name, id, price, quantity }) {
       },
     });
     if (quantity) {
+      const token = user.token;
       dispatch(
         changeAmountInCart(user.user.id, {
           id: id,
           quantity,
           totalPrice: price * quantity,
-        })
+        }, token)
       );
+
       Swal.fire({
         icon: 'success',
         title: 'Agregado correctamente',
