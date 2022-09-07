@@ -390,7 +390,7 @@ export function DisableUser(id, token) {
 
 export function DeleteProduct(id, token) {
   return async function (dispatch) {
-    await axios.delete(`/product/delete/${id}`, {
+    await axios.get(`/product/delete/${id}`, {
         headers: {
           'auth_token': token,
         },

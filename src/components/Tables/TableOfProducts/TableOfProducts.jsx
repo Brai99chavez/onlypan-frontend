@@ -21,7 +21,7 @@ export default function TableOfProducts() {
         <table className='table'>
           <thead className="thead">
             <tr className="thead-row" >
-              <th>id</th>
+
               <th>Nombre</th>
               <th>Precio</th>
               <th>cantidad</th>
@@ -36,14 +36,13 @@ export default function TableOfProducts() {
             {products && products.map((p, i) =>
 
               <tr className="tbody-row" key={i}>
-                <td>#{p.id}</td>
                 <td>{p.name}</td>
                 <td>{p.price}</td>
                 <td>{p.quantity}</td>
                 <td>{p.type}</td>
-                <td>{p.quantity > 0 ? 'si' : 'no'} </td>
+                <td>{p.isAvailable === true ? 'si' : 'no'} </td>
                 <td><Link to={`/modificar-producto/${p.id}`}><i className="fa-solid fa-pen-to-square "></i></Link></td>
-                <td><button onClick={() => dispatch(DeleteProduct(p.id,token) , window.location.reload())} ><i className="fa-solid fa-trash-can"></i></button></td>
+                <td><button onClick={() => dispatch(DeleteProduct(p.id,token))} ><i className="fa-solid fa-trash-can"></i></button></td>
               </tr>
 
             )}

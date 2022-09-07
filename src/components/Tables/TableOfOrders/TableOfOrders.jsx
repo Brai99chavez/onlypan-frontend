@@ -20,10 +20,9 @@ export default function TableOfOrders() {
               <th>Id</th>
               <th>Fecha</th>
               <th>Precio total</th>
-              <th>Estado</th>
               <th>Cantidad</th>
-
-
+              <th>Estado</th>
+              <th>Entrega</th>
             </tr>
           </thead>
           <tbody className='tbody'>
@@ -38,8 +37,9 @@ export default function TableOfOrders() {
                 '/' +
                 o.createdAt.substring(0, 4)}</td>
                 <td>{o.totalPrice}</td>
-                <td>{o.status}</td>
                 <td>{o.products.length}</td>
+                <td>{o.status}</td>
+                <td><button onClick={() => {}}>Entregar</button></td>
               </tr>
             )}
           </tbody>
