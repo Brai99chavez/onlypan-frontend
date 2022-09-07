@@ -191,7 +191,7 @@ export default function Cart() {
         const errormesa = errorMessages[data.error];
         data.error ? errorAlert(errormesa) : successPaymentAprobed();
       }
-      dispatch(emptyCart(copyLocalStorageUser.user.id));
+      dispatch(emptyCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token));
       setLoadingsti(false);
     }
   };
@@ -232,6 +232,7 @@ export default function Cart() {
                             name={e.name}
                             price={e.price}
                             type={e.type}
+                            quantity={e.quantity}
                             quantitySelectedCartSh={e.productCart.quantity}
                           />
                         ))
@@ -254,6 +255,7 @@ export default function Cart() {
                           name={e.name}
                           price={e.price}
                           type={e.type}
+                          quantity={e.quantity}
                           quantitySelectedCartSh={e.quantitySelectedCartSh}
                         />
                       ))

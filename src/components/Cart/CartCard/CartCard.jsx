@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 import {
   changeAmountInCart,
   deleteProductInCart,
-} from '../../../redux/Actions/Actions';
+} from "../../../redux/Actions/Actions";
 
 function CartCard({
   user,
@@ -16,11 +17,13 @@ function CartCard({
   setUserCart,
   sumTotal,
   setTotal,
+  quantity
 }) {
+  console.log(quantity);
   const dispatch = useDispatch();
 
   const copyLocalStorageCart = JSON.parse(
-    localStorage.getItem('cartSelectProducts')
+    localStorage.getItem("cartSelectProducts")
   );
   const getAmountInCart = () => {
     let amountInCart = 0;
@@ -39,12 +42,12 @@ function CartCard({
     }
     return amountInCart;
   };
-  const [amountInCart, setAmountInCart] = useState(getAmountInCart());
+  let [amountInCart, setAmountInCart] = useState(getAmountInCart());
 
   const handlerDeleteProduct = (name) => {
     if (!loggedUser) {
       const cleared = copyLocalStorageCart.filter((e) => e.name !== name);
-      localStorage.setItem('cartSelectProducts', JSON.stringify(cleared));
+      localStorage.setItem("cartSelectProducts", JSON.stringify(cleared));
       setUserCart(cleared);
       setTotal(sumTotal());
     } else {
@@ -53,34 +56,44 @@ function CartCard({
   };
 
   const handleChangeAmount = (op) => {
-    let quantity = amountInCart;
-    op === 'suma' ? (quantity += 1) : (quantity -= 1);
+    op === "suma"
+      ? amountInCart < quantity
+        ? (amountInCart += 1)
+        : Swal.fire({
+            icon: "error",
+            text: "No hay mas productos disponibles en stock",
+          })
+      : (amountInCart -= 1);
 
-    if (quantity > 0) {
+    if (amountInCart > 0) {
       if (!loggedUser) {
         const prodIndex = copyLocalStorageCart.findIndex(
           (p) => p.name === name
         );
-        copyLocalStorageCart[prodIndex].quantitySelectedCartSh = quantity;
+        copyLocalStorageCart[prodIndex].quantitySelectedCartSh = amountInCart;
         localStorage.setItem(
-          'cartSelectProducts',
+          "cartSelectProducts",
           JSON.stringify(copyLocalStorageCart)
         );
         setAmountInCart(getAmountInCart());
         setTotal(sumTotal());
       } else {
-        const totalPrice = price * quantity;
+        const totalPrice = price * amountInCart;
         dispatch(
-          changeAmountInCart(user.user.id, { id, quantity, totalPrice }, user.token)
+          changeAmountInCart(
+            user.user.id,
+            { id, quantity: amountInCart, totalPrice },
+            user.token
+          )
         );
-        setAmountInCart(() => quantity);
+        setAmountInCart(() => amountInCart);
       }
     }
   };
   return (
     <div className="flex justify-between items-center mt-6 pt-6">
       <div className="flex  items-center">
-        <img src={image} width="80" alt="product" />
+        <img src={image} width="80" alt="product" className="rounded-xl" />
         <div className="flex flex-col ml-3">
           <span className="md:text-md font-medium">{name}</span>
         </div>
@@ -88,14 +101,14 @@ function CartCard({
       <div className="flex justify-center items-center">
         <div className="pr-8 flex ">
           <button
-            onClick={() => handleChangeAmount('rest')}
+            onClick={() => handleChangeAmount("rest")}
             className="font-semibold cursor-pointer"
           >
             -
           </button>
-            <p className="mx-4">{amountInCart}</p>
+          <p className="mx-4">{amountInCart}</p>
           <button
-            onClick={() => handleChangeAmount('suma')}
+            onClick={() => handleChangeAmount("suma")}
             className="font-semibold cursor-pointer"
           >
             +
