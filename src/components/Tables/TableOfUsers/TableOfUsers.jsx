@@ -39,7 +39,7 @@ export default function TableOfUsers() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(DisableUser(id, token))
-        window.location.replace("")
+        setTimeout(() => {window.location.replace("")},1000)
       }
     })
   }
@@ -56,7 +56,7 @@ export default function TableOfUsers() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(DisableUser(id, token))
-        window.location.replace("")
+        setTimeout(() => {window.location.replace("")},1000)
       }
     })
   }
@@ -75,7 +75,7 @@ export default function TableOfUsers() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(modifyRolByAdmin(id, token))
-        window.location.replace("")
+        setTimeout(() => {window.location.replace("")},1000)
       }
     })
   }
