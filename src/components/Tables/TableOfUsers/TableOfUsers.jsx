@@ -38,8 +38,18 @@ export default function TableOfUsers() {
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(DisableUser(id, token))
-        setTimeout(() => {window.location.replace("")},1000)
+        if (JSON.parse(localStorage.getItem("user")).user.id !== id) {
+          dispatch(DisableUser(id, token))
+          setTimeout(() => {window.location.replace("")},1000)
+        }
+        else {
+          Swal.fire(
+            'Error!',
+            'No te podes banear a vos mismo!',
+            'warning'
+          )
+          
+        }
       }
     })
   }
@@ -74,8 +84,17 @@ export default function TableOfUsers() {
       cancelButtonText: 'No!'
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(modifyRolByAdmin(id, token))
-        setTimeout(() => {window.location.replace("")},1000)
+        if (JSON.parse(localStorage.getItem("user")).user.id !== id) { 
+          dispatch(modifyRolByAdmin(id, token))
+          setTimeout(() => {window.location.replace("")},1000)
+        } else {
+          Swal.fire(
+            'Error!',
+            'No te podes cambiar el rol a vos mismo!',
+            'warning'
+          )
+        }
+        
       }
     })
   }
