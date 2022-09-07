@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { getOrders, updateOrder } from '../../../redux/Actions/Actions';
 
 
@@ -18,8 +19,26 @@ export default function TableOfOrders() {
     const dispatch = useDispatch();
     const token = JSON.parse(localStorage.getItem("user")).token
     useEffect(() => { dispatch(getOrders(token)) }, [dispatch,token])
-    const { orders } = useSelector((state) => state);
+    const { orders } = useSelector((state) => state)
     
+  function handleDelivered(id,token){ 
+    Swal.fire({
+      title: 'Eliminacion',
+      text: "¿Queres cambiar el estado de la orden?", 
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si!',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(updateOrder(id,token))
+        setTimeout(() => {window.location.replace("")},1000)
+      }
+    })
+  }
+  
   return (
     <React.Fragment>
       <div className='table-container'>
@@ -48,7 +67,7 @@ export default function TableOfOrders() {
                 <td>{o.totalPrice}</td>
                 <td>{o.products.length}</td>
                 <td>{o.status}</td>
-                <td>{o.status === 'entregado' ? <button disabled className='bg-green-500 p-1 rounded-xl'>Entregado</button>:<button className='bg-orange-500 p-1 rounded-xl' onClick={() => {dispatch(updateOrder(o.id,token),window.location.reload())}}>Entregar</button>}</td>
+                <td>{o.status === 'entregado' ? <button disabled className='bg-green-500 p-1 rounded-xl'>Entregado</button> : <button className='bg-orange-500 p-1 rounded-xl' onClick={() => { handleDelivered(o.id, token) }}>Entregar</button>}</td>
               </tr>
             )}
           </tbody>

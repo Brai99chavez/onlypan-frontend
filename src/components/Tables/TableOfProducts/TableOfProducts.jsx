@@ -39,7 +39,7 @@ export default function TableOfProducts() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(DeleteProduct(id, token))
-        .then(window.location.reload())
+        setTimeout(() => {window.location.replace("")},1000)
       }
     })
   }
