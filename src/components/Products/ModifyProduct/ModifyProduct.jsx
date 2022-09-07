@@ -69,14 +69,16 @@ export default function ModifyProduct({ match }) {
           onSubmit={(values, actions) => {
             
             dispatch(ModifyProductById(detailProduct.id, token, values))
-            
-            Swal.fire({
-              icon: 'success',
-              title: 'Producto Modificado',
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            history.push('/lista-de-productos')
+            setTimeout(() => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Producto Modificado',
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              history.push('/lista-de-productos')
+            }, 1000)
+           
           }}
         >
           {({ values, errors, touched, handleBlur, handleSubmit, handleChange }) => (
