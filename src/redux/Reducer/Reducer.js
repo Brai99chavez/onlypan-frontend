@@ -35,7 +35,6 @@ const inicialState = {
   getProductScores: 0,
   filteredProducts: [],
   detailProduct: {},
-  favorites: [],
   cart: {},
   userOrders: [],
   userFavorites: [],

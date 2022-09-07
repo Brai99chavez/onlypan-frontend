@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import {
   changeAmountInCart,
@@ -55,14 +56,16 @@ function FavoriteCard({ user, image, name, id, price }) {
       <div className="flex  items-center">
         <img src={image} width="80" alt="product" className="rounded-xl" />
         <div className="flex flex-col ml-3">
-          <span className="md:text-md font-medium">{name}</span>
+          <Link to={`/detail/${id}`}>
+            <span className="md:text-md font-medium">{name}</span>
+          </Link>
         </div>
       </div>
       <div className="flex justify-center items-center">
         <div className="pr-8 flex ">
           <i
             onClick={handleAddToCart}
-            class="fa-solid fa-cart-plus cursor-pointer fa-lg"
+            className="fa-solid fa-cart-plus cursor-pointer fa-lg"
           />
           <i
             onClick={handleDeleteFavorite}

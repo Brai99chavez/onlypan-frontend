@@ -48,6 +48,7 @@ function CartCard({
       setUserCart(cleared);
       setTotal(sumTotal());
     } else {
+      console.log(user, id);
       dispatch(deleteProductInCart(user.user.id, id, user.token));
     }
   };
@@ -71,7 +72,11 @@ function CartCard({
       } else {
         const totalPrice = price * quantity;
         dispatch(
-          changeAmountInCart(user.user.id, { id, quantity, totalPrice }, user.token)
+          changeAmountInCart(
+            user.user.id,
+            { id, quantity, totalPrice },
+            user.token
+          )
         );
         setAmountInCart(() => quantity);
       }
@@ -93,7 +98,7 @@ function CartCard({
           >
             -
           </button>
-            <p className="mx-4">{amountInCart}</p>
+          <p className="mx-4">{amountInCart}</p>
           <button
             onClick={() => handleChangeAmount('suma')}
             className="font-semibold cursor-pointer"

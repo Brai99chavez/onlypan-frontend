@@ -20,7 +20,7 @@ export default function ProductCard({
   type,
   id,
   setAddedToCart,
-  quantity
+  quantity,
 }) {
   const { products } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -99,11 +99,15 @@ export default function ProductCard({
         const totalPrice = price * quantity;
 
         dispatch(
-          changeAmountInCart(user.user.id, {
-            id: productAddShoppingCart[0].id,
-            quantity,
-            totalPrice,
-          }, user.token)
+          changeAmountInCart(
+            user.user.id,
+            {
+              id: productAddShoppingCart[0].id,
+              quantity,
+              totalPrice,
+            },
+            user.token
+          )
         );
       }
       setAddedToCart(true);
@@ -128,7 +132,6 @@ export default function ProductCard({
       });
     } else {
       setFavoriteHeart(!favoriteHeart);
-      console.log(favoriteHeart);
       if (!favoriteHeart) {
         dispatch(addFavorite({ userId: user.user.id, productId: id }));
       } else {
