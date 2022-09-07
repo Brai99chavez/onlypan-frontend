@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './Cart.css';
@@ -30,7 +29,9 @@ export default function Cart() {
   const copyLocalStorageUser = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     if (loggedUser) {
-      dispatch(getUserCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token ));
+      dispatch(
+        getUserCart(copyLocalStorageUser.user.id, copyLocalStorageUser.token)
+      );
     }
   }, [dispatch]);
   const { cart } = useSelector((state) => state);
@@ -40,7 +41,6 @@ export default function Cart() {
       return JSON.parse(localStorage.getItem('cartSelectProducts'));
     }
   });
-
 
   const [loadingsti, setLoadingsti] = useState(false);
   const stripe = useStripe();
@@ -90,9 +90,7 @@ export default function Cart() {
       title: 'Pago aprobado',
       showConfirmButton: false,
       timer: 1500,
-
     }).then(() => history.push('/usuario'));
-
 
     elements.getElement(CardCvcElement).clear();
     elements.getElement(CardExpiryElement).clear();
@@ -163,9 +161,9 @@ export default function Cart() {
       });
       const idUser = copyLocalStorageUser.user.id;
       const tokenUser = copyLocalStorageUser.token;
-      const direccion = copyLocalStorageUser.user.address
-      const numero = copyLocalStorageUser.user.phone
-      console.log(direccion);
+      const direccion = copyLocalStorageUser.user.address;
+      const numero = copyLocalStorageUser.user.phone;
+
       const obj = {
         numero,
         direccion,
@@ -174,7 +172,6 @@ export default function Cart() {
         idUser,
         tokenUser,
       };
-
 
       const amount = cart.products.reduce((a, b) => {
         return a + b.price * b.productCart.quantity;
@@ -198,18 +195,22 @@ export default function Cart() {
           }
         );
         const errormesa = errorMessages[data.error];
-        data.error ? errorAlert(errormesa) : successPaymentAprobed();
+        if (data.error) errorAlert(errormesa);
+        else {
+          successPaymentAprobed();
+          dispatch(
+            emptyCart(copyLocalStorageUser.user.id, copyLocalStorageUser.token)
+          );
+        }
       }
-
-      dispatch(emptyCart(copyLocalStorageUser.user.id,copyLocalStorageUser.token));
 
       setLoadingsti(false);
     }
   };
 
   const inputStyle = {
-    color: '#fff'
-  }
+    color: '#fff',
+  };
 
   return (
     <div className="cart h-100%">
@@ -293,7 +294,8 @@ export default function Cart() {
                         {loggedUser
                           ? !Object.keys(cart).length
                             ? 0
-                            : cart.products && cart.products.reduce((a, b) => {
+                            : cart.products &&
+                              cart.products.reduce((a, b) => {
                                 return a + b.price * b.productCart.quantity;
                               }, 0)
                           : total}
@@ -383,12 +385,12 @@ export default function Cart() {
                             Numero de tarjeta
                           </label>
                           <CardNumberElement
-                        options={{
-                          style: {
-                            base: inputStyle,
-                          },
-                        }}
-                      />
+                            options={{
+                              style: {
+                                base: inputStyle,
+                              },
+                            }}
+                          />
                         </div>
                         <div className="grid grid-cols-3 gap-2 pt-2 mb-3">
                           <div className="col-span-2 ">
@@ -396,26 +398,25 @@ export default function Cart() {
                               Fecha de vencimiento
                             </label>
                             <div className="grid grid-cols-2 gap-2">
-    
-                          <CardExpiryElement
-                            options={{
-                              style: {
-                                base: inputStyle,
-                              },
-                            }}
-                          />
+                              <CardExpiryElement
+                                options={{
+                                  style: {
+                                    base: inputStyle,
+                                  },
+                                }}
+                              />
                             </div>
                           </div>
                           <div className="">
                             <label className="text-xs text-gray-400">CVV</label>
-    
-                        <CardCvcElement
-                          options={{
-                            style: {
-                              base: inputStyle,
-                            },
-                          }}
-                        />
+
+                            <CardCvcElement
+                              options={{
+                                style: {
+                                  base: inputStyle,
+                                },
+                              }}
+                            />
                           </div>
                         </div>
                         <button

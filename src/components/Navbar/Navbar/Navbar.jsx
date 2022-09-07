@@ -6,6 +6,7 @@ import '../Navbar.css';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { createUserCart, getUserCart } from '../../../redux/Actions/Actions';
+import Swal from 'sweetalert2';
 
 export default function NavbarViewer() {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ export default function NavbarViewer() {
       dispatch(getUserCart(JSON.parse(localStorage.getItem('user')).user.id));
   }, [dispatch]);
 
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user, logout } = useAuth0();
   if (isAuthenticated && !isUserLogged) {
     const { given_name, family_name, email, picture } = user;
     axios
@@ -54,7 +55,20 @@ export default function NavbarViewer() {
       .then(() =>
         localStorage.setItem('cartSelectProducts', JSON.stringify([]))
       )
-      .then(() => setIsUserLogged(true));
+      .then(() => setIsUserLogged(true))
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 404) {
+          Swal.fire({
+            icon: 'error',
+            title: 'No se pudo iniciar sesión.',
+            text: error.response.data.msg,
+            showConfirmButton: false,
+
+            timer: 1500,
+          }).then(() => logout());
+        }
+      });
   }
 
   return (
