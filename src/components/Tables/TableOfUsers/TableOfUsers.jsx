@@ -32,7 +32,40 @@ export default function TableOfUsers() {
       }
     })
   }
-
+  function handleUnban(id,token) {
+    Swal.fire({
+      title: 'Unban',
+      text: "¿Estas seguro de Desbanear a este usuario?", 
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, activalo!',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(DisableUser(id,token) , window.location.reload())
+      }
+    })
+  }
+  function handleModifyRol(id,token) {
+    
+    
+    Swal.fire({
+      title: 'Cambio de Rol',
+      text: "¿Estas seguro en cambiar de rol a este usuario?", 
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si!',
+      cancelButtonText: 'No!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(modifyRolByAdmin(id, token),window.location.reload())
+      }
+    })
+  }
   return (
     <React.Fragment>
       <div className='table-container'>
@@ -59,11 +92,11 @@ export default function TableOfUsers() {
                 <td>{p.email}</td>
                 <td>{p.phone}</td>
                 <td>{p.address}</td>
-                <td>{p.id !== 1 ? <select name="" id="" value={p.rol} onChange={ ()=> dispatch(modifyRolByAdmin(p.id,token),window.location.reload())}>
+                <td>{p.id !== 1 ? <select name="" id="" value={p.rol} onChange={ ()=> handleModifyRol(p.id,token)}>
                   <option value="user">usuario</option>
                   <option value="admin">admin</option>
                 </select> : p.rol}</td>
-                { p.id !== 1 ? <td><button onClick={() => handleBan(p.id,token)}>{ p.isAvailable ?<i className="fa-solid fa-ban text-red-700"></i> : <i class="fa-regular fa-square-check text-green-700"></i>}</button></td>:null}
+                { p.id !== 1 ? <td>{ p.isAvailable ?<button onClick={() => handleBan(p.id,token)}><i className="fa-solid fa-ban text-red-700"></i> </button>: <button onClick={() => handleUnban(p.id,token)}><i class="fa-regular fa-square-check text-green-700"></i></button>}</td>:null}
               </tr>
             )}
           </tbody>
