@@ -10,7 +10,7 @@ import { useSelector } from "react-redux/";
 import CardSearch from "./CardSearch";
 
 
-export default function Search() {
+export default function Search({setStateAddress}) {
   const se = useSelector((state) => state.locations);
   const dispatch = useDispatch();
   const serchPlacesByTerm = async (query) => {
@@ -54,7 +54,8 @@ export default function Search() {
     </div>
     {value.length ? 
         se?.map((e) => (
-          <CardSearch
+          <CardSearch 
+          setStateAddress={setStateAddress}
             setValue= {setValue}
             id={e.id}
             texte_es={e.text_es}
