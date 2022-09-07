@@ -52,10 +52,6 @@ export default function ProductCard({
     return amountInCart;
   };
 
-  // const isFavorite =
-  //   userFavorites.length && userFavorites.filter((x) => x.name === name).length
-  //     ? true
-  //     : false;
 
   const [amountToAdd, setAmountToAdd] = useState(getAmountInCart());
   const [favoriteHeart, setFavoriteHeart] = useState(
@@ -63,7 +59,14 @@ export default function ProductCard({
   );
 
   const handleSumButon = () => {
+    if(quantity > amountToAdd){
     setAmountToAdd(amountToAdd + 1);
+    }else{
+      Swal.fire({
+        icon: 'error',
+        text: 'No puedes agregar mas productos al carrito',
+      });
+    }
   };
 
   const handleResButon = () => {
