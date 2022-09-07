@@ -12,10 +12,15 @@ export default function Home() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { types, loading, error } = useSelector((state) => state);
-  const controlCart = JSON.parse(localStorage.getItem('cartSelectProducts'));
 
+  const controlCart = JSON.parse(localStorage.getItem('cartSelectProducts'));
   if (!controlCart)
     localStorage.setItem('cartSelectProducts', JSON.stringify([]));
+
+  const selfRol =
+    JSON.parse(localStorage.getItem('user')) &&
+    JSON.parse(localStorage.getItem('user')).user &&
+    JSON.parse(localStorage.getItem('user')).user.rol;
 
   useEffect(() => {
     dispatch(getAllProducts());
@@ -30,19 +35,27 @@ export default function Home() {
   if (error) return <Error />;
   return (
     <div className="homeContainer">
-      <SearchBar />
-      <div className="categories">
-        {types &&
-          types.map((t, i) => (
-            <button
-              className="categoryButton"
-              key={i}
-              onClick={() => handleOnClick(t)}
-            >
-              {t.charAt(0).toUpperCase() + t.substring(1).toLowerCase()}
-            </button>
-          ))}
-      </div>
+      {selfRol !== 'admin' ? (
+        <>
+          <SearchBar />
+          <div className="categories">
+            {types &&
+              types.map((t, i) => (
+                <button
+                  className="categoryButton"
+                  key={i}
+                  onClick={() => handleOnClick(t)}
+                >
+                  {t.charAt(0).toUpperCase() + t.substring(1).toLowerCase()}
+                </button>
+              ))}
+          </div>
+        </>
+      ) : (
+        <h1 className="text-sky-700 text-3xl mb-2 py-10 text-center">
+          Bienvenido administrador
+        </h1>
+      )}
       <Slideshow />
     </div>
   );
