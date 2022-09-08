@@ -105,26 +105,28 @@ export default function CreateProduct() {
       onSubmit={(values, actions) => {
 
         values.image = imagen
-        console.log(values)
+
         dispatch(createProduct(values,token));
+        setTimeout(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Producto creado',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          actions.resetForm({
+            values: {
+              name: '',
+              price: 0,
+              image: '',
+              description: '',
+              type: '',
+  
+              quantity: 0,
+            },
+          });
+        },1000)
 
-        Swal.fire({
-          icon: 'success',
-          title: 'Producto creado',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        actions.resetForm({
-          values: {
-            name: '',
-            price: 0,
-            image: '',
-            description: '',
-            type: '',
-
-            quantity: 0,
-          },
-        });
 
       }}
     >
