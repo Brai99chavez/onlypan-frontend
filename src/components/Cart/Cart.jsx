@@ -187,11 +187,6 @@ export default function Cart() {
             amount,
             delivery: selectedDelivery,
             obj: obj,
-          },
-          {
-            // headers: {
-            //   'auth-token': JSON.parse(localStorage.getItem('user')).token,
-            // },
           }
         );
         const errormesa = errorMessages[data.error];
