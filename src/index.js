@@ -10,7 +10,7 @@ import mapboxgl from "mapbox-gl";
 
 mapboxgl.accessToken = "pk.eyJ1Ijoiam9zZWFsYXIiLCJhIjoiY2w3Z3E1MjR6MDZ6bTNvbWhoenVjemFicCJ9.yM3QT5aQgKqeLKTDt7sUVw"
 
-axios.defaults.baseURL = process.env.REACT_APP_API || 'http://localhost:3001';
+axios.defaults.baseURL = 'http://onlypanbackend-production.up.railway.app';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Auth0Provider
